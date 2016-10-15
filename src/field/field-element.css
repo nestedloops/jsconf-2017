@@ -1,0 +1,18 @@
+.field__element {
+  width: 20px;
+  height: 20px;
+  background-color: #ccc;
+  margin-right: 1px;
+}
+
+.field__element:last-child {
+  margin-right: 0
+}
+
+.field__highlighted {
+  background-color: #666;
+}
+
+.field__on {
+  background-color: #bada55;
+}
