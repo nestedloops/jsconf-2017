@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Field from './field/field';
+import FilesList from './files/files-list';
+
+const files = [
+  {name: 'test video', url: 'http://weopifnwoei.mp4'},
+  {name: 'test audio', url: 'http://song.mp3'}
+];
 
 class App extends Component {
   render() {
@@ -12,9 +18,7 @@ class App extends Component {
           <h2>Welcome to React</h2>
         </div>
         <Field width={4} height={2} />
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <FilesList files={files} />
       </div>
     );
   }
