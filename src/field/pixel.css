@@ -1,0 +1,22 @@
+.fieldPixel {
+  width: 20px;
+  height: 20px;
+  background-color: #ccc;
+  margin-right: 1px;
+}
+
+.fieldPixel:last-child {
+  margin-right: 0
+}
+
+.fieldPixel__notEmpty {
+  background-color: #bada55;
+}
+
+.fieldPixel__highlighted {
+  background-color: #666;
+}
+
+.fieldPixel__on {
+  background-color: yellow;
+}
