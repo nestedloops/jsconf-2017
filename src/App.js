@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import logo from './logo.svg';
-import './App.css';
-import Field from './field/field';
+import ArrangementEditor from './arrangement-editor';
 import FilesList from './files/files-list';
 
 const files = [
@@ -12,14 +10,9 @@ const files = [
 
 class App extends Component {
   render() {
-    const { field } = this.props;
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <Field field={field} />
+        <ArrangementEditor />
         <FilesList files={files} />
       </div>
     );
@@ -27,9 +20,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
-    field: state.fields['randomFieldId']
+    arrangement: state.arrangements.arrangement1
   };
 };
 

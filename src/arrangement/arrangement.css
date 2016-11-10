@@ -1,8 +1,8 @@
-.field__row {
+.arrangement__row {
   display: flex;
   margin-bottom: 1px;
 }
 
-.field__row:last-child {
+.arrangement__row:last-child {
   margin-bottom: 0;
 }

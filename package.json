@@ -12,7 +12,9 @@
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
     "recompose": "^0.20.2",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "redux-logger": "^2.7.4",
+    "uuid": "^2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
