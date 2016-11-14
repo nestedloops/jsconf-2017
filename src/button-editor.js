@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeButtonField } from './data/actions';
+import { changeButtonField } from './data/buttons';
 
 const BUTTON_TYPES = ['audiosample', 'video'];
 

@@ -1,6 +1,8 @@
 export default {
-  gain: 1,
-  bpm: 100,
+  settings: {
+    gain: 1,
+    bpm: 100,
+  },
   arrangements: {
     arrangement1: {
       controller: '',

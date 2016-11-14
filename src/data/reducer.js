@@ -1,22 +1,11 @@
-import {
-  CHANGE_BUTTON_FIELD
-} from './actions';
+import { combineReducers } from 'redux'
 
-export default (state = {}, action) => {
+import arrangements from './arrangements';
+import buttons from './buttons';
+import fileLoader from './file-loader';
+import files from './files';
+import settings from './settings';
 
-  switch (action.type) {
-    case CHANGE_BUTTON_FIELD:
-      const buttons = state.buttons;
-      const { id, field, value } = action;
-      const button = buttons[id];
-      return {
-        ...state,
-        buttons: {
-          ...buttons,
-          [id]: { ...button, [field]: value }  
-        }
-      };
-    default:
-      return state;
-  }
-};
+export default combineReducers({
+  arrangements, buttons, fileLoader, files, settings
+});
