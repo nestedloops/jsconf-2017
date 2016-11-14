@@ -3,6 +3,7 @@
   height: 20px;
   background-color: #ccc;
   margin-right: 1px;
+  border: 1px solid transparent;
 }
 
 .button:last-child {
@@ -19,4 +20,9 @@
 
 .button__on {
   background-color: yellow;
+}
+
+.button__selected {
+  background-color: #f50;
+  border-color: #666;
 }

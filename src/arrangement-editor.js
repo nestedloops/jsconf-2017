@@ -12,6 +12,7 @@ class ArrangementEditor extends Component {
 
   render() {
     const { arrangement, buttons } = this.props;
+    const { selectedButtonId } = this.state;
     const selectedButton = buttons[this.state.selectedButtonId];
     return (
       <div>
@@ -19,6 +20,7 @@ class ArrangementEditor extends Component {
           arrangement={arrangement}
           buttons={buttons}
           onButtonSelected={this.onButtonSelected}
+          selectedButtonId={selectedButtonId}
         />
         { !!selectedButton && (
           <ButtonEditor button={selectedButton} />
