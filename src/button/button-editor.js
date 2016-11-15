@@ -4,9 +4,10 @@ import { changeButtonField } from '../data/buttons';
 
 import './button-editor.css';
 
+const BUTTON_TYPE_NONE = 'select a type';
 const BUTTON_TYPE_AUDIO_SAMPLE = 'audiosample';
 const BUTTON_TYPE_VIDEO = 'video';
-const BUTTON_TYPES = [BUTTON_TYPE_AUDIO_SAMPLE, BUTTON_TYPE_VIDEO];
+const BUTTON_TYPES = [BUTTON_TYPE_NONE, BUTTON_TYPE_AUDIO_SAMPLE, BUTTON_TYPE_VIDEO];
 
 class ButtonEditor extends Component {
   shouldComponentUpdate(newProps){
@@ -14,13 +15,14 @@ class ButtonEditor extends Component {
   }
 
   render() {
-    const currentType = this.props.button.type;
+    const currentType = this.props.button.type || BUTTON_TYPE_NONE;
+    console.log(this.props.button, currentType);
     return (
       <div className="buttonEditor">
         <select
           className="buttonEditor__buttonSelect"
           value={currentType}
-          onChange={this.onChange}
+          onChange={this.changeType}
         >
           { BUTTON_TYPES.map((type) => (
             <option key={type} value={type}>{type}</option>
@@ -77,8 +79,8 @@ class ButtonEditor extends Component {
     );
   }
 
-  onChange(event) {
-
+  changeType = (event) => {
+    this.props.changeButtonField('type', event.target.value);
   }
 
   changeSchedulable = () => {

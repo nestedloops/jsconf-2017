@@ -15,7 +15,7 @@ export default function buttons(state = {}, action) {
     case CREATE_BUTTON:
       return {
         ...state,
-        [id]: {}
+        [id]: { id }
       }
     default:
       return state;
