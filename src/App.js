@@ -4,17 +4,12 @@ import ArrangementEditor from './arrangement/arrangement-editor';
 import FilesList from './files/files-list';
 import Loader from './lib/loader';
 
-const files = [
-  {name: 'test video', url: 'http://weopifnwoei.mp4'},
-  {name: 'test audio', url: 'http://song.mp3'}
-];
-
 class App extends Component {
   render() {
     return (
       <div className="App">
         <ArrangementEditor />
-        <FilesList files={files} />
+        <FilesList />
         <Loader />
       </div>
     );
