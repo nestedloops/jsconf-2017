@@ -16,24 +16,16 @@ export default function arrangements(state = {}, action) {
 function arrangementReducer(state, action) {
   switch (action.type) {
     case CREATE_BUTTON:
+      const { buttons } = state;
       const { x, y, id } = action;
-      // copy old field and only change the new button field
-      // cheap way to change a 2d array in an immutable way
-      const newButtons = [];
-      for (var i = 0; i < 8; i++) {
-        var newRow = [];
-        for (var j = 0; j < 8; j++) {
-          if (y === i && x === j) {
-            newRow.push(id);
-          } else {
-            newRow.push(state.buttons[i][j]);
-          }
-        }
-        newButtons.push(newRow);
-      }
+
       return {
         ...state,
-        buttons: newButtons
+        buttons: changeValueAtPoint({
+          array2d: buttons,
+          value: id,
+          x, y
+        })
       };
     case SELECT_BUTTON:
       return {
@@ -43,6 +35,18 @@ function arrangementReducer(state, action) {
     default:
       return state;
   }
+}
+
+function changeValueAtPoint({x, y, value, array2d}){
+  const newRow = [
+    ...array2d[y].slice(0, x),
+    value,
+    ...array2d[y].slice(x + 1)
+  ];
+
+  return array2d.slice(0, y)
+                 .concat([newRow])
+                 .concat(array2d.slice(y + 1));
 }
 
 export const selectButton = (selectedButtonId) => ({ type: SELECT_BUTTON, selectedButtonId });
