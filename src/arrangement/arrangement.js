@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import uuid from 'uuid';
 import Button from '../button/button';
 import { createButton } from '../data/buttons';
+import { selectButton } from '../data/arrangements';
 import './arrangement.css';
 
 class Arrangement extends Component {
@@ -30,7 +31,8 @@ class Arrangement extends Component {
             key={key}
             button={button}
             selected={selectedButtonId === buttonId}
-            onClick={() => onButtonSelected(buttonId)} />
+            onClick={() => onButtonSelected(buttonId)}
+          />
   }
 }
 
@@ -42,6 +44,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   createButton(x, y) {
     const id = uuid.v4();
     dispatch(createButton(x, y, id));
+    dispatch(selectButton(id));
   }
 });
 
