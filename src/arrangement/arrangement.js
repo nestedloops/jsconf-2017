@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import uuid from 'uuid';
 import Button from '../button/button';
+import { createButton } from '../data/buttons';
 import './arrangement.css';
 
 class Arrangement extends Component {
@@ -23,8 +25,7 @@ class Arrangement extends Component {
     const button = buttons[buttonId]
     const isEmpty = !buttonId || !button;
     const key = `arrangement-button-${x}-${y}`;
-    if (isEmpty) { return <Button key={key} />; }
-      console.log(selectedButtonId);
+    if (isEmpty) { return <Button key={key} onClick={() => this.props.createButton(x, y)}/>; }
     return <Button
             key={key}
             button={button}
@@ -37,4 +38,11 @@ const mapStateToProps = (state) => ({
   controllers: state.controllers
 });
 
-export default connect(mapStateToProps)(Arrangement);
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  createButton(x, y) {
+    const id = uuid.v4();
+    dispatch(createButton(x, y, id));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Arrangement);

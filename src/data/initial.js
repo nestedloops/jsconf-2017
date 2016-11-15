@@ -1,11 +1,10 @@
 export default {
   settings: {
     gain: 1,
-    bpm: 100,
+    bpm: 100
   },
   arrangements: {
     arrangement1: {
-      controller: '',
       buttons: [
         [null,null,null,null,null,null,null,null],
         [
@@ -18,10 +17,10 @@ export default {
         [null,null,null,null,null,null,null,null],
         [null,null,null,null,null,null,null,null],
         [null,null,null,null,null,null,null,null],
-      ]
-    },
-    arrangement2: {
-
+        [null,null,null,null,null,null,null,null]
+      ],
+      controller: '',
+      selectedButtonId: '2316526c-ec07-4153-a47a-d831b2aaf18e'
     }
   },
   buttons: {

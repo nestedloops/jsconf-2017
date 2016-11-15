@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { changeButtonField } from '../data/buttons';
 
+import './button-editor.css';
+
 const BUTTON_TYPE_AUDIO_SAMPLE = 'audiosample';
 const BUTTON_TYPE_VIDEO = 'video';
 const BUTTON_TYPES = [BUTTON_TYPE_AUDIO_SAMPLE, BUTTON_TYPE_VIDEO];
@@ -42,7 +44,7 @@ class ButtonEditor extends Component {
     const { button, files } = this.props;
 
     return (
-      <form>
+      <form className="buttonEditor__form">
         <label>
           <input
             type="checkbox"

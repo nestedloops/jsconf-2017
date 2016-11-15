@@ -2,38 +2,39 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Arrangement from './arrangement';
 import ButtonEditor from '../button/button-editor';
+import { selectButton } from '../data/arrangements';
 
 import './arrangement-editor.css';
 
 class ArrangementEditor extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { selectedButtonId: null };
-  }
-
   render() {
     const { arrangement, buttons } = this.props;
-    const { selectedButtonId } = this.state;
-    const selectedButton = buttons[this.state.selectedButtonId];
+    const selectedButton = buttons[arrangement.selectedButtonId];
+    const hasButtonSelected = !!selectedButton;
     return (
       <div className="arrangementEditor__container">
         <Arrangement
           arrangement={arrangement}
           buttons={buttons}
           onButtonSelected={this.onButtonSelected}
-          selectedButtonId={selectedButtonId}
+          selectedButtonId={arrangement.selectedButtonId}
         />
-        { !!selectedButton && (
-          <ButtonEditor button={selectedButton} />
-        )}
+        <div className="arrangementEditor__buttonEditor">
+          { hasButtonSelected && (
+            <ButtonEditor button={selectedButton} />
+          )}
+          { !hasButtonSelected&& (
+            <p>Select a button to edit</p>
+          )}
+        </div>
       </div>
     );
   }
 
   onButtonSelected = (selectedButtonId) => {
-    const isTheSame = selectedButtonId === this.state.selectedButtonId;
-    this.setState({ selectedButtonId: isTheSame ? null : selectedButtonId });
+    const isTheSame = selectedButtonId === this.props.arrangement.selectedButtonId;
+
+    this.props.selectButton(isTheSame ? null : selectedButtonId);
   }
 }
 
@@ -44,4 +45,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ArrangementEditor);
+const mapDispatchToProps = (dispatch) => ({
+  selectButton(selectedButtonId) {
+    dispatch(selectButton(selectedButtonId))
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArrangementEditor);
