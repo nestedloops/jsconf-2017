@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import ArrangementEditor from './arrangement-editor';
+import ArrangementEditor from './arrangement/arrangement-editor';
 import FilesList from './files/files-list';
 import Loader from './lib/loader';
 

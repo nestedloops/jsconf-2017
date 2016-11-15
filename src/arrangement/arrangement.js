@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import Button from './button';
+import Button from '../button/button';
 import './arrangement.css';
 
 class Arrangement extends Component {

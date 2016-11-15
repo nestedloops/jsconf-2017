@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import Arrangement from './arrangement/arrangement';
-import ButtonEditor from './button-editor';
+import Arrangement from './arrangement';
+import ButtonEditor from '../button/button-editor';
+
+import './arrangement-editor.css';
 
 class ArrangementEditor extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { selectedButtonId: '2316526c-ec07-4153-a47a-d831b2aaf18e' };
+    this.state = { selectedButtonId: null };
   }
 
   render() {
@@ -15,7 +17,7 @@ class ArrangementEditor extends Component {
     const { selectedButtonId } = this.state;
     const selectedButton = buttons[this.state.selectedButtonId];
     return (
-      <div>
+      <div className="arrangementEditor__container">
         <Arrangement
           arrangement={arrangement}
           buttons={buttons}
@@ -29,7 +31,10 @@ class ArrangementEditor extends Component {
     );
   }
 
-  onButtonSelected = (selectedButtonId) => this.setState({ selectedButtonId })
+  onButtonSelected = (selectedButtonId) => {
+    const isTheSame = selectedButtonId === this.state.selectedButtonId;
+    this.setState({ selectedButtonId: isTheSame ? null : selectedButtonId });
+  }
 }
 
 const mapStateToProps = (state) => {
