@@ -7,12 +7,14 @@ import {
   AUDIO_BEHAVIOR_TYPES,
   changeButtonField
 } from '../data/buttons';
+import PlayAudioButton from './play-audio-button';
 
 import './button-editor.css';
 
 class ButtonEditor extends Component {
   shouldComponentUpdate(newProps){
-    return newProps.button !== this.props.button;
+    return newProps.button !== this.props.button
+        || newProps.fileLoader !== this.props.fileLoader;
   }
 
   render() {
@@ -47,8 +49,9 @@ class ButtonEditor extends Component {
   }
 
   renderAudioForm() {
-    const { button, files } = this.props;
+    const { button, files, fileLoader } = this.props;
     const { behavior, file, gain } = button;
+    const preloadedFile = fileLoader[file];
 
     return (
       <form className="buttonEditor__form">
@@ -75,7 +78,7 @@ class ButtonEditor extends Component {
             value={gain}
           />
         </label>
-        <label className="buttonEditor__label">
+        <div className="buttonEditor__label">
           <span className="buttonEditor__labelText">Audio Sample:</span>
           <select
             value={file}
@@ -89,7 +92,12 @@ class ButtonEditor extends Component {
               </option>
             )}
           </select>
-        </label>
+          { !!preloadedFile && (
+            <PlayAudioButton
+              config={button}
+              buffer={preloadedFile} />
+          )}
+        </div>
       </form>
     );
   }
@@ -117,7 +125,8 @@ class ButtonEditor extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  files: state.files
+  files: state.files,
+  fileLoader: state.fileLoader
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
