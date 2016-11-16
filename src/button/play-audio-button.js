@@ -23,7 +23,7 @@ export default class PlayAudioButton extends Component {
     const { buffer, config } = this.props;
     const audioNode = context.createBufferSource();
     const gainNode = context.createGain();
-    audioNode.buffer = this.props.buffer;
+    audioNode.buffer = buffer;
     gainNode.gain.value = config.gain;
     audioNode.connect(gainNode);
     gainNode.connect(context.destination);
