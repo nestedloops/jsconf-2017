@@ -1,4 +1,14 @@
 .buttonEditor__form {
   display: flex;
   flex-direction: column;
+  margin: 5px 0;
+}
+
+.buttonEditor__label {
+  margin: 5px 0;
+}
+
+.buttonEditor__labelText {
+  display: block;
+  margin-bottom: 4px;
 }

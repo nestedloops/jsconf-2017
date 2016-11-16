@@ -5,10 +5,13 @@ export const BUTTON_TYPE_NONE = 'select a type';
 export const BUTTON_TYPE_AUDIO_SAMPLE = 'audiosample';
 export const BUTTON_TYPE_VIDEO = 'video';
 export const BUTTON_TYPES = [BUTTON_TYPE_NONE, BUTTON_TYPE_AUDIO_SAMPLE, BUTTON_TYPE_VIDEO];
+export const AUDIO_BEHAVIOR_SINGLE = 'single';
+export const AUDIO_BEHAVIOR_SCHEDULABLE = 'schedulable';
+export const AUDIO_BEHAVIOR_TYPES = [AUDIO_BEHAVIOR_SINGLE, AUDIO_BEHAVIOR_SCHEDULABLE];
 
 const BASE_AUDIO_SAMPLE = {
   gain: 1,
-  schedulable: false,
+  behavior: 'single',
   file: ''
 };
 

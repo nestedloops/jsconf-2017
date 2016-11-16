@@ -4,6 +4,7 @@ import {
   BUTTON_TYPE_NONE,
   BUTTON_TYPE_AUDIO_SAMPLE,
   BUTTON_TYPES,
+  AUDIO_BEHAVIOR_TYPES,
   changeButtonField
 } from '../data/buttons';
 
@@ -19,15 +20,18 @@ class ButtonEditor extends Component {
 
     return (
       <div className="buttonEditor">
-        <select
-          className="buttonEditor__buttonSelect"
-          value={currentType}
-          onChange={this.changeType}
-        >
-          { BUTTON_TYPES.map((type) => (
-            <option key={type} value={type}>{type}</option>
-          ))}
-        </select>
+        <label className="buttonEditor__label">
+          <span className="buttonEditor__labelText">Type:</span>
+          <select
+            className="buttonEditor__buttonSelect"
+            value={currentType}
+            onChange={this.changeType}
+          >
+            { BUTTON_TYPES.map((type) => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+        </label>
         { this.renderForm() }
       </div>
     );
@@ -44,39 +48,54 @@ class ButtonEditor extends Component {
 
   renderAudioForm() {
     const { button, files } = this.props;
+    const { behavior, file, gain } = button;
 
     return (
       <form className="buttonEditor__form">
-        <label>
-          <input
-            type="checkbox"
-            checked={button.schedulable}
-            onChange={this.changeSchedulable}
-          />
-          schedulable
+        <label className="buttonEditor__label">
+          <span className="buttonEditor__labelText">Behavior:</span>
+          <select
+            className="buttonEditor__buttonSelect"
+            value={behavior}
+            onChange={this.changeBehavior}
+          >
+            { AUDIO_BEHAVIOR_TYPES.map((type) => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
         </label>
-        <input
-          type="range"
-          min={0}
-          max={1}
-          step={0.01}
-          onChange={this.changeGain}
-          value={button.gain}
-        />
-        <select
-          value={button.file}
-          onChange={this.changeFile}
-        >
-          { Object.keys(files).map((fileId) =>
-            <option
-              key={fileId}
-              value={fileId}
-            >{files[fileId].name}
-            </option>
-          )}
-        </select>
+        <label className="buttonEditor__label">
+          <span className="buttonEditor__labelText">Gain:</span>
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.01}
+            onChange={this.changeGain}
+            value={gain}
+          />
+        </label>
+        <label className="buttonEditor__label">
+          <span className="buttonEditor__labelText">Audio Sample:</span>
+          <select
+            value={file}
+            onChange={this.changeFile}
+          >
+            { Object.keys(files).map((fileId) =>
+              <option
+                key={fileId}
+                value={fileId}
+              >{files[fileId].name}
+              </option>
+            )}
+          </select>
+        </label>
       </form>
     );
+  }
+
+  changeBehavior = () => {
+    this.props.changeButtonField('behavior', event.target.value);
   }
 
   changeType = (event) => {
