@@ -1,13 +1,33 @@
 const CHANGE_BUTTON_FIELD = 'jsconf2017/buttons/CHANGE_BUTTON_FIELD';
 export const CREATE_BUTTON = 'jsconf2017/buttons/CREATE_BUTTON';
 
+export const BUTTON_TYPE_NONE = 'select a type';
+export const BUTTON_TYPE_AUDIO_SAMPLE = 'audiosample';
+export const BUTTON_TYPE_VIDEO = 'video';
+export const BUTTON_TYPES = [BUTTON_TYPE_NONE, BUTTON_TYPE_AUDIO_SAMPLE, BUTTON_TYPE_VIDEO];
+
+const BASE_AUDIO_SAMPLE = {
+  gain: 1,
+  schedulable: false,
+  file: ''
+};
+
 export default function buttons(state = {}, action) {
   const id = action.id;
 
   switch (action.type) {
     case CHANGE_BUTTON_FIELD:
       const { field, value } = action;
-      const button = state[id];
+      let button = state[id];
+
+      // make sure, the button has the base values for its type
+      if (button && field === 'type' && value === BUTTON_TYPE_AUDIO_SAMPLE) {
+        button = {
+          ...BASE_AUDIO_SAMPLE,
+          ...button
+        };
+      }
+
       return {
         ...state,
         [id]: { ...button, [field]: value }

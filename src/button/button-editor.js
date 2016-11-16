@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeButtonField } from '../data/buttons';
+import {
+  BUTTON_TYPE_NONE,
+  BUTTON_TYPE_AUDIO_SAMPLE,
+  BUTTON_TYPES,
+  changeButtonField
+} from '../data/buttons';
 
 import './button-editor.css';
-
-const BUTTON_TYPE_NONE = 'select a type';
-const BUTTON_TYPE_AUDIO_SAMPLE = 'audiosample';
-const BUTTON_TYPE_VIDEO = 'video';
-const BUTTON_TYPES = [BUTTON_TYPE_NONE, BUTTON_TYPE_AUDIO_SAMPLE, BUTTON_TYPE_VIDEO];
 
 class ButtonEditor extends Component {
   shouldComponentUpdate(newProps){
@@ -16,7 +16,7 @@ class ButtonEditor extends Component {
 
   render() {
     const currentType = this.props.button.type || BUTTON_TYPE_NONE;
-    console.log(this.props.button, currentType);
+
     return (
       <div className="buttonEditor">
         <select
