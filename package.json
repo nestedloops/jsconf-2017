@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "react-scripts": "0.6.1"
+    "redux-immutable-state-invariant": "1.2.4"
   },
   "dependencies": {
     "dilla": "^1.8.3",
