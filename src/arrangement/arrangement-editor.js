@@ -23,9 +23,6 @@ class ArrangementEditor extends Component {
           { hasButtonSelected && (
             <ButtonEditor button={selectedButton} />
           )}
-          { !hasButtonSelected&& (
-            <p>Select a button to edit</p>
-          )}
         </div>
       </div>
     );
