@@ -1,5 +1,6 @@
 const CHANGE_BUTTON_FIELD = 'jsconf2017/buttons/CHANGE_BUTTON_FIELD';
 export const CREATE_BUTTON = 'jsconf2017/buttons/CREATE_BUTTON';
+export const DELETE_BUTTON = 'jsconf2017/buttons/DELETE_BUTTON';
 
 export const BUTTON_TYPE_NONE = 'select a type';
 export const BUTTON_TYPE_AUDIO_SAMPLE = 'audiosample';
@@ -40,6 +41,10 @@ export default function buttons(state = {}, action) {
         ...state,
         [id]: { id }
       }
+    case DELETE_BUTTON:
+      const buttonsCopy = { ...state };
+      delete buttonsCopy[id];
+      return buttonsCopy;
     default:
       return state;
   }
@@ -47,3 +52,4 @@ export default function buttons(state = {}, action) {
 
 export const changeButtonField = (id, field, value) => ({ type: CHANGE_BUTTON_FIELD, id, field, value });
 export const createButton = (x, y, id) => ({ type: CREATE_BUTTON, x, y, id });
+export const deleteButton = (id) => ({ type: DELETE_BUTTON, id });

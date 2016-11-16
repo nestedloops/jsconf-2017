@@ -5,7 +5,8 @@ import {
   BUTTON_TYPE_AUDIO_SAMPLE,
   BUTTON_TYPES,
   AUDIO_BEHAVIOR_TYPES,
-  changeButtonField
+  changeButtonField,
+  deleteButton
 } from '../data/buttons';
 import PlayAudioButton from './play-audio-button';
 
@@ -35,6 +36,7 @@ class ButtonEditor extends Component {
           </select>
         </label>
         { this.renderForm() }
+        <button onClick={this.deleteButton}>delete</button>
       </div>
     );
   }
@@ -122,6 +124,11 @@ class ButtonEditor extends Component {
     this.props.changeButtonField('file', event.target.value);
   }
 
+  deleteButton = (event) => {
+    event.preventDefault();
+    this.props.deleteButton(this.props.button.id);
+  }
+
 }
 
 const mapStateToProps = (state) => ({
@@ -132,6 +139,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   changeButtonField(field, value) {
     return dispatch(changeButtonField(ownProps.button.id, field, value));
+  },
+
+  deleteButton(id) {
+    dispatch(deleteButton(id));
   }
 })
 
