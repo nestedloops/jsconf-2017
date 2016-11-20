@@ -19,6 +19,20 @@ class Loader extends Component {
     });
   }
 
+  componentWillUpdate(nextProps) {
+    const { files, fileLoader } = this.props;
+    if (nextProps.files !== files) {
+      Object
+        .keys(nextProps.files)
+        .filter((fileId) => {
+          return !fileLoader[fileId];
+        })
+        .forEach((fileId) => {
+          this.loadFile(nextProps.files[fileId], fileId);
+        });
+    }
+  }
+
   render() {
     const { files, fileLoader } = this.props;
     const totalFiles = Object.keys(files).length;
