@@ -13,21 +13,16 @@ class BeatClock extends EventEmitter {
     });
 
     this.dilla.on('tick', this._onTick);
+
+    this.start = () => this.dilla.start();
+    this.stop = () => this.dilla.stop();
   }
 
-  start() {
-    this.dilla.start();
-  }
-
-  stop() {
-    this.dilla.stop();
-  }
-
-  _onTick = (tick) => {
-    const split = tick.position.split('.');
-    const tick = parseInt(split[2]);
-    const beat = parseInt(split[1]);
-    const bar = parseInt(split[0]);
+  _onTick = (event) => {
+    const split = event.position.split('.');
+    const tick = parseInt(split[2], 10);
+    const beat = parseInt(split[1], 10);
+    const bar = parseInt(split[0], 10);
     if (this.lastBar !== bar) {
       this.emit('bar', bar);
     }
