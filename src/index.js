@@ -9,11 +9,16 @@ import scheduler from './lib/scheduler';
 import './index.css';
 
 import initial from './data/initial';
+
+const filerOutSchedulerMessages = (_, action) => {
+  return !action.type.includes('FLUSH_');
+};
+
 const store = createStore(
   reducer,
   initial,
   applyMiddleware(
-    createLogger({collapsed: true})
+    createLogger({collapsed: true, predicate: filerOutSchedulerMessages})
   )
 );
 
