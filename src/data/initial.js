@@ -50,11 +50,13 @@ export default {
     }
   },
   scheduler: {
+    // buttonId : fileId
     scheduled: {
-      // buttonId : fileId
       '2316526c-ec07-4153-a47a-d831b2aaf18e': '2a86e9ee-b409-4e2b-91e0-bcc051ec2168'
     },
+    // buttonId : audioNode
     playing: {},
+    // buttonId : audioNode
     toStop: {}
   }
 };
