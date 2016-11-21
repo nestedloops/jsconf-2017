@@ -28,6 +28,7 @@ export default {
       const audioNode = context.createBufferSource();
       const gainNode = context.createGain();
       audioNode.buffer = buffer;
+      audioNode.loop = config.loop;
       gainNode.gain.value = config.gain;
       audioNode.connect(gainNode);
       gainNode.connect(context.destination);

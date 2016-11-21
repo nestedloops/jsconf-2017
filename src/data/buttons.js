@@ -13,7 +13,8 @@ export const AUDIO_BEHAVIOR_TYPES = [AUDIO_BEHAVIOR_SINGLE, AUDIO_BEHAVIOR_SCHED
 const BASE_AUDIO_SAMPLE = {
   gain: 1,
   behavior: 'single',
-  file: ''
+  file: '',
+  loop: false
 };
 
 export default function buttons(state = {}, action) {

@@ -52,7 +52,7 @@ class ButtonEditor extends Component {
 
   renderAudioForm() {
     const { button, files, fileLoader } = this.props;
-    const { behavior, file, gain } = button;
+    const { behavior, file, gain, loop } = button;
     const preloadedFile = fileLoader[file];
 
     return (
@@ -68,6 +68,9 @@ class ButtonEditor extends Component {
               <option key={type} value={type}>{type}</option>
             ))}
           </select>
+        </label>
+        <label className="buttonEditor__label">
+          <input type="checkbox" value={loop} /> loop
         </label>
         <label className="buttonEditor__label">
           <span className="buttonEditor__labelText">Gain:</span>
