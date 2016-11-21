@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux'
-import ArrangementEditor from './arrangement/arrangement-editor';
 import DragAndDropReveicer from './files/drag-and-drop-receiver';
-import FilesList from './files/files-list';
 import Loader from './lib/loader';
 import uuid from 'uuid';
 
@@ -10,11 +9,20 @@ import { addFile } from './data/files';
 
 class App extends Component {
   render() {
-    const { onDrop } = this.props;
+    const { children, onDrop } = this.props;
     return (
-      <div className="App">
-        <ArrangementEditor />
-        <FilesList />
+      <div className="app">
+        <div className="app__container">
+          <div className="app__navigation">
+            <Link to="/arrangement" activeClassName="m-active" className="app__navigationItem">
+              Arrangement
+            </Link>
+            <Link to="/files" activeClassName="m-active" className="app__navigationItem">Files</Link>
+          </div>
+          <div className="app__content">
+            { children }
+          </div>
+        </div>
         <Loader />
         <DragAndDropReveicer onDrop={onDrop} />
       </div>

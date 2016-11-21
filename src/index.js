@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux'
 import { applyMiddleware, createStore } from 'redux';
 import createLogger from 'redux-logger';
 import App from './App';
+import ArrangementEditor from './arrangement/arrangement-editor';
+import FilesList from './files/files-list';
 import reducer from './data/reducer';
 import scheduler from './lib/scheduler';
 import './index.css';
@@ -26,7 +29,12 @@ scheduler.init(store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router history={browserHistory}>
+      <Route path="/" component={App}>
+        <Route path="/arrangement" component={ArrangementEditor} />
+        <Route path="/files" component={FilesList} />
+      </Route>
+    </Router>
   </Provider>,
   document.getElementById('root')
 );
