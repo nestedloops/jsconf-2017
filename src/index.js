@@ -8,6 +8,7 @@ import App from './App';
 import ArrangementEditor from './arrangement/arrangement-editor';
 import FilesList from './files/files-list';
 import reducer from './data/reducer';
+import midi from './lib/midi';
 import scheduler from './lib/scheduler';
 import './index.css';
 
@@ -25,6 +26,7 @@ const store = createStore(
   )
 );
 
+midi.init(store);
 scheduler.init(store);
 
 ReactDOM.render(

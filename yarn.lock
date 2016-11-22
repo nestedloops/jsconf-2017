@@ -5312,6 +5312,10 @@ watchpack@^0.2.1:
     chokidar "^1.0.0"
     graceful-fs "^4.1.2"
 
+web-midi@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/web-midi/-/web-midi-2.0.1.tgz#3300df3ee040d458d8fccd4368f19404792ed7e9"
+
 webidl-conversions@^3.0.0, webidl-conversions@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
