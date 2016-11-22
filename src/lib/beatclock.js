@@ -2,9 +2,9 @@ import context from './audio/context';
 import Dilla from 'dilla';
 import EventEmitter from 'event-emitter';
 
-class BeatClock extends EventEmitter {
+class BeatClock {
   constructor () {
-    super();
+    this.events = new EventEmitter();
 
     this.dilla = Dilla(context, {
       tempo: 100,
@@ -13,9 +13,18 @@ class BeatClock extends EventEmitter {
     });
 
     this.dilla.on('tick', this._onTick);
+  }
 
-    this.start = () => this.dilla.start();
-    this.stop = () => this.dilla.stop();
+  start() {
+    this.dilla.start();
+  }
+
+  stop() {
+    this.dilla.stop();
+  }
+
+  on() {
+    this.events.on.apply(this.events, arguments);
   }
 
   _onTick = (event) => {
@@ -24,17 +33,17 @@ class BeatClock extends EventEmitter {
     const beat = parseInt(split[1], 10);
     const bar = parseInt(split[0], 10);
     if (this.lastBar !== bar) {
-      this.emit('bar', bar);
+      this.events.emit('bar', bar);
     }
     this.lastBar = bar;
 
     if (this.lastBeat !== beat) {
-      this.emit('beat', tick, beat, bar);
+      this.events.emit('beat', tick, beat, bar);
     }
     this.lastBeat = beat;
 
     if (this.lastTick !== tick) {
-      this.emit('tick', tick, beat, bar);
+      this.events.emit('tick', tick, beat, bar);
     }
     this.lastTick = tick;
   };
