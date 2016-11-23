@@ -1,4 +1,4 @@
-import { CREATE_BUTTON } from './buttons';
+import { CREATE_BUTTON, DELETE_BUTTON } from './buttons';
 
 const SELECT_BUTTON = 'jsconf2017/arrangements/SELECT_BUTTON';
 
@@ -6,6 +6,7 @@ export default function arrangements(state = {}, action) {
   switch (action.type) {
     case CREATE_BUTTON:
     case SELECT_BUTTON:
+    case DELETE_BUTTON:
       const arrangement = state.arrangement1;
       return { arrangement1: arrangementReducer(arrangement, action) };
     default:
@@ -15,7 +16,7 @@ export default function arrangements(state = {}, action) {
 
 function arrangementReducer(state, action) {
   switch (action.type) {
-    case CREATE_BUTTON:
+    case CREATE_BUTTON: {
       const { buttons } = state;
       const { x, y, id } = action;
 
@@ -27,14 +28,47 @@ function arrangementReducer(state, action) {
           x, y
         })
       };
-    case SELECT_BUTTON:
+    }
+
+    case SELECT_BUTTON: {
       return {
         ...state,
         selectedButtonId: action.selectedButtonId
       };
+    }
+
+    case DELETE_BUTTON: {
+      const { buttons } = state;
+      const { id } = action;
+      const coordinates = findIn2dArray(buttons, id);
+
+      if (!coordinates) { return state; }
+
+      const { x, y } = coordinates;
+
+      return {
+        ...state,
+        buttons: changeValueAtPoint({
+          array2d: buttons,
+          value: null,
+          x, y
+        })
+      };
+    }
     default:
       return state;
   }
+}
+
+function findIn2dArray(array2d, value) {
+  for (var y = 0; y < 8; y++) {
+    for (var x = 0; x < array2d.length; x++) {
+      if (array2d[y][x] === value) {
+        return { x, y };
+      }
+    }
+  }
+  return null;
 }
 
 function changeValueAtPoint({x, y, value, array2d}){
