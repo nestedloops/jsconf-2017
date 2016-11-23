@@ -15,7 +15,15 @@ const COLOR_CODES = {
 class Midi {
   init(storeObject) {
     this.store = storeObject;
+    this.previousButtons = null;
     midi.watchPortNames(this.setControllers);
+    storeObject.subscribe(() => {
+      const { buttons } = storeObject.getState();
+      if (buttons !== this.previousButtons) {
+        this.scheduleUpdate();
+        this.previousButtons = buttons;
+      }
+    });
     this.scheduleUpdate();
   }
 
@@ -44,12 +52,10 @@ class Midi {
         firstController.write([144, key, color]);
       }
     }
-
-    this.scheduleUpdate();
   }
 
   scheduleUpdate() {
-    setTimeout(this.updateControllers, 100);
+    requestIdleCallback(this.updateControllers);
   }
 }
 
