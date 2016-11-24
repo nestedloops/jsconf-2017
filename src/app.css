@@ -15,7 +15,10 @@
   background-color: #eee;
 }
 
-.app__navigationItem:hover,
+.app__navigationItem:hover {
+  background-color: #eaeaea;
+}
+
 .app__navigationItem.m-active {
   background-color: #ddd;
 }
