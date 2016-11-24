@@ -26,8 +26,8 @@ const store = createStore(
   )
 );
 
-midi.init(store);
 scheduler.init(store);
+midi.init(store, scheduler.handleManualSchedule);
 
 ReactDOM.render(
   <Provider store={store}>

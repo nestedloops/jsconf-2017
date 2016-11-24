@@ -59,5 +59,6 @@ export default function scheduler(state = {}, action) {
 }
 
 export const addPlaying = (id, audioNode) => ({ type: ADD_PLAYING, id, audioNode});
+export const addScheduled = (id) => ({ type: ADD_SCHEDULED, id });
 export const audioEnded = (id) => ({ type: AUDIO_ENDED, id });
 export const flushScheduled = () => ({ type: FLUSH_SCHEDULED });
