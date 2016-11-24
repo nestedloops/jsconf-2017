@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import DragAndDropReveicer from './files/drag-and-drop-receiver';
 import Loader from './lib/loader';
 import uuid from 'uuid';
+import './app.css';
 
 import { addFile } from './data/files';
 

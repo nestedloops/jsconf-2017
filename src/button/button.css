@@ -1,21 +1,26 @@
 .button {
   width: 40px;
   height: 40px;
-  background-color: #ccc;
+  background-color: #ddd;
   margin-right: 1px;
   border: 1px solid transparent;
+  cursor: pointer;
 }
 
 .button:last-child {
   margin-right: 0
 }
 
-.button__notEmpty {
-  background-color: #bada55;
+.button:hover:not(.button__selected) {
+  background-color: #cfcfcf;
 }
 
-.button__highlighted {
-  background-color: #666;
+.button__notEmpty {
+  background-color: rgba(186, 218, 84, 0.7);
+}
+
+.button:hover.button__notEmpty {
+  background-color: rgba(186, 218, 84, 0.8)
 }
 
 .button__on {
@@ -23,6 +28,6 @@
 }
 
 .button__selected {
-  background-color: #f50;
-  border-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(186, 218, 84, 0.9);
+  border-color: rgba(0, 0, 0, 0.2);
 }

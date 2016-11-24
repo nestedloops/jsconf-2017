@@ -1,0 +1,25 @@
+.app__container {
+  display: flex;
+  flex-direction: row;
+}
+
+.app__navigation {
+  display: flex;
+  flex-direction: column;
+}
+
+.app__navigationItem {
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #333;
+  background-color: #eee;
+}
+
+.app__navigationItem:hover,
+.app__navigationItem.m-active {
+  background-color: #ddd;
+}
+
+.app__content {
+  margin-left: 10px;
+}

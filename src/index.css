@@ -1,27 +1,6 @@
 body {
   margin: 0;
   padding: 0;
+  padding-top: 5px;
   font-family: sans-serif;
-}
-
-.app__container {
-  display: flex;
-  flex-direction: row;
-}
-
-.app__navigation {
-  display: flex;
-  flex-direction: column;
-}
-
-.app__navigationItem {
-  padding: 15px 20px;
-  text-decoration: none;
-  color: #333;
-  background-color: #eee;
-}
-
-.app__navigationItem:hover,
-.app__navigationItem.m-active {
-  background-color: #ddd;
 }

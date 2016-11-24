@@ -4,7 +4,7 @@ import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux'
 import { applyMiddleware, createStore } from 'redux';
 import createLogger from 'redux-logger';
-import App from './App';
+import App from './app';
 import ArrangementEditor from './arrangement/arrangement-editor';
 import FilesList from './files/files-list';
 import reducer from './data/reducer';
