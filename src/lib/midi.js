@@ -67,32 +67,38 @@ class Midi {
   updateControllers = () => {
     const { arrangements, controllers, scheduler } = this.store.getState();
 
+    const controllerKeys = Object.keys(controllers);
+    const mappings = {};
+
+    Object.keys(arrangements).forEach((arrangementId, index) => {
+      const controller = controllerKeys.find((key) => !mappings[key] && key.includes('Launchpad'));
+      if (controller) {
+        mappings[controller] = arrangements[arrangementId];
+      }
+    });
+
     Object.keys(controllers).forEach((controllerId, index) => {
-      if (index === 0) {
-        const theArrangement = arrangements.arrangement1;
-        const firstController = controllers[controllerId];
-        for (var y = 0; y < 8; y++) {
-          for (var x = 0; x < 8; x++) {
-            const arrangementButton = theArrangement.buttons[y][x];
-            const key = y * 16 + x;
+      const arrangement = mappings[controllerId];
+      const controller = controllers[controllerId];
+
+      for (var y = 0; y < 8; y++) {
+        for (var x = 0; x < 8; x++) {
+          const key = y * 16 + x;
+          if (arrangement) {
+            const arrangementButton = arrangement.buttons[y][x];
 
             if (arrangementButton) {
               if (scheduler.scheduled[arrangementButton]) {
-                firstController.write([144, key, COLOR_CODES.YELLOW]);
+                controller.write([144, key, COLOR_CODES.YELLOW]);
               } else if (scheduler.playing[arrangementButton]) {
-                firstController.write([144, key, COLOR_CODES.AMBER]);
+                controller.write([144, key, COLOR_CODES.AMBER]);
               } else {
-                firstController.write([144, key, COLOR_CODES.GREEN]);
+                controller.write([144, key, COLOR_CODES.GREEN]);
               }
             } else {
-              firstController.write([144, key, COLOR_CODES.OFF]);
+              controller.write([144, key, COLOR_CODES.OFF]);
             }
-          }
-        }
-      } else {
-        for (var y = 0; y < 8; y++) {
-          for (var x = 0; x < 8; x++) {
-            const key = y * 16 + x;
+          } else {
             controllers[controllerId].write([144, key, COLOR_CODES.OFF]);
           }
         }
