@@ -70,7 +70,7 @@ class ButtonEditor extends Component {
           </select>
         </label>
         <label className="buttonEditor__label">
-          <input type="checkbox" value={loop} /> loop
+          <input type="checkbox" onChange={this.changeLoop} value={loop} /> loop
         </label>
         <label className="buttonEditor__label">
           <span className="buttonEditor__labelText">Gain:</span>
@@ -117,6 +117,10 @@ class ButtonEditor extends Component {
 
   changeSchedulable = () => {
     this.props.changeButtonField('schedulable', !this.props.button.schedulable);
+  }
+
+  changeLoop = (event) => {
+    this.props.changeButtonField('loop', event.target.value);
   }
 
   changeGain = (event) => {
