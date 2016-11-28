@@ -107,7 +107,7 @@ class ButtonEditor extends Component {
     );
   }
 
-  changeBehavior = () => {
+  changeBehavior = (event) => {
     this.props.changeButtonField('behavior', event.target.value);
   }
 
