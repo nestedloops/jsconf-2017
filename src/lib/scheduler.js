@@ -5,7 +5,8 @@ import {
   addPlaying,
   addScheduled,
   audioEnded,
-  flushScheduled
+  flushScheduled,
+  scheduleStop
 } from '../data/scheduler';
 
 import {
@@ -39,34 +40,47 @@ export default {
       this.playAudioNode(config);
     });
 
-    this.store.dispatch(flushScheduled());
-
-    Object.keys(toStop).forEach(() => {
-
+    Object.keys(toStop).forEach((buttonId) => {
+      this.stopAudioNode(buttonId);
     });
+
+    this.store.dispatch(flushScheduled());
   },
 
   handleManualSchedule(buttonId) {
     const { buttons, scheduler: { scheduled, playing } } = this.store.getState();
     const button = buttons[buttonId];
-    const { behavior, id } = button;
+    const { behavior, id, loop } = button;
 
     if (behavior === AUDIO_BEHAVIOR_SINGLE) {
       if (!playing[id]) {
         this.playAudioNode(button);
       } else {
-        this.stopAudioNode(id);
-        this.playAudioNode(button);
+        if (loop) {
+          this.stopAudioNode(id);
+        } else {
+          this.stopAudioNode(id);
+          this.playAudioNode(button);
+        }
       }
     } else if (behavior === AUDIO_BEHAVIOR_SCHEDULABLE) {
-      if (!scheduled[id]) {
-        this.scheduleAudioNode(id);
+      if (playing[id]) {
+        this.scheduleStopAudioNode(id);
+      } else {
+        if (!scheduled[id]) {
+          this.scheduleAudioNode(id);
+        }
       }
+
     }
   },
 
   scheduleAudioNode(id) {
     this.store.dispatch(addScheduled(id));
+  },
+
+  scheduleStopAudioNode(id) {
+    this.store.dispatch(scheduleStop(id));
   },
 
   playAudioNode({ file, loop, gain, id }) {
@@ -95,7 +109,6 @@ export default {
     this.store.dispatch(audioEnded(buttonId));
   }
 };
-
 
 function saveAudioStop(audioNode) {
   try {
