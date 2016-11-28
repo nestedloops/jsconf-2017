@@ -20,13 +20,13 @@ export default {
   init(storeObject) {
     this.store = storeObject
     this.beatClock = new BeatClock();
-    this.beatClock.on('beat', this.onBeat.bind(this));
+    this.beatClock.on('bar', this.onBar.bind(this));
     this.beatClock.start();
 
     this.handleManualSchedule = this.handleManualSchedule.bind(this);
   },
 
-  onBeat() {
+  onBar() {
     const { buttons, fileLoader, scheduler: { scheduled, toStop } } = this.store.getState();
 
     Object.keys(scheduled).forEach((buttonId) => {
