@@ -56,7 +56,9 @@ class Midi {
           if (down && x < 8 && y < 8) {
             const { arrangements } = this.store.getState();
             const buttonId = arrangements.arrangement1.buttons[y][x];
-            this.buttonHandler(buttonId);
+            if (buttonId) {
+              this.buttonHandler(buttonId);
+            }
           }
         });
         store.dispatch(addController(id, controller));

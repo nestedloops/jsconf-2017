@@ -42,7 +42,7 @@ export default {
     this.store.dispatch(flushScheduled());
 
     Object.keys(toStop).forEach(() => {
-      
+
     });
   },
 
