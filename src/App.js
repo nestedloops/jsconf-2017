@@ -6,8 +6,6 @@ import Loader from './lib/loader';
 import uuid from 'uuid';
 import './app.css';
 
-import Tracks from './tracks/tracks';
-
 import { addFile } from './data/files';
 
 class App extends Component {
@@ -20,13 +18,17 @@ class App extends Component {
             <Link to="/pads" activeClassName="m-active" className="app__navigationItem">
               Pads
             </Link>
-            <Link to="/files" activeClassName="m-active" className="app__navigationItem">Files</Link>
+            <Link to="/tracks" activeClassName="m-active" className="app__navigationItem">
+              Tracks
+            </Link>
+            <Link to="/files" activeClassName="m-active" className="app__navigationItem">
+              Files
+            </Link>
           </div>
           <div className="app__content">
             { children }
           </div>
         </div>
-        <Tracks />
         <Loader />
         <DragAndDropReveicer onDrop={onDrop} />
       </div>
