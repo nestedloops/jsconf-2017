@@ -6,6 +6,8 @@ import Loader from './lib/loader';
 import uuid from 'uuid';
 import './app.css';
 
+import Tracks from './tracks/tracks';
+
 import { addFile } from './data/files';
 
 class App extends Component {
@@ -24,6 +26,7 @@ class App extends Component {
             { children }
           </div>
         </div>
+        <Tracks />
         <Loader />
         <DragAndDropReveicer onDrop={onDrop} />
       </div>

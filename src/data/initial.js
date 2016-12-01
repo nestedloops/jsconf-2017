@@ -3,6 +3,17 @@ export default {
     gain: 1,
     bpm: 100
   },
+  tracks: {
+    master: {
+      name: 'master',
+      filters: ['239786428374t928374628934728347']
+    }
+  },
+  filters: {
+    '239786428374t928374628934728347': {
+      type: 'lowpass'
+    }
+  },
   pads: {
     pad1: {
       buttons: [
