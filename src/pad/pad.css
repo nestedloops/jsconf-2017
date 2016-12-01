@@ -1,8 +1,8 @@
-.arrangement__row {
+.pad__row {
   display: flex;
   margin-bottom: 1px;
 }
 
-.arrangement__row:last-child {
+.pad__row:last-child {
   margin-bottom: 0;
 }

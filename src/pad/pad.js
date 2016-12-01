@@ -3,15 +3,15 @@ import { connect } from 'react-redux'
 import uuid from 'uuid';
 import Button from '../button/button';
 import { createButton } from '../data/buttons';
-import { selectButton } from '../data/arrangements';
-import './arrangement.css';
+import { selectButton } from '../data/pads';
+import './pad.css';
 
-class Arrangement extends Component {
+class Pad extends Component {
   render() {
     return (
-      <div className="arrangement">
+      <div className="pad">
         { [...Array(8)].map((_, y) =>
-          <div className="arrangement__row" key={`arrangement-row-${y}`}>
+          <div className="pad__row" key={`pad-row-${y}`}>
             { [...Array(8)].map((_, x) => this.renderButton(x, y)) }
           </div>
         )}
@@ -20,12 +20,12 @@ class Arrangement extends Component {
   }
 
   renderButton(x, y) {
-    const { arrangement, buttons, onButtonSelected, selectedButtonId } = this.props;
-    const row = arrangement.buttons[y];
+    const { pad, buttons, onButtonSelected, selectedButtonId } = this.props;
+    const row = pad.buttons[y];
     const buttonId = row ? row[x] : undefined;
     const button = buttons[buttonId]
     const isEmpty = !buttonId || !button;
-    const key = `arrangement-button-${x}-${y}`;
+    const key = `pad-button-${x}-${y}`;
     if (isEmpty) { return <Button key={key} onClick={() => this.props.createButton(x, y)}/>; }
     return <Button
             key={key}
@@ -48,4 +48,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Arrangement);
+export default connect(mapStateToProps, mapDispatchToProps)(Pad);

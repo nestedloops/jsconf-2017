@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import Arrangement from './arrangement';
+import Pad from './pad';
 import ButtonEditor from '../button/button-editor';
-import { selectButton } from '../data/arrangements';
+import { selectButton } from '../data/pads';
 
-import './arrangement-editor.css';
+import './pad-editor.css';
 
-class ArrangementEditor extends Component {
+class PadEditor extends Component {
   render() {
-    const { arrangement, buttons } = this.props;
-    const selectedButton = buttons[arrangement.selectedButtonId];
+    const { pad, buttons } = this.props;
+    const selectedButton = buttons[pad.selectedButtonId];
     const hasButtonSelected = !!selectedButton;
     return (
-      <div className="arrangementEditor__container">
-        <Arrangement
-          arrangement={arrangement}
+      <div className="padEditor__container">
+        <Pad
+          pad={pad}
           buttons={buttons}
           onButtonSelected={this.onButtonSelected}
-          selectedButtonId={arrangement.selectedButtonId}
+          selectedButtonId={pad.selectedButtonId}
         />
-        <div className="arrangementEditor__buttonEditor">
+        <div className="padEditor__buttonEditor">
           { hasButtonSelected && (
             <ButtonEditor button={selectedButton} />
           )}
@@ -29,7 +29,7 @@ class ArrangementEditor extends Component {
   }
 
   onButtonSelected = (selectedButtonId) => {
-    const isTheSame = selectedButtonId === this.props.arrangement.selectedButtonId;
+    const isTheSame = selectedButtonId === this.props.pad.selectedButtonId;
 
     this.props.selectButton(isTheSame ? null : selectedButtonId);
   }
@@ -37,7 +37,7 @@ class ArrangementEditor extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    arrangement: state.arrangements.arrangement1,
+    pad: state.pads.pad1,
     buttons: state.buttons
   };
 };
@@ -48,4 +48,4 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArrangementEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(PadEditor);

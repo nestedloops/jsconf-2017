@@ -54,8 +54,8 @@ class Midi {
           const y = Math.floor(key / 16);
           const x = key % 16;
           if (down && x < 8 && y < 8) {
-            const { arrangements } = this.store.getState();
-            const buttonId = arrangements.arrangement1.buttons[y][x];
+            const { pads } = this.store.getState();
+            const buttonId = pads.pad1.buttons[y][x];
             if (buttonId) {
               this.buttonHandler(buttonId);
             }
@@ -67,32 +67,32 @@ class Midi {
   }
 
   updateControllers = () => {
-    const { arrangements, controllers, scheduler } = this.store.getState();
+    const { pads, controllers, scheduler } = this.store.getState();
 
     const controllerKeys = Object.keys(controllers);
     const mappings = {};
 
-    Object.keys(arrangements).forEach((arrangementId, index) => {
+    Object.keys(pads).forEach((padId, index) => {
       const controller = controllerKeys.find((key) => !mappings[key] && key.includes('Launchpad'));
       if (controller) {
-        mappings[controller] = arrangements[arrangementId];
+        mappings[controller] = pads[padId];
       }
     });
 
     Object.keys(controllers).forEach((controllerId, index) => {
-      const arrangement = mappings[controllerId];
+      const pad = mappings[controllerId];
       const controller = controllers[controllerId];
 
       for (var y = 0; y < 8; y++) {
         for (var x = 0; x < 8; x++) {
           const key = y * 16 + x;
-          if (arrangement) {
-            const arrangementButton = arrangement.buttons[y][x];
+          if (pad) {
+            const padButton = pad.buttons[y][x];
 
-            if (arrangementButton) {
-              if (scheduler.scheduled[arrangementButton]) {
+            if (padButton) {
+              if (scheduler.scheduled[padButton]) {
                 controller.write([144, key, COLOR_CODES.YELLOW]);
-              } else if (scheduler.playing[arrangementButton]) {
+              } else if (scheduler.playing[padButton]) {
                 controller.write([144, key, COLOR_CODES.AMBER]);
               } else {
                 controller.write([144, key, COLOR_CODES.GREEN]);

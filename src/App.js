@@ -15,8 +15,8 @@ class App extends Component {
       <div className="app">
         <div className="app__container">
           <div className="app__navigation">
-            <Link to="/arrangement" activeClassName="m-active" className="app__navigationItem">
-              Arrangement
+            <Link to="/pads" activeClassName="m-active" className="app__navigationItem">
+              Pads
             </Link>
             <Link to="/files" activeClassName="m-active" className="app__navigationItem">Files</Link>
           </div>
@@ -33,7 +33,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    arrangement: state.arrangements.arrangement1
+    pad: state.pads.pad1
   };
 };
 

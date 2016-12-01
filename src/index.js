@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { applyMiddleware, createStore } from 'redux';
 import createLogger from 'redux-logger';
 import App from './app';
-import ArrangementEditor from './arrangement/arrangement-editor';
+import PadEditor from './pad/pad-editor';
 import FilesList from './files/files-list';
 import reducer from './data/reducer';
 import midi from './lib/midi';
@@ -33,7 +33,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={App}>
-        <Route path="/arrangement" component={ArrangementEditor} />
+        <Route path="/pads" component={PadEditor} />
         <Route path="/files" component={FilesList} />
       </Route>
     </Router>

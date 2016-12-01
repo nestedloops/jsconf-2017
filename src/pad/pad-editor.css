@@ -1,0 +1,8 @@
+.padEditor__container {
+  display: flex;
+  flex-direction: row;
+}
+
+.padEditor__buttonEditor {
+  margin-left: 10px;
+}

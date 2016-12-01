@@ -3,8 +3,8 @@ export default {
     gain: 1,
     bpm: 100
   },
-  arrangements: {
-    arrangement1: {
+  pads: {
+    pad1: {
       buttons: [
         [null,null,null,null,null,null,null,null],
         [

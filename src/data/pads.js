@@ -1,20 +1,20 @@
 import { CREATE_BUTTON, DELETE_BUTTON } from './buttons';
 
-const SELECT_BUTTON = 'jsconf2017/arrangements/SELECT_BUTTON';
+const SELECT_BUTTON = 'jsconf2017/pads/SELECT_BUTTON';
 
-export default function arrangements(state = {}, action) {
+export default function pads(state = {}, action) {
   switch (action.type) {
     case CREATE_BUTTON:
     case SELECT_BUTTON:
     case DELETE_BUTTON:
-      const arrangement = state.arrangement1;
-      return { arrangement1: arrangementReducer(arrangement, action) };
+      const pad = state.pad1;
+      return { pad1: padReducer(pad, action) };
     default:
       return state;
   }
 }
 
-function arrangementReducer(state, action) {
+function padReducer(state, action) {
   switch (action.type) {
     case CREATE_BUTTON: {
       const { buttons } = state;
