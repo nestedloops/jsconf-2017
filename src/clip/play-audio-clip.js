@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import context from '../lib/audio/context';
 
-export default class PlayAudioButton extends Component {
+export default class PlayAudioClip extends Component {
 
   constructor(props) {
     super(props);
@@ -33,7 +33,7 @@ export default class PlayAudioButton extends Component {
     this.setState({
       playing: true,
       audioNode
-    })
+    });
   }
 
   pause = () => {

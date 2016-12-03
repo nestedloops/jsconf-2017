@@ -5,21 +5,23 @@ import {
   CLIP_TYPE_AUDIO_SAMPLE,
   CLIP_TYPES,
   AUDIO_BEHAVIOR_TYPES,
-  changeButtonField,
-  deleteButton
+  changeClipField,
+  deleteClip
 } from '../data/clips';
-import PlayAudioButton from './play-audio-clip';
+import PlayAudioClip from './play-audio-clip';
 
 import './clip-editor.css';
 
-class ButtonEditor extends Component {
+class ClipEditor extends Component {
   shouldComponentUpdate(newProps){
     return newProps.clip !== this.props.clip
-        || newProps.fileLoader !== this.props.fileLoader;
+        || newProps.fileLoader !== this.props.fileLoader
+        || newProps.tracks !== this.props.tracks;
   }
 
   render() {
     const currentType = this.props.clip.type || CLIP_TYPE_NONE;
+    const { track, tracks } = this.props;
 
     return (
       <div className="clipEditor">
@@ -36,7 +38,20 @@ class ButtonEditor extends Component {
           </select>
         </label>
         { this.renderForm() }
-        <button onClick={this.deleteButton}>delete</button>
+        <label className="clipEditor__label">
+          <span className="clipEditor__labelText">Track:</span>
+          <select
+            className="clipEditor__clipSelect"
+            value={track}
+            onChange={this.changeTrack}
+          >
+            { Object.keys(tracks).map((trackId) => (
+              <option key={trackId} value={trackId}>{tracks[trackId].name}</option>
+            ))}
+          </select>
+          <hr />
+          <div><button onClick={this.deleteClip}>delete clip</button></div>
+        </label>
       </div>
     );
   }
@@ -98,7 +113,7 @@ class ButtonEditor extends Component {
             )}
           </select>
           { !!preloadedFile && (
-            <PlayAudioButton
+            <PlayAudioClip
               config={clip}
               buffer={preloadedFile} />
           )}
@@ -108,49 +123,54 @@ class ButtonEditor extends Component {
   }
 
   changeBehavior = (event) => {
-    this.props.changeButtonField('behavior', event.target.value);
+    this.props.changeClipField('behavior', event.target.value);
   }
 
   changeType = (event) => {
-    this.props.changeButtonField('type', event.target.value);
+    this.props.changeClipField('type', event.target.value);
   }
 
   changeSchedulable = () => {
-    this.props.changeButtonField('schedulable', !this.props.clip.schedulable);
+    this.props.changeClipField('schedulable', !this.props.clip.schedulable);
   }
 
   changeLoop = (event) => {
-    this.props.changeButtonField('loop', event.target.checked);
+    this.props.changeClipField('loop', event.target.checked);
   }
 
   changeGain = (event) => {
-    this.props.changeButtonField('gain', parseFloat(event.target.value));
+    this.props.changeClipField('gain', parseFloat(event.target.value));
   }
 
   changeFile = (event) => {
-    this.props.changeButtonField('file', event.target.value);
+    this.props.changeClipField('file', event.target.value);
   }
 
-  deleteButton = (event) => {
+  changeTrack = (event) => {
+    this.props.changeClipField('track', event.target.value);
+  }
+
+  deleteClip = (event) => {
     event.preventDefault();
-    this.props.deleteButton(this.props.clip.id);
+    this.props.deleteClip(this.props.clip.id);
   }
 
 }
 
 const mapStateToProps = (state) => ({
   files: state.files,
-  fileLoader: state.fileLoader
+  fileLoader: state.fileLoader,
+  tracks: state.tracks
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  changeButtonField(field, value) {
-    return dispatch(changeButtonField(ownProps.clip.id, field, value));
+  changeClipField(field, value) {
+    return dispatch(changeClipField(ownProps.clip.id, field, value));
   },
 
-  deleteButton(id) {
-    dispatch(deleteButton(id));
+  deleteClip(id) {
+    dispatch(deleteClip(id));
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(ClipEditor);

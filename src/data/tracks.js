@@ -11,7 +11,7 @@ export default function tracks(state = {}, action) {
     case ADD_TRACK:
       return {
         ...state,
-        [id]: { name: '', filters: [] }
+        [id]: { name: '', gain: 1, filters: [] }
       };
     case CHANGE_TRACK_NAME:
       const { name } = action;
@@ -32,6 +32,7 @@ export default function tracks(state = {}, action) {
         }
       };
     case REMOVE_TRACK:
+      if (id === 'master') { return state; }
       const copy = { ...state };
       delete copy[id];
       return copy;

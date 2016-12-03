@@ -14,7 +14,8 @@ const BASE_AUDIO_SAMPLE = {
   gain: 1,
   behavior: 'single',
   file: '',
-  loop: false
+  loop: false,
+  track: 'master'
 };
 
 export default function clips(state = {}, action) {
@@ -51,6 +52,6 @@ export default function clips(state = {}, action) {
   }
 }
 
-export const changeButtonField = (id, field, value) => ({ type: CHANGE_CLIP_FIELD, id, field, value });
-export const createButton = (x, y, id) => ({ type: CREATE_CLIP, x, y, id });
-export const deleteButton = (id) => ({ type: DELETE_CLIP, id });
+export const changeClipField = (id, field, value) => ({ type: CHANGE_CLIP_FIELD, id, field, value });
+export const createClip = (x, y, id) => ({ type: CREATE_CLIP, x, y, id });
+export const deleteClip = (id) => ({ type: DELETE_CLIP, id });

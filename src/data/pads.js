@@ -33,7 +33,7 @@ function padReducer(state, action) {
     case SELECT_CLIP: {
       return {
         ...state,
-        selectedButtonId: action.selectedButtonId
+        selectedClipId: action.selectedClipId
       };
     }
 
@@ -83,4 +83,4 @@ function changeValueAtPoint({x, y, value, array2d}){
                  .concat(array2d.slice(y + 1));
 }
 
-export const selectButton = (selectedButtonId) => ({ type: SELECT_CLIP, selectedButtonId });
+export const selectClip = (selectedClipId) => ({ type: SELECT_CLIP, selectedClipId });

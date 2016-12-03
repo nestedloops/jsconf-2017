@@ -6,7 +6,13 @@ export default {
   tracks: {
     master: {
       name: 'master',
+      gain: 1,
       filters: ['239786428374t928374628934728347']
+    },
+    secondChannel: {
+      name: 'master2',
+      gain: 1,
+      filters: []
     }
   },
   filters: {
@@ -31,7 +37,7 @@ export default {
         [null,null,null,null,null,null,null,null]
       ],
       controller: '',
-      selectedButtonId: '2316526c-ec07-4153-a47a-d831b2aaf18e'
+      selectedClipId: '2316526c-ec07-4153-a47a-d831b2aaf18e'
     }
   },
   clips: {
@@ -40,6 +46,7 @@ export default {
       type: 'audiosample',
       behavior: 'schedulable',
       file: '2a86e9ee-b409-4e2b-91e0-bcc051ec2168',
+      track: 'master',
       gain: 1,
       loop: false
     },
@@ -48,6 +55,7 @@ export default {
       type: 'audiosample',
       behavior: 'single',
       file: '36c1262c-608c-41db-a12c-7a2fad9d4c14',
+      track: 'master',
       gain: 0.3,
       loop: false
     }

@@ -11,6 +11,7 @@ import FilesList from './files/files-list';
 import reducer from './data/reducer';
 import midi from './lib/midi';
 import scheduler from './lib/scheduler';
+import audioGraph from './lib/audio-graph';
 import './index.css';
 
 import initial from './data/initial';
@@ -28,6 +29,7 @@ const store = createStore(
 );
 
 scheduler.init(store);
+audioGraph.init(store);
 midi.init(store, scheduler.handleManualSchedule);
 
 ReactDOM.render(

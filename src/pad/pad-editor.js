@@ -1,37 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Pad from './pad';
-import ButtonEditor from '../clip/clip-editor';
-import { selectButton } from '../data/pads';
+import ClipEditor from '../clip/clip-editor';
+import { selectClip } from '../data/pads';
 
 import './pad-editor.css';
 
 class PadEditor extends Component {
   render() {
     const { pad, clips } = this.props;
-    const selectedButton = clips[pad.selectedButtonId];
-    const hasButtonSelected = !!selectedButton;
+    const selectedClip = clips[pad.selectedClipId];
+    const hasClipSelected = !!selectedClip;
     return (
       <div className="padEditor__container">
         <Pad
           pad={pad}
           clips={clips}
-          onButtonSelected={this.onButtonSelected}
-          selectedButtonId={pad.selectedButtonId}
+          onClipSelected={this.onClipSelected}
+          selectedClipId={pad.selectedClipId}
         />
         <div className="padEditor__clipEditor">
-          { hasButtonSelected && (
-            <ButtonEditor clip={selectedButton} />
+          { hasClipSelected && (
+            <ClipEditor clip={selectedClip} />
           )}
         </div>
       </div>
     );
   }
 
-  onButtonSelected = (selectedButtonId) => {
-    const isTheSame = selectedButtonId === this.props.pad.selectedButtonId;
+  onClipSelected = (selectedClipId) => {
+    const isTheSame = selectedClipId === this.props.pad.selectedClipId;
 
-    this.props.selectButton(isTheSame ? null : selectedButtonId);
+    this.props.selectClip(isTheSame ? null : selectedClipId);
   }
 }
 
@@ -43,8 +43,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  selectButton(selectedButtonId) {
-    dispatch(selectButton(selectedButtonId))
+  selectClip(selectedClipId) {
+    dispatch(selectClip(selectedClipId))
   }
 });
 

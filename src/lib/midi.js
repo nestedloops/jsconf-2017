@@ -17,7 +17,7 @@ class Midi {
   init(storeObject, clipHandler = () => {}) {
     this.store = storeObject;
     this.clipHandler = clipHandler;
-    this.previousButtons = null;
+    this.previousClips = null;
     this.previouseScheduler = null;
     this.previousControllers = {};
 
@@ -25,10 +25,10 @@ class Midi {
 
     storeObject.subscribe(() => {
       const { clips, scheduler, controllers } = storeObject.getState();
-      if (clips !== this.previousButtons
+      if (clips !== this.previousClips
        || scheduler !== this.previouseScheduler
        || controllers !== this.previousControllers) {
-        this.previousButtons = clips;
+        this.previousClips = clips;
         this.previouseScheduler = scheduler;
         this.previousControllers = controllers;
         this.updateControllers();
@@ -87,12 +87,12 @@ class Midi {
         for (var x = 0; x < 8; x++) {
           const key = y * 16 + x;
           if (pad) {
-            const padButton = pad.clips[y][x];
+            const padClip = pad.clips[y][x];
 
-            if (padButton) {
-              if (scheduler.scheduled[padButton]) {
+            if (padClip) {
+              if (scheduler.scheduled[padClip]) {
                 controller.write([144, key, COLOR_CODES.YELLOW]);
-              } else if (scheduler.playing[padButton]) {
+              } else if (scheduler.playing[padClip]) {
                 controller.write([144, key, COLOR_CODES.AMBER]);
               } else {
                 controller.write([144, key, COLOR_CODES.GREEN]);
