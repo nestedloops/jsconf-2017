@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {
   changeTrackGain,
-  changeTrackName
+  changeTrackName,
+  removeTrack
 } from '../data/tracks';
 
 import './track-editor.css';
@@ -49,6 +50,7 @@ class TrackEditor extends Component {
           onChange={this.changeGain}
           value={gain}
         />
+        <button onClick={this.removeTrack}>{'remove track'}</button>
       </div>
 
     );
@@ -70,15 +72,35 @@ class TrackEditor extends Component {
     const gain = parseFloat(event.target.value, 10);
     this.props.changeTrackGain(gain);
   }
+
+  removeTrack = () => {
+    const { trackId, clips } = this.props;
+
+    if (trackId === 'master') {
+      return alert('You cannot remove the master track');
+    }
+
+    const associatedClip = Object
+                            .keys(clips)
+                            .find((clipId) => clips[clipId].track === trackId);
+
+    if (associatedClip) {
+      return alert('The track has still clips associated to it');
+    }
+
+    this.props.removeTrack();
+  }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  track: state.tracks[ownProps.trackId]
+  track: state.tracks[ownProps.trackId],
+  clips: state.clips
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   changeTrackName(name) { dispatch(changeTrackName(ownProps.trackId, name)) },
-  changeTrackGain(gain) { dispatch(changeTrackGain(ownProps.trackId, gain)) }
+  changeTrackGain(gain) { dispatch(changeTrackGain(ownProps.trackId, gain)) },
+  removeTrack() { dispatch(removeTrack(ownProps.trackId)) }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackEditor);

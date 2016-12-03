@@ -6,11 +6,13 @@ export default {
   tracks: {
     master: {
       name: 'master',
+      id: 'master',
       gain: 1,
       filters: ['239786428374t928374628934728347']
     },
     secondChannel: {
       name: 'master2',
+      id: 'secondChannel',
       gain: 1,
       filters: []
     }

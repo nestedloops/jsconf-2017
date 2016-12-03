@@ -1,4 +1,5 @@
 import context from './audio/context';
+import _ from 'lodash';
 
 export default {
   tracks: {},
@@ -7,22 +8,30 @@ export default {
 
   init(storeObject) {
     this.storeObject = storeObject;
+    this.removeTrack = this.removeTrack.bind(this);
 
-    this.previousTracks = null;
+    this.previousTracks = {};
     storeObject.subscribe(() => {
       const { tracks } = this.storeObject.getState();
       if (this.previousTracks !== tracks) {
+        this.synchronizeGraph();
         this.previousTracks = tracks;
-        this.setUpGraph();
       }
     });
 
-    this.setUpGraph();
+    this.synchronizeGraph();
   },
 
-  setUpGraph() {
+  synchronizeGraph() {
     const { tracks } = this.storeObject.getState();
-    Object.keys(tracks).forEach((trackId) => {
+    const currentTrackIds = Object.keys(tracks);
+    const previousTrackIds = Object.keys(this.previousTracks);
+
+    if (previousTrackIds.length > currentTrackIds.length) {
+      _.difference(previousTrackIds, currentTrackIds).forEach(this.removeTrack)
+    }
+
+    currentTrackIds.forEach((trackId) => {
       const trackConfig = tracks[trackId];
       let track = this.tracks[trackId];
       if (!track) {
@@ -36,5 +45,10 @@ export default {
 
   getTracks() {
     return this.tracks;
+  },
+
+  removeTrack(trackId) {
+    this.tracks[trackId].disconnect();
+    delete this.tracks[trackId];
   }
 }

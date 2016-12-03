@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import uuid from 'uuid';
 import { createTrack } from '../data/tracks';
 import TrackEditor from './track-editor';
 
@@ -11,8 +10,14 @@ class Tracks extends Component {
         { Object.keys(this.props.tracks).map((trackId) =>
           <TrackEditor key={trackId} trackId={trackId} />
         )}
+        <hr />
+        <button onClick={this.createTrack}>{'Add new track'}</button>
       </div>
     );
+  }
+
+  createTrack = () => {
+    this.props.createTrack();
   }
 }
 
@@ -22,8 +27,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   createTrack() {
-    const id = uuid.v4();
-    dispatch(createTrack(id));
+    dispatch(createTrack());
   }
 });
 

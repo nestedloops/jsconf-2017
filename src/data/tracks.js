@@ -1,4 +1,6 @@
-const ADD_TRACK = 'jsconf2017/tracks/ADD_TRACK';
+import uuid from 'uuid';
+
+const CREATE_TRACK = 'jsconf2017/tracks/CREATE_TRACK';
 const CHANGE_TRACK_NAME = 'jsconf2017/tracks/CHANGE_TRACK_NAME';
 const CHANGE_TRACK_GAIN = 'jsconf2017/tracks/CHANGE_TRACK_GAIN';
 const ADD_FILTER = 'jsconf2017/tracks/ADD_FILTER';
@@ -9,10 +11,13 @@ export default function tracks(state = {}, action) {
   const track = state[id];
 
   switch (action.type) {
-    case ADD_TRACK:
+    case CREATE_TRACK:
+      const trackId = uuid.v4();
+      const trackCount = Object.keys(state).length + 1;
+      const trackName = `track${trackCount}`;
       return {
         ...state,
-        [id]: { name: '', gain: 1, filters: [] }
+        [trackId]: { name: trackName, gain: 1, filters: [], id: trackId }
       };
     case CHANGE_TRACK_NAME:
       const { name } = action;
@@ -51,7 +56,7 @@ export default function tracks(state = {}, action) {
   }
 }
 
-export const addTrack = (id) => ({ type: ADD_TRACK, id });
+export const createTrack = () => ({ type: CREATE_TRACK });
 export const changeTrackName = (id, name) => ({ type: CHANGE_TRACK_NAME, id, name });
 export const changeTrackGain = (id, gain) => ({ type: CHANGE_TRACK_GAIN, id, gain });
 export const removeTrack = (id) => ({ type: REMOVE_TRACK, id });
