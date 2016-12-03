@@ -8,6 +8,15 @@ export default {
   init(storeObject) {
     this.storeObject = storeObject;
 
+    this.previousTracks = null;
+    storeObject.subscribe(() => {
+      const { tracks } = this.storeObject.getState();
+      if (this.previousTracks !== tracks) {
+        this.previousTracks = tracks;
+        this.setUpGraph();
+      }
+    });
+
     this.setUpGraph();
   },
 
@@ -19,8 +28,13 @@ export default {
       if (!track) {
         track = context.createGain();
         track.connect(context.destination);
+        this.tracks[trackId] = track;
       }
-      track.gain.value = parseInt(trackConfig.gain, 10);
+      track.gain.value = parseFloat(trackConfig.gain, 10);
     });
+  },
+
+  getTracks() {
+    return this.tracks;
   }
 }

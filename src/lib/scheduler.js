@@ -1,5 +1,6 @@
 import BeatClock from './beatclock';
 import context from './audio/context';
+import audioGraph from './audio-graph';
 
 import {
   addPlaying,
@@ -83,9 +84,11 @@ export default {
     this.store.dispatch(scheduleStop(id));
   },
 
-  playAudioNode({ file, loop, gain, id }) {
+  playAudioNode({ file, loop, gain, id, track }) {
     const { fileLoader } = this.store.getState();
     const buffer = fileLoader[file];
+    const tracks = audioGraph.getTracks();
+    const trackNode = tracks[track] || tracks['master'];
 
     // file has not loaded
     if (!buffer) { return false; }
@@ -96,7 +99,7 @@ export default {
     audioNode.loop = loop;
     gainNode.gain.value = gain;
     audioNode.connect(gainNode);
-    gainNode.connect(context.destination);
+    gainNode.connect(trackNode);
     audioNode.start();
     audioNode.onended = () => this.stopAudioNode(id);
     this.store.dispatch(addPlaying(id, audioNode));

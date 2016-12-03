@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { changeTrackName } from '../data/tracks';
+import {
+  changeTrackGain,
+  changeTrackName
+} from '../data/tracks';
+
+import './track-editor.css';
 
 class TrackEditor extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      editing: false
+      editingName: false
     };
   }
 
   render() {
-    const { editing } = this.state;
-    const { track: { name } } = this.props;
+    const { editingName } = this.state;
+    const { track: { gain, name } } = this.props;
 
     return (
-      <div className="track-editor">
-        { editing && (
+      <div className="trackEditor">
+        { editingName && (
           <input
             ref={(input) => this.nameInput = input}
             type="text"
@@ -25,28 +30,45 @@ class TrackEditor extends Component {
             onBlur={this.leaveEditMode}
             value={name}
             placeholder="Name the track..."
+            className="trackEditor__nameInput"
           />
         )}
 
-        { !editing && (
-          <h3 onClick={this.enterEditMode}>{name}</h3>
+        { !editingName && (
+          <h3
+            onClick={this.enterEditMode}
+            className="trackEditor__name"
+          >{name}</h3>
         )}
 
+        <input
+          type="range"
+          min={0}
+          max={1}
+          step={0.01}
+          onChange={this.changeGain}
+          value={gain}
+        />
       </div>
 
     );
   }
 
   enterEditMode = () => {
-    this.setState({ editing: true }, () => this.nameInput.focus());
+    this.setState({ editingName: true }, () => this.nameInput.focus());
   }
 
   leaveEditMode = () => {
-    this.setState({ editing: false });
+    this.setState({ editingName: false });
   }
 
   onChangeText = (event) => {
     this.props.changeTrackName(event.target.value);
+  }
+
+  changeGain = (event) => {
+    const gain = parseFloat(event.target.value, 10);
+    this.props.changeTrackGain(gain);
   }
 }
 
@@ -55,7 +77,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  changeTrackName(name) { dispatch(changeTrackName(ownProps.trackId, name)) }
+  changeTrackName(name) { dispatch(changeTrackName(ownProps.trackId, name)) },
+  changeTrackGain(gain) { dispatch(changeTrackGain(ownProps.trackId, gain)) }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackEditor);

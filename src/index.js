@@ -28,8 +28,8 @@ const store = createStore(
   )
 );
 
-scheduler.init(store);
 audioGraph.init(store);
+scheduler.init(store);
 midi.init(store, scheduler.handleManualSchedule);
 
 ReactDOM.render(

@@ -1,5 +1,6 @@
 const ADD_TRACK = 'jsconf2017/tracks/ADD_TRACK';
 const CHANGE_TRACK_NAME = 'jsconf2017/tracks/CHANGE_TRACK_NAME';
+const CHANGE_TRACK_GAIN = 'jsconf2017/tracks/CHANGE_TRACK_GAIN';
 const ADD_FILTER = 'jsconf2017/tracks/ADD_FILTER';
 const REMOVE_TRACK = 'jsconf2017/tracks/REMOVE_TRACK';
 
@@ -20,6 +21,15 @@ export default function tracks(state = {}, action) {
         [id]: {
           ...track,
           name
+        }
+      }
+    case CHANGE_TRACK_GAIN:
+      const { gain } = action;
+      return {
+        ...state,
+        [id]: {
+          ...track,
+          gain
         }
       }
     case ADD_FILTER:
@@ -43,4 +53,5 @@ export default function tracks(state = {}, action) {
 
 export const addTrack = (id) => ({ type: ADD_TRACK, id });
 export const changeTrackName = (id, name) => ({ type: CHANGE_TRACK_NAME, id, name });
+export const changeTrackGain = (id, gain) => ({ type: CHANGE_TRACK_GAIN, id, gain });
 export const removeTrack = (id) => ({ type: REMOVE_TRACK, id });
