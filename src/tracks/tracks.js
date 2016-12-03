@@ -4,6 +4,10 @@ import { createTrack } from '../data/tracks';
 import TrackEditor from './track-editor';
 
 class Tracks extends Component {
+  shouldComponentUpdate(nextProps) {
+    return nextProps.tracks !== this.props.tracks;
+  }
+
   render() {
     return (
       <div className="tracks">

@@ -1,8 +1,13 @@
 import React from 'react';
+import { shouldUpdate } from 'recompose';
 
-export default ({ file }) =>
+const File = ({ file }) =>
   <div className="fileName" onClick={() => play(file.url)}>{file.name}</div>
 ;
+
+export default shouldUpdate(
+  (props, nextProps) => props.file !== nextProps.file
+)(File);
 
 function play(url) {
   console.log('play', 'isAudio?', isAudio(url), 'isVideo', isVideo(url));

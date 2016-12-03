@@ -9,6 +9,10 @@ export default class PlayAudioClip extends Component {
     this.state = { playing: false };
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     const { playing } = this.state;
     return <button onClick={this.playPause}>{playing ? 'pause' : 'play'}</button>;

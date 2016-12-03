@@ -10,6 +10,10 @@ export default class DragAndDropReveicer extends Component {
     this.state = { showDropTarget: false };
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   componentDidMount() {
     document.body.addEventListener('dragenter', this.onDragEnter);
   }

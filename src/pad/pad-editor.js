@@ -7,6 +7,11 @@ import { selectClip } from '../data/pads';
 import './pad-editor.css';
 
 class PadEditor extends Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.pad !== nextProps.pad
+        || this.props.clips !== nextProps.clips;
+  }
+
   render() {
     const { pad, clips } = this.props;
     const selectedClip = clips[pad.selectedClipId];

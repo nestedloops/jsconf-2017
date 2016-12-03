@@ -7,6 +7,11 @@ import { selectClip } from '../data/pads';
 import './pad.css';
 
 class Pad extends Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.pad !== nextProps.pad
+        || this.props.selectedClipId !== nextProps.selectedClipId;
+  }
+
   render() {
     return (
       <div className="pad">
@@ -20,16 +25,15 @@ class Pad extends Component {
   }
 
   renderClip(x, y) {
-    const { pad, clips, onClipSelected, selectedClipId } = this.props;
+    const { pad, onClipSelected, selectedClipId } = this.props;
     const row = pad.clips[y];
     const clipId = row ? row[x] : undefined;
-    const clip = clips[clipId]
-    const isEmpty = !clipId || !clip;
+    const isEmpty = !clipId;
     const key = `pad-clip-${x}-${y}`;
     if (isEmpty) { return <Clip key={key} onClick={() => this.props.createClip(x, y)}/>; }
     return <Clip
             key={key}
-            clip={clip}
+            clipId={clipId}
             selected={selectedClipId === clipId}
             onClick={() => onClipSelected(clipId)}
           />

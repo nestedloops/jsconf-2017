@@ -17,6 +17,11 @@ class TrackEditor extends Component {
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.track !== this.props.track
+        || nextState.editingName !== this.state.editingName;
+  }
+
   render() {
     const { editingName } = this.state;
     const { track: { gain, name } } = this.props;
