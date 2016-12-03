@@ -40,6 +40,24 @@ export default {
       ],
       controller: '',
       selectedClipId: '2316526c-ec07-4153-a47a-d831b2aaf18e'
+    },
+    pad2: {
+      clips: [
+        [null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null],
+        [
+          '2316526c-ec07-4153-a47a-d831b2aaf18e',
+          '762e04a0-b651-4560-bad1-31011b7b27e5',
+          null, null, null, null, null, null
+        ],
+        [null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null]
+      ],
+      controller: '',
+      selectedClipId: '2316526c-ec07-4153-a47a-d831b2aaf18e'
     }
   },
   clips: {

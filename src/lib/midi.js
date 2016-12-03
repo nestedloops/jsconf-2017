@@ -2,6 +2,7 @@ import midi from 'web-midi';
 
 import {
   addController,
+  mapControllerToPad,
   removeController
 } from '../data/controllers';
 
@@ -38,10 +39,9 @@ class Midi {
 
   setControllers = (controllers) => {
     const { store } = this;
-
     // remove controllers that were there previously
     Object.keys(this.previousControllers).forEach((id) => {
-      this.previousControllers[id].close();
+      this.previousControllers[id].controller.close();
       store.dispatch(removeController(id));
     });
 
@@ -49,40 +49,49 @@ class Midi {
     controllers.forEach((id) => {
       if (!currentControllers[id]) {
         const controller = midi(id, {});
-        controller.on('data', ([_, key, data]) => {
+        controller.on('data', ([type, key, data]) => {
+          const state = this.store.getState();
           const down = data > 0;
           const y = Math.floor(key / 16);
           const x = key % 16;
-          if (down && x < 8 && y < 8) {
-            const { pads } = this.store.getState();
-            const clipId = pads.pad1.clips[y][x];
-            if (clipId) {
-              this.clipHandler(clipId);
+          if (down) {
+            if (x < 8 && y < 8) {
+              const padId = state.controllers[id].pad;
+              const pad = state.pads[padId];
+
+              // this controller is not controlling a clip
+              if (!padId || !pad) { return; }
+
+              const clipId = pad.clips[y][x];
+              if (clipId) {
+                this.clipHandler(clipId);
+              }
+            } else if (type === 144 && (key < 105 || key > 111)) {
+              this.mapControllerToPadIndex(id, y);
             }
           }
         });
-        store.dispatch(addController(id, controller));
+        const initialPad = Object.keys(store.getState().pads)[0];
+        store.dispatch(addController(id, controller, initialPad));
       }
     });
+  }
+
+  mapControllerToPadIndex(controller, padIndex) {
+    const { pads } = this.store.getState();
+    const padId = Object.keys(pads)[padIndex];
+    this.store.dispatch(mapControllerToPad(controller, padId));
   }
 
   updateControllers = () => {
     const { pads, controllers, scheduler } = this.store.getState();
 
-    const controllerKeys = Object.keys(controllers);
-    const mappings = {};
-
-    Object.keys(pads).forEach((padId, index) => {
-      const controller = controllerKeys.find((key) => !mappings[key] && key.includes('Launchpad'));
-      if (controller) {
-        mappings[controller] = pads[padId];
-      }
-    });
-
     Object.keys(controllers).forEach((controllerId, index) => {
-      const pad = mappings[controllerId];
-      const controller = controllers[controllerId];
+      const controllerConfig = controllers[controllerId];
+      const { controller } = controllerConfig;
+      const pad = pads[controllerConfig.pad];
 
+      // write the clip status
       for (var y = 0; y < 8; y++) {
         for (var x = 0; x < 8; x++) {
           const key = y * 16 + x;
@@ -101,14 +110,23 @@ class Midi {
               controller.write([144, key, COLOR_CODES.OFF]);
             }
           } else {
-            controllers[controllerId].write([144, key, COLOR_CODES.OFF]);
+            controller.write([144, key, COLOR_CODES.OFF]);
           }
         }
       }
+
+      // write the pad status
+      const padKeys = Object.keys(pads);
+      const activePadId = pad && padKeys.indexOf(controllerConfig.pad);
+      for (var i = 0; i < 8; i++) {
+        controller.write([
+          144,
+          8 + i * 16,
+          activePadId === i ? COLOR_CODES.GREEN : i < padKeys.length ? COLOR_CODES.YELLOW : COLOR_CODES.OFF
+        ]);
+      }
     });
-
   }
-
 }
 
 const instance = new Midi();

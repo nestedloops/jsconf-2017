@@ -36,10 +36,6 @@ class Pad extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  controllers: state.controllers
-});
-
 const mapDispatchToProps = (dispatch, ownProps) => ({
   createClip(x, y) {
     const id = uuid.v4();
@@ -48,4 +44,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Pad);
+export default connect(null, mapDispatchToProps)(Pad);
