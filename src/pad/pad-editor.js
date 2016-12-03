@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Pad from './pad';
-import ButtonEditor from '../button/button-editor';
+import ButtonEditor from '../clip/clip-editor';
 import { selectButton } from '../data/pads';
 
 import './pad-editor.css';
 
 class PadEditor extends Component {
   render() {
-    const { pad, buttons } = this.props;
-    const selectedButton = buttons[pad.selectedButtonId];
+    const { pad, clips } = this.props;
+    const selectedButton = clips[pad.selectedButtonId];
     const hasButtonSelected = !!selectedButton;
     return (
       <div className="padEditor__container">
         <Pad
           pad={pad}
-          buttons={buttons}
+          clips={clips}
           onButtonSelected={this.onButtonSelected}
           selectedButtonId={pad.selectedButtonId}
         />
-        <div className="padEditor__buttonEditor">
+        <div className="padEditor__clipEditor">
           { hasButtonSelected && (
-            <ButtonEditor button={selectedButton} />
+            <ButtonEditor clip={selectedButton} />
           )}
         </div>
       </div>
@@ -38,7 +38,7 @@ class PadEditor extends Component {
 const mapStateToProps = (state) => {
   return {
     pad: state.pads.pad1,
-    buttons: state.buttons
+    clips: state.clips
   };
 };
 

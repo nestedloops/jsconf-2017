@@ -14,9 +14,9 @@ const COLOR_CODES = {
 };
 
 class Midi {
-  init(storeObject, buttonHandler = () => {}) {
+  init(storeObject, clipHandler = () => {}) {
     this.store = storeObject;
-    this.buttonHandler = buttonHandler;
+    this.clipHandler = clipHandler;
     this.previousButtons = null;
     this.previouseScheduler = null;
     this.previousControllers = {};
@@ -24,11 +24,11 @@ class Midi {
     midi.watchPortNames(this.setControllers);
 
     storeObject.subscribe(() => {
-      const { buttons, scheduler, controllers } = storeObject.getState();
-      if (buttons !== this.previousButtons
+      const { clips, scheduler, controllers } = storeObject.getState();
+      if (clips !== this.previousButtons
        || scheduler !== this.previouseScheduler
        || controllers !== this.previousControllers) {
-        this.previousButtons = buttons;
+        this.previousButtons = clips;
         this.previouseScheduler = scheduler;
         this.previousControllers = controllers;
         this.updateControllers();
@@ -55,9 +55,9 @@ class Midi {
           const x = key % 16;
           if (down && x < 8 && y < 8) {
             const { pads } = this.store.getState();
-            const buttonId = pads.pad1.buttons[y][x];
-            if (buttonId) {
-              this.buttonHandler(buttonId);
+            const clipId = pads.pad1.clips[y][x];
+            if (clipId) {
+              this.clipHandler(clipId);
             }
           }
         });
@@ -87,7 +87,7 @@ class Midi {
         for (var x = 0; x < 8; x++) {
           const key = y * 16 + x;
           if (pad) {
-            const padButton = pad.buttons[y][x];
+            const padButton = pad.clips[y][x];
 
             if (padButton) {
               if (scheduler.scheduled[padButton]) {

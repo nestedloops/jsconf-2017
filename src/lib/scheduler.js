@@ -12,7 +12,7 @@ import {
 import {
   AUDIO_BEHAVIOR_SINGLE,
   AUDIO_BEHAVIOR_SCHEDULABLE
-} from '../data/buttons';
+} from '../data/clips';
 
 export default {
   store: null,
@@ -28,10 +28,10 @@ export default {
   },
 
   onBar() {
-    const { buttons, fileLoader, scheduler: { scheduled, toStop } } = this.store.getState();
+    const { clips, fileLoader, scheduler: { scheduled, toStop } } = this.store.getState();
 
-    Object.keys(scheduled).forEach((buttonId) => {
-      const config = buttons[buttonId];
+    Object.keys(scheduled).forEach((clipId) => {
+      const config = clips[clipId];
       const buffer = fileLoader[config.file];
 
       // file has not loaded
@@ -40,27 +40,27 @@ export default {
       this.playAudioNode(config);
     });
 
-    Object.keys(toStop).forEach((buttonId) => {
-      this.stopAudioNode(buttonId);
+    Object.keys(toStop).forEach((clipId) => {
+      this.stopAudioNode(clipId);
     });
 
     this.store.dispatch(flushScheduled());
   },
 
-  handleManualSchedule(buttonId) {
-    const { buttons, scheduler: { scheduled, playing } } = this.store.getState();
-    const button = buttons[buttonId];
-    const { behavior, id, loop } = button;
+  handleManualSchedule(clipId) {
+    const { clips, scheduler: { scheduled, playing } } = this.store.getState();
+    const clip = clips[clipId];
+    const { behavior, id, loop } = clip;
 
     if (behavior === AUDIO_BEHAVIOR_SINGLE) {
       if (!playing[id]) {
-        this.playAudioNode(button);
+        this.playAudioNode(clip);
       } else {
         if (loop) {
           this.stopAudioNode(id);
         } else {
           this.stopAudioNode(id);
-          this.playAudioNode(button);
+          this.playAudioNode(clip);
         }
       }
     } else if (behavior === AUDIO_BEHAVIOR_SCHEDULABLE) {
@@ -102,11 +102,11 @@ export default {
     this.store.dispatch(addPlaying(id, audioNode));
   },
 
-  stopAudioNode(buttonId) {
+  stopAudioNode(clipId) {
     const { scheduler: { playing } } = this.store.getState();
-    const audioNode = playing[buttonId];
+    const audioNode = playing[clipId];
     saveAudioStop(audioNode);
-    this.store.dispatch(audioEnded(buttonId));
+    this.store.dispatch(audioEnded(clipId));
   }
 };
 

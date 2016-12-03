@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import uuid from 'uuid';
-import Button from '../button/button';
-import { createButton } from '../data/buttons';
+import Button from '../clip/clip';
+import { createButton } from '../data/clips';
 import { selectButton } from '../data/pads';
 import './pad.css';
 
@@ -20,18 +20,18 @@ class Pad extends Component {
   }
 
   renderButton(x, y) {
-    const { pad, buttons, onButtonSelected, selectedButtonId } = this.props;
-    const row = pad.buttons[y];
-    const buttonId = row ? row[x] : undefined;
-    const button = buttons[buttonId]
-    const isEmpty = !buttonId || !button;
-    const key = `pad-button-${x}-${y}`;
+    const { pad, clips, onButtonSelected, selectedButtonId } = this.props;
+    const row = pad.clips[y];
+    const clipId = row ? row[x] : undefined;
+    const clip = clips[clipId]
+    const isEmpty = !clipId || !clip;
+    const key = `pad-clip-${x}-${y}`;
     if (isEmpty) { return <Button key={key} onClick={() => this.props.createButton(x, y)}/>; }
     return <Button
             key={key}
-            button={button}
-            selected={selectedButtonId === buttonId}
-            onClick={() => onButtonSelected(buttonId)}
+            clip={clip}
+            selected={selectedButtonId === clipId}
+            onClick={() => onButtonSelected(clipId)}
           />
   }
 }

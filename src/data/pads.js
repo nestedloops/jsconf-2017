@@ -1,12 +1,12 @@
-import { CREATE_BUTTON, DELETE_BUTTON } from './buttons';
+import { CREATE_CLIP, DELETE_CLIP } from './clips';
 
-const SELECT_BUTTON = 'jsconf2017/pads/SELECT_BUTTON';
+const SELECT_CLIP = 'jsconf2017/pads/SELECT_CLIP';
 
 export default function pads(state = {}, action) {
   switch (action.type) {
-    case CREATE_BUTTON:
-    case SELECT_BUTTON:
-    case DELETE_BUTTON:
+    case CREATE_CLIP:
+    case SELECT_CLIP:
+    case DELETE_CLIP:
       const pad = state.pad1;
       return { pad1: padReducer(pad, action) };
     default:
@@ -16,31 +16,31 @@ export default function pads(state = {}, action) {
 
 function padReducer(state, action) {
   switch (action.type) {
-    case CREATE_BUTTON: {
-      const { buttons } = state;
+    case CREATE_CLIP: {
+      const { clips } = state;
       const { x, y, id } = action;
 
       return {
         ...state,
-        buttons: changeValueAtPoint({
-          array2d: buttons,
+        clips: changeValueAtPoint({
+          array2d: clips,
           value: id,
           x, y
         })
       };
     }
 
-    case SELECT_BUTTON: {
+    case SELECT_CLIP: {
       return {
         ...state,
         selectedButtonId: action.selectedButtonId
       };
     }
 
-    case DELETE_BUTTON: {
-      const { buttons } = state;
+    case DELETE_CLIP: {
+      const { clips } = state;
       const { id } = action;
-      const coordinates = findIn2dArray(buttons, id);
+      const coordinates = findIn2dArray(clips, id);
 
       if (!coordinates) { return state; }
 
@@ -48,8 +48,8 @@ function padReducer(state, action) {
 
       return {
         ...state,
-        buttons: changeValueAtPoint({
-          array2d: buttons,
+        clips: changeValueAtPoint({
+          array2d: clips,
           value: null,
           x, y
         })
@@ -83,4 +83,4 @@ function changeValueAtPoint({x, y, value, array2d}){
                  .concat(array2d.slice(y + 1));
 }
 
-export const selectButton = (selectedButtonId) => ({ type: SELECT_BUTTON, selectedButtonId });
+export const selectButton = (selectedButtonId) => ({ type: SELECT_CLIP, selectedButtonId });

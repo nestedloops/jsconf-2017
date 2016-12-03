@@ -1,4 +1,4 @@
-.button {
+.clip {
   width: 40px;
   height: 40px;
   background-color: #ddd;
@@ -7,27 +7,27 @@
   cursor: pointer;
 }
 
-.button:last-child {
+.clip:last-child {
   margin-right: 0
 }
 
-.button:hover:not(.button__selected) {
+.clip:hover:not(.clip__selected) {
   background-color: #cfcfcf;
 }
 
-.button__notEmpty {
+.clip__notEmpty {
   background-color: rgba(186, 218, 84, 0.7);
 }
 
-.button:hover.button__notEmpty {
+.clip:hover.clip__notEmpty {
   background-color: rgba(186, 218, 84, 0.8)
 }
 
-.button__on {
+.clip__on {
   background-color: yellow;
 }
 
-.button__selected {
+.clip__selected {
   background-color: rgba(186, 218, 84, 0.9);
   border-color: rgba(0, 0, 0, 0.2);
 }

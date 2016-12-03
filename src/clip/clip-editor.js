@@ -1,36 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  BUTTON_TYPE_NONE,
-  BUTTON_TYPE_AUDIO_SAMPLE,
-  BUTTON_TYPES,
+  CLIP_TYPE_NONE,
+  CLIP_TYPE_AUDIO_SAMPLE,
+  CLIP_TYPES,
   AUDIO_BEHAVIOR_TYPES,
   changeButtonField,
   deleteButton
-} from '../data/buttons';
-import PlayAudioButton from './play-audio-button';
+} from '../data/clips';
+import PlayAudioButton from './play-audio-clip';
 
-import './button-editor.css';
+import './clip-editor.css';
 
 class ButtonEditor extends Component {
   shouldComponentUpdate(newProps){
-    return newProps.button !== this.props.button
+    return newProps.clip !== this.props.clip
         || newProps.fileLoader !== this.props.fileLoader;
   }
 
   render() {
-    const currentType = this.props.button.type || BUTTON_TYPE_NONE;
+    const currentType = this.props.clip.type || CLIP_TYPE_NONE;
 
     return (
-      <div className="buttonEditor">
-        <label className="buttonEditor__label">
-          <span className="buttonEditor__labelText">Type:</span>
+      <div className="clipEditor">
+        <label className="clipEditor__label">
+          <span className="clipEditor__labelText">Type:</span>
           <select
-            className="buttonEditor__buttonSelect"
+            className="clipEditor__clipSelect"
             value={currentType}
             onChange={this.changeType}
           >
-            { BUTTON_TYPES.map((type) => (
+            { CLIP_TYPES.map((type) => (
               <option key={type} value={type}>{type}</option>
             ))}
           </select>
@@ -42,8 +42,8 @@ class ButtonEditor extends Component {
   }
 
   renderForm() {
-    switch (this.props.button.type) {
-      case BUTTON_TYPE_AUDIO_SAMPLE:
+    switch (this.props.clip.type) {
+      case CLIP_TYPE_AUDIO_SAMPLE:
         return this.renderAudioForm();
       default:
         return null;
@@ -51,16 +51,16 @@ class ButtonEditor extends Component {
   }
 
   renderAudioForm() {
-    const { button, files, fileLoader } = this.props;
-    const { behavior, file, gain, loop } = button;
+    const { clip, files, fileLoader } = this.props;
+    const { behavior, file, gain, loop } = clip;
     const preloadedFile = fileLoader[file];
 
     return (
-      <form className="buttonEditor__form">
-        <label className="buttonEditor__label">
-          <span className="buttonEditor__labelText">Behavior:</span>
+      <form className="clipEditor__form">
+        <label className="clipEditor__label">
+          <span className="clipEditor__labelText">Behavior:</span>
           <select
-            className="buttonEditor__buttonSelect"
+            className="clipEditor__clipSelect"
             value={behavior}
             onChange={this.changeBehavior}
           >
@@ -69,11 +69,11 @@ class ButtonEditor extends Component {
             ))}
           </select>
         </label>
-        <label className="buttonEditor__label">
+        <label className="clipEditor__label">
           <input type="checkbox" onChange={this.changeLoop} checked={loop} /> loop
         </label>
-        <label className="buttonEditor__label">
-          <span className="buttonEditor__labelText">Gain:</span>
+        <label className="clipEditor__label">
+          <span className="clipEditor__labelText">Gain:</span>
           <input
             type="range"
             min={0}
@@ -83,8 +83,8 @@ class ButtonEditor extends Component {
             value={gain}
           />
         </label>
-        <div className="buttonEditor__label">
-          <span className="buttonEditor__labelText">Audio Sample:</span>
+        <div className="clipEditor__label">
+          <span className="clipEditor__labelText">Audio Sample:</span>
           <select
             value={file}
             onChange={this.changeFile}
@@ -99,7 +99,7 @@ class ButtonEditor extends Component {
           </select>
           { !!preloadedFile && (
             <PlayAudioButton
-              config={button}
+              config={clip}
               buffer={preloadedFile} />
           )}
         </div>
@@ -116,7 +116,7 @@ class ButtonEditor extends Component {
   }
 
   changeSchedulable = () => {
-    this.props.changeButtonField('schedulable', !this.props.button.schedulable);
+    this.props.changeButtonField('schedulable', !this.props.clip.schedulable);
   }
 
   changeLoop = (event) => {
@@ -133,7 +133,7 @@ class ButtonEditor extends Component {
 
   deleteButton = (event) => {
     event.preventDefault();
-    this.props.deleteButton(this.props.button.id);
+    this.props.deleteButton(this.props.clip.id);
   }
 
 }
@@ -145,7 +145,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   changeButtonField(field, value) {
-    return dispatch(changeButtonField(ownProps.button.id, field, value));
+    return dispatch(changeButtonField(ownProps.clip.id, field, value));
   },
 
   deleteButton(id) {
