@@ -46,7 +46,7 @@ class Midi {
     });
 
     const currentControllers = store.getState().controllers;
-    controllers.forEach((id) => {
+    controllers.forEach((id, index) => {
       if (!currentControllers[id]) {
         const controller = midi(id, {});
         controller.on('data', ([type, key, data]) => {
@@ -71,7 +71,9 @@ class Midi {
             }
           }
         });
-        const initialPad = Object.keys(store.getState().pads)[0];
+        // map controller to matching pad at index if possible
+        const padKeys = Object.keys(store.getState().pads);
+        const initialPad = index < padKeys.length ? padKeys[index] : padKeys[0];
         store.dispatch(addController(id, controller, initialPad));
       }
     });
