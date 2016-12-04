@@ -1,4 +1,4 @@
-import midi from 'web-midi';
+import midi from '../vendor/web-midi';
 
 import {
   addController,
