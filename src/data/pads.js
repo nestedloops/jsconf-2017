@@ -3,12 +3,16 @@ import { CREATE_CLIP, DELETE_CLIP } from './clips';
 const SELECT_CLIP = 'jsconf2017/pads/SELECT_CLIP';
 
 export default function pads(state = {}, action) {
+  const { padId } = action;
   switch (action.type) {
     case CREATE_CLIP:
     case SELECT_CLIP:
     case DELETE_CLIP:
-      const pad = state.pad1;
-      return { pad1: padReducer(pad, action) };
+      const pad = state[padId];
+      return {
+        ...state,
+        [padId]: padReducer(pad, action)
+      };
     default:
       return state;
   }
@@ -83,4 +87,4 @@ function changeValueAtPoint({x, y, value, array2d}){
                  .concat(array2d.slice(y + 1));
 }
 
-export const selectClip = (selectedClipId) => ({ type: SELECT_CLIP, selectedClipId });
+export const selectClip = (selectedClipId, padId) => ({ type: SELECT_CLIP, selectedClipId, padId });

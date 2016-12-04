@@ -1,0 +1,7 @@
+.pads {
+  display: flex;
+}
+
+.pads__padContainer {
+  margin-right: 30px;
+}

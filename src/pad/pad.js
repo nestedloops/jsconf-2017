@@ -40,11 +40,11 @@ class Pad extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch, { pad }) => ({
   createClip(x, y) {
     const id = uuid.v4();
-    dispatch(createClip(x, y, id));
-    dispatch(selectClip(id));
+    dispatch(createClip(x, y, id, pad.id));
+    dispatch(selectClip(id, pad.id));
   }
 });
 

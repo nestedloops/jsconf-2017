@@ -53,5 +53,5 @@ export default function clips(state = {}, action) {
 }
 
 export const changeClipField = (id, field, value) => ({ type: CHANGE_CLIP_FIELD, id, field, value });
-export const createClip = (x, y, id) => ({ type: CREATE_CLIP, x, y, id });
-export const deleteClip = (id) => ({ type: DELETE_CLIP, id });
+export const createClip = (x, y, id, padId) => ({ type: CREATE_CLIP, x, y, id, padId });
+export const deleteClip = (id, padId) => ({ type: DELETE_CLIP, id, padId });

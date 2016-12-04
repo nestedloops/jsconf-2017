@@ -13,7 +13,7 @@ class PadEditor extends Component {
   }
 
   render() {
-    const { pad, clips } = this.props;
+    const { pad, padId, clips } = this.props;
     const selectedClip = clips[pad.selectedClipId];
     const hasClipSelected = !!selectedClip;
     return (
@@ -26,7 +26,7 @@ class PadEditor extends Component {
         />
         <div className="padEditor__clipEditor">
           { hasClipSelected && (
-            <ClipEditor clip={selectedClip} />
+            <ClipEditor clip={selectedClip} padId={padId} />
           )}
         </div>
       </div>
@@ -40,16 +40,16 @@ class PadEditor extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, { padId }) => {
   return {
-    pad: state.pads.pad1,
+    pad: state.pads[padId],
     clips: state.clips
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, { padId }) => ({
   selectClip(selectedClipId) {
-    dispatch(selectClip(selectedClipId))
+    dispatch(selectClip(selectedClipId, padId))
   }
 });
 

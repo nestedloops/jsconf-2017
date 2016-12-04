@@ -36,12 +36,6 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    pad: state.pads.pad1
-  };
-};
-
 const mapDispatchToProps = (dispatch) => ({
   onDrop: () => {
     const id = uuid.v4();
@@ -49,4 +43,4 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

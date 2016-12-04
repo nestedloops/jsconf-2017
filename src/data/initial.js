@@ -24,6 +24,7 @@ export default {
   },
   pads: {
     pad1: {
+      id: 'pad1',
       clips: [
         [null,null,null,null,null,null,null,null],
         [
@@ -41,6 +42,7 @@ export default {
       selectedClipId: '2316526c-ec07-4153-a47a-d831b2aaf18e'
     },
     pad2: {
+      id: 'pad2',
       clips: [
         [null,null,null,null,null,null,null,null],
         [null,null,null,null,null,null,null,null],

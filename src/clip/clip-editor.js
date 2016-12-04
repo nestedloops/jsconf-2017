@@ -163,13 +163,13 @@ const mapStateToProps = (state) => ({
   tracks: state.tracks
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch, { clip, padId }) => ({
   changeClipField(field, value) {
-    return dispatch(changeClipField(ownProps.clip.id, field, value));
+    return dispatch(changeClipField(clip.id, field, value));
   },
 
   deleteClip(id) {
-    dispatch(deleteClip(id));
+    dispatch(deleteClip(id, padId));
   }
 })
 
