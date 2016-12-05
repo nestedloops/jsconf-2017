@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "electron-prebuilt": "1.4.10",
+    "express": "4.14.0",
+    "portfinder": "1.0.10",
     "react-scripts": "0.7.0"
   },
   "dependencies": {
@@ -23,7 +26,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "homepage": "http://jsconf-2017.surge.sh"
+    "eject": "react-scripts eject",
+    "start-electron": "electron scripts/start.js"
+  }
 }
