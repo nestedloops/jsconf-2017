@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "electron-packager": "8.3.0",
     "electron-prebuilt": "1.4.10",
     "express": "4.14.0",
     "portfinder": "1.0.10",
@@ -27,6 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "start-electron": "electron scripts/start.js"
+    "start-electron": "electron scripts/start.js",
+    "build-electron": "rm -rf ./build && yarn run build && node scripts/build-electron.js"
   }
 }

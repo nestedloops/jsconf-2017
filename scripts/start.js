@@ -11,7 +11,11 @@ let win
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 960, height: 800})
+  win = new BrowserWindow({
+    width: 960,
+    height: 800,
+    title: 'JSConf 2017'
+  });
 
   if (isProduction) {
     portfinder.getPort(function (err, port) {
