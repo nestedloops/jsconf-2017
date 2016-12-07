@@ -7,6 +7,7 @@ const outPath = path.join(__dirname, '..', 'electron-build');
 
 const buildPackageJSONPath = path.join(__dirname, '..', 'build', 'package.json');
 
+// only add the dependencies for the electron app here that are not bundled by webpack.
 fs.writeFileSync(buildPackageJSONPath, JSON.stringify({
   name: 'jsconf-2017',
   main: 'start-electron.js',
