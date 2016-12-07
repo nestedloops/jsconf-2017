@@ -9,16 +9,16 @@ const buildPackageJSONPath = path.join(__dirname, '..', 'build', 'package.json')
 
 fs.writeFileSync(buildPackageJSONPath, JSON.stringify({
   name: 'jsconf-2017',
-  main: 'start.js',
+  main: 'start-electron.js',
   dependencies: {
     'express': '4.14.0',
     'portfinder': '1.0.10'
   }
 }, null, 2));
 
-const startFilePath = path.join(__dirname, 'start.js');
+const startFilePath = path.join(__dirname, 'start-electron.js');
 const startFile = fs.readFileSync(startFilePath).toString();
-const startFileDestPath = path.join(__dirname, '..', 'build', 'start.js');
+const startFileDestPath = path.join(__dirname, '..', 'build', 'start-electron.js');
 fs.writeFileSync(startFileDestPath, startFile);
 
 require('child_process').exec('cd build && npm install', (err, a, b) => {
