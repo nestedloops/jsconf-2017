@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "dilla": "1.8.3",
+    "electron-log": "1.2.2",
     "event-emitter": "0.3.4",
     "lodash": "4.17.2",
     "react": "15.4.0",

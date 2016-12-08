@@ -1,13 +1,23 @@
-const { app, BrowserWindow } = require('electron')
-const path = require('path')
-const url = require('url')
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
+const url = require('url');
 const fs = require('fs');
 const portfinder = require('portfinder');
 const express = require('express');
-const isProduction = process.env['NODE_ENV'] === 'production';
+const log = require('electron-log');
+
+let isProduction = false;
+try {
+  require('./prod.json');
+  isProduction = true;
+  log.info('running in prod mode');
+} catch (e) {
+  log.info('running in dev mode');
+}
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+let win;
 
 function createWindow () {
   // Create the browser window.
@@ -18,16 +28,24 @@ function createWindow () {
   });
 
   if (isProduction) {
+    log.info('trying to find a port');
     portfinder.getPort(function (err, port) {
+      if (err) {
+        log.error('Could not find a port');
+        log.error(err.toString());
+      }
       const expressApp = express();
-      expressApp.use(express.static(path.join(__dirname, '..', 'build')));
+      expressApp.use(express.static(__dirname));
+      log.info('static path ' + __dirname);
       expressApp.use((_, res) => res.redirect('/'));
 
-      expressApp.listen(port, function () {
-        console.log('JSConf 2017 is running on port', port);
+      expressApp.listen(port, function (a,b) {
+
+        log.info('JSConf 2017 is running on port', port);
 
         // and load the index.html of the app.
         win.loadURL('http://localhost:' + port);
+        win.webContents.openDevTools()
       });
     });
   } else {
@@ -46,7 +64,7 @@ function createWindow () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -55,7 +73,7 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
 
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
@@ -63,4 +81,4 @@ app.on('activate', () => {
   if (win === null) {
     createWindow()
   }
-})
+});

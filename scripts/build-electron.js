@@ -12,6 +12,7 @@ fs.writeFileSync(buildPackageJSONPath, JSON.stringify({
   name: 'jsconf-2017',
   main: 'start-electron.js',
   dependencies: {
+    'electron-log': '1.2.2',
     'express': '4.14.0',
     'portfinder': '1.0.10'
   }
@@ -21,6 +22,9 @@ const startFilePath = path.join(__dirname, 'start-electron.js');
 const startFile = fs.readFileSync(startFilePath).toString();
 const startFileDestPath = path.join(__dirname, '..', 'build', 'start-electron.js');
 fs.writeFileSync(startFileDestPath, startFile);
+
+const prodEnvFilePath = path.join(__dirname, '..', 'build', 'prod.json');
+fs.writeFileSync(prodEnvFilePath, JSON.stringify({}));
 
 require('child_process').exec('cd build && npm install', (err, a, b) => {
   packager({
