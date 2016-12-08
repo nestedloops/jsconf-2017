@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron');
+const AppDirectory = require('appdirectory');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
@@ -14,6 +15,10 @@ try {
 } catch (e) {
   log.info('running in dev mode');
 }
+
+const dirs = new AppDirectory({ appName: 'jsconf-2017' });
+global.userDataDirectory = dirs.userData();
+log.info('user data dir: ' + global.userDataDirectory);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

@@ -6,6 +6,9 @@ import Loader from './lib/loader';
 import uuid from 'uuid';
 import './app.css';
 
+var remote = require('electron').remote;
+console.log(remote.getGlobal('userDataDirectory'));
+
 import { addFile } from './data/files';
 
 class App extends Component {

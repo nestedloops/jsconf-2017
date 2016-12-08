@@ -30,7 +30,7 @@ require('child_process').exec('cd build && npm install', (err, a, b) => {
   packager({
     dir: dirPath,
     arch: 'x64',
-    platform: ['darwin'/*, 'win32'*/],
+    platform: ['darwin', 'win32'],
     prune: true,
     overwrite: true,
     out: outPath
