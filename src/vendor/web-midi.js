@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Had to embed and transpile web-midi by hand because create-react-app does not
 // transpile "for val of" loops and UglifyJS would not compile it.
 // web-midi is written by the awesome Matt McKegg and can be found at: https://github.com/mmckegg/web-midi
