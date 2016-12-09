@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import audioContext from './audio/context';
 import { fileLoaded } from '../data/file-loader';
+import { getProjectPath } from './files';
+import path from 'path';
+import fs from 'fs';
+import log from 'electron-log';
 
 const audioFile = /(mp3|wav|ogg)/;
 
@@ -52,20 +56,26 @@ class Loader extends Component {
     const isAudio = audioFile.test(file.location);
 
     if (isAudio) {
-      return this.loadAudioFile(file, id);
+      this.loadAudioFile(file, id);
     }
   }
 
   loadAudioFile(file, id) {
-    return fetch(file.location)
-      .then((response) => response.arrayBuffer())
-      .then((responseBuffer) => {
+    const filePath = path.join(getProjectPath(this.props.projectId), file.location);
+    return new Promise((resolve, reject) => {
+        resolve(fs.readFileSync(filePath));
+      })
+      .then((fileBuffer) => fileBuffer.buffer.slice(fileBuffer.byteOffset, fileBuffer.byteOffset + fileBuffer.byteLength))
+      .then((arrayBuffer) => {
         return new Promise((resolve, reject) => {
-          audioContext.decodeAudioData(responseBuffer, resolve, reject);
+          audioContext.decodeAudioData(arrayBuffer, resolve, reject);
         });
       })
       .then((audioBuffer) => {
         this.props.dispatch(fileLoaded(id, audioBuffer));
+      }).catch((error) => {
+        log.error('could not load audio file: ' + filePath);
+        log.error(error.toString());
       });
   }
 

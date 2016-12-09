@@ -9,6 +9,16 @@ import scheduler from './scheduler';
 import settings from './settings';
 import tracks from './tracks';
 
-export default combineReducers({
+const appReducer = combineReducers({
   clips, controllers, fileLoader, files, pads, scheduler, settings, tracks
 });
+
+const reducer = (state, action) => {
+  if (action.type === 'init') {
+    state = action.state;
+  }
+
+  return appReducer(state, action);
+}
+
+export default reducer;

@@ -1,29 +1,31 @@
-export default {
-  settings: {
-    gain: 1,
-    bpm: 100
+{
+  "settings": {
+    "gain": 1,
+    "bpm": 100
   },
-  tracks: {
-    master: {
-      name: 'master',
-      id: 'master',
-      gain: 1,
-      filters: ['239786428374t928374628934728347']
+  "tracks": {
+    "master": {
+      "name": "master",
+      "id": "master",
+      "gain": 1,
+      "filters": [
+        "239786428374t928374628934728347"
+      ]
     },
-    secondChannel: {
-      name: 'master2',
-      id: 'secondChannel',
-      gain: 1,
-      filters: []
+    "secondChannel": {
+      "name": "master2",
+      "id": "secondChannel",
+      "gain": 1,
+      "filters": []
     }
   },
-  filters: {
-    '239786428374t928374628934728347': {
-      type: 'lowpass'
+  "filters": {
+    "239786428374t928374628934728347": {
+      "type": "lowpass"
     }
   },
-  pads: {
-    pad1: {
+  "pads": {
+    "pad1": {
       "id": "pad1",
       "clips": [
         [
@@ -109,26 +111,94 @@ export default {
       ],
       "selectedClipId": "e39f4804-4a40-42f7-bac5-eade1ba47b96"
     },
-    pad2: {
-      id: 'pad2',
-      clips: [
-        [null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null],
+    "pad2": {
+      "id": "pad2",
+      "clips": [
         [
-          'e39f4804-4a40-42f7-bac5-eade1ba47b910',
-          'e39f4804-4a40-42f7-bac5-eade1ba47b911',
-          null, null, null, null, null, null
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
         ],
-        [null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null]
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "e39f4804-4a40-42f7-bac5-eade1ba47b910",
+          "e39f4804-4a40-42f7-bac5-eade1ba47b911",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
       ],
-      selectedClipId: '2316526c-ec07-4153-a47a-d831b2aaf18e'
+      "selectedClipId": "2316526c-ec07-4153-a47a-d831b2aaf18e"
     }
   },
-  clips: {
+  "clips": {
     "2316526c-ec07-4153-a47a-d831b2aaf18e": {
       "id": "2316526c-ec07-4153-a47a-d831b2aaf18e",
       "type": "audiosample",
@@ -218,56 +288,53 @@ export default {
       "track": "master",
       "id": "e39f4804-4a40-42f7-bac5-eade1ba47b911",
       "type": "audiosample"
-    },
-  },
-  files: {
-    '2a86e9ee-b409-4e2b-91e0-bcc051ec2168': {
-      location: 'mysound.mp3',
-      name: 'mysound'
-    },
-    '36c1262c-608c-41db-a12c-7a2fad9d4c14': {
-      location: 'mysound2.mp3',
-      name: 'mysound2'
-    },
-    '2a86e9ee-b409-4e2b-91e0-bcc051ec21681': {
-      location: '1.mp3',
-      name: 'git1'
-    },
-    '2a86e9ee-b409-4e2b-91e0-bcc051ec21682': {
-      location: '2.mp3',
-      name: 'git2'
-    },
-    '2a86e9ee-b409-4e2b-91e0-bcc051ec21683': {
-      location: '3.mp3',
-      name: 'kick'
-    },
-    '2a86e9ee-b409-4e2b-91e0-bcc051ec21684': {
-      location: '4.mp3',
-      name: 'clap'
-    },
-    '2a86e9ee-b409-4e2b-91e0-bcc051ec21685': {
-      location: '5.mp3',
-      name: 'bell1'
-    },
-    '2a86e9ee-b409-4e2b-91e0-bcc051ec21686': {
-      location: '6.mp3',
-      name: 'bell2'
-    },
-    '2a86e9ee-b409-4e2b-91e0-bcc051ec21687': {
-      location: '7.mp3',
-      name: 'bell3'
-    },
-    '2a86e9ee-b409-4e2b-91e0-bcc051ec21688': {
-      location: '8.mp3',
-      name: 'bell4'
     }
   },
-  scheduler: {
-    // clipId : fileId
-    scheduled: {},
-    // clipId : audioNode
-    playing: {},
-    // clipId : audioNode
-    toStop: {}
+  "files": {
+    "2a86e9ee-b409-4e2b-91e0-bcc051ec2168": {
+      "location": "mysound.mp3",
+      "name": "mysound"
+    },
+    "36c1262c-608c-41db-a12c-7a2fad9d4c14": {
+      "location": "mysound2.mp3",
+      "name": "mysound2"
+    },
+    "2a86e9ee-b409-4e2b-91e0-bcc051ec21681": {
+      "location": "1.mp3",
+      "name": "git1"
+    },
+    "2a86e9ee-b409-4e2b-91e0-bcc051ec21682": {
+      "location": "2.mp3",
+      "name": "git2"
+    },
+    "2a86e9ee-b409-4e2b-91e0-bcc051ec21683": {
+      "location": "3.mp3",
+      "name": "kick"
+    },
+    "2a86e9ee-b409-4e2b-91e0-bcc051ec21684": {
+      "location": "4.mp3",
+      "name": "clap"
+    },
+    "2a86e9ee-b409-4e2b-91e0-bcc051ec21685": {
+      "location": "5.mp3",
+      "name": "bell1"
+    },
+    "2a86e9ee-b409-4e2b-91e0-bcc051ec21686": {
+      "location": "6.mp3",
+      "name": "bell2"
+    },
+    "2a86e9ee-b409-4e2b-91e0-bcc051ec21687": {
+      "location": "7.mp3",
+      "name": "bell3"
+    },
+    "2a86e9ee-b409-4e2b-91e0-bcc051ec21688": {
+      "location": "8.mp3",
+      "name": "bell4"
+    }
+  },
+  "scheduler": {
+    "scheduled": {},
+    "playing": {},
+    "toStop": {}
   }
-};
+}
