@@ -12,6 +12,7 @@ fs.writeFileSync(buildPackageJSONPath, JSON.stringify({
   name: 'jsconf-2017',
   main: 'start-electron.js',
   dependencies: {
+    "appdirectory": "0.1.0",
     'electron-log': '1.2.2',
     'express': '4.14.0',
     'portfinder': '1.0.10'
