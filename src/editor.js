@@ -11,7 +11,7 @@ import midi from './lib/midi';
 import scheduler from './lib/scheduler';
 import audioGraph from './lib/audio-graph';
 import store from './lib/store';
-import { readConfig } from './lib/files';
+import { readConfig, persistStorePeriodically } from './lib/files';
 
 class Editor extends Component {
   componentDidMount() {
@@ -25,6 +25,9 @@ class Editor extends Component {
     audioGraph.init(store);
     scheduler.init(store);
     midi.init(store, scheduler.handleManualSchedule);
+
+    // persist project config
+    persistStorePeriodically(project_id, store);
   }
 
   render() {
