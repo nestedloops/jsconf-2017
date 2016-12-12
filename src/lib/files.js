@@ -22,7 +22,7 @@ export function readConfig (projectId) {
 
 export function persistStorePeriodically (projectId, store) {
   store.subscribe(_.throttle(() => {
-    const filteredConfig = _.omit(store.getState(), ['scheduler']);
+    const filteredConfig = _.omit(store.getState(), ['scheduler', 'fileLoader', 'controllers']);
     saveAsProjectConfig(projectId, filteredConfig);
   }, 5000));
 }
