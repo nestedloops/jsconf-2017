@@ -5,6 +5,8 @@ import log from 'electron-log';
 import { shell } from 'electron';
 import { userProjectDirectory } from './lib/files';
 
+import './projects.css'
+
 export default class Projects extends React.Component {
   constructor(props) {
     super(props);
@@ -35,20 +37,22 @@ export default class Projects extends React.Component {
         )}
 
         { hasProjects && (
-          <ul className="projects__projectList">
+          <ul className="projects__list">
             { projects.map((projectId, index) =>
-              <li key={index} className="projects__projectListItem">
-                <Link to={`/project/${projectId}`}>{projectId}</Link>
+              <li key={index}>
+                <Link className="projects__link" to={`/project/${projectId}`}>{projectId}</Link>
               </li>
             )}
           </ul>
         )}
 
-        <button className="projects__createNewProject">New project</button>
-        <button
-          className="projects__openProjectsFolder"
-          onClick={this.openProjectsFolder}
-        >Open projects folder</button>
+        <div className="projects__actions">
+          <button className="projects__createNewProject">New project</button>
+          <button
+            className="projects__openProjectsFolder"
+            onClick={this.openProjectsFolder}
+          >Open projects folder</button>
+        </div>
       </div>
     );
   }

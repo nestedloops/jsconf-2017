@@ -1,0 +1,39 @@
+.projects {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.projects__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 50vw;
+  margin-bottom: 10px;
+}
+
+.projects__link {
+  padding: 15px;
+  background: #eee;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+  color: #333;
+}
+
+.projects__link:hover {
+  background: #ddd;
+}
+
+.projects__actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 50vw;
+}
+
+.projects__openProjectsFolder {
+  margin-left: 10px;
+}

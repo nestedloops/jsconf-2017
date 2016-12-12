@@ -1,7 +1,21 @@
 body {
   margin: 0;
   padding: 0;
-  padding-top: 5px;
   font-family: sans-serif;
   color: #333;
+}
+
+button {
+  padding: 10px;
+  background: #eee;
+  color: #333;
+  font-weight: 400;
+  border: none;
+  border-radius: 3px;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e0e0e0;
 }
