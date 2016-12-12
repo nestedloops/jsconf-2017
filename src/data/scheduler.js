@@ -4,7 +4,11 @@ const ADD_TOSTOP = 'jsconf2017/scheduler/ADD_TOSTOP';
 const AUDIO_ENDED = 'jsconf2017/scheduler/AUDIO_ENDED';
 const FLUSH_SCHEDULED = 'jsconf2017/scheduler/FLUSH_SCHEDULED';
 
-export default function scheduler(state = {}, action) {
+export default function scheduler(state, action) {
+  if (!state) {
+    state = { scheduled: {}, toStop: {}, playing: {} };
+  }
+
   const { id } = action;
 
   switch (action.type) {
