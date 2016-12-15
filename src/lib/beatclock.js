@@ -27,6 +27,10 @@ class BeatClock {
     this.events.on.apply(this.events, arguments);
   }
 
+  setBpm(bpm) {
+    this.dilla.setTempo(bpm);
+  }
+
   _onTick = (event) => {
     const split = event.position.split('.');
     const tick = parseInt(split[2], 10);

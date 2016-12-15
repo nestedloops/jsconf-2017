@@ -10,6 +10,7 @@ import {
 } from '../data/clips';
 import PlayAudioClip from './play-audio-clip';
 
+import '../styles/forms.css';
 import './clip-editor.css';
 
 class ClipEditor extends Component {
@@ -25,10 +26,9 @@ class ClipEditor extends Component {
 
     return (
       <div className="clipEditor">
-        <label className="clipEditor__label">
-          <span className="clipEditor__labelText">Type:</span>
+        <label className="editorForm__label">
+          <span className="editorForm__labelText">Type:</span>
           <select
-            className="clipEditor__clipSelect"
             value={currentType}
             onChange={this.changeType}
           >
@@ -38,8 +38,8 @@ class ClipEditor extends Component {
           </select>
         </label>
         { this.renderForm() }
-        <label className="clipEditor__label">
-          <span className="clipEditor__labelText">Track:</span>
+        <label className="editorForm__label">
+          <span className="editorForm__labelText">Track:</span>
           <select
             className="clipEditor__clipSelect"
             value={track}
@@ -71,11 +71,10 @@ class ClipEditor extends Component {
     const preloadedFile = fileLoader[file];
 
     return (
-      <form className="clipEditor__form">
-        <label className="clipEditor__label">
-          <span className="clipEditor__labelText">Behavior:</span>
+      <form className="editorForm">
+        <label className="editorForm__label">
+          <span className="editorForm__labelText">Behavior:</span>
           <select
-            className="clipEditor__clipSelect"
             value={behavior}
             onChange={this.changeBehavior}
           >
@@ -84,11 +83,11 @@ class ClipEditor extends Component {
             ))}
           </select>
         </label>
-        <label className="clipEditor__label">
+        <label className="editorForm__label">
           <input type="checkbox" onChange={this.changeLoop} checked={loop} /> loop
         </label>
-        <label className="clipEditor__label">
-          <span className="clipEditor__labelText">Gain:</span>
+        <label className="editorForm__label">
+          <span className="editorForm__labelText">Gain:</span>
           <input
             type="range"
             min={0}
@@ -98,8 +97,8 @@ class ClipEditor extends Component {
             value={gain}
           />
         </label>
-        <div className="clipEditor__label">
-          <span className="clipEditor__labelText">Audio Sample:</span>
+        <div className="editorForm__label">
+          <span className="editorForm__labelText">Audio Sample:</span>
           <select
             value={file}
             onChange={this.changeFile}

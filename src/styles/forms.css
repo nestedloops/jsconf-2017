@@ -1,0 +1,22 @@
+.editorForm {
+  display: flex;
+  flex-direction: column;
+  margin: 5px 0;
+}
+
+.editorForm__label {
+  margin: 5px 0;
+}
+
+.editorForm__labelText {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.editorForm__row {
+  display: flex;
+}
+
+.editorForm__value {
+  margin-left: 10px;
+}

@@ -20,9 +20,11 @@ export default {
   beatClock: null,
 
   init(storeObject) {
+    const { settings: { bpm }} = storeObject.getState();
     this.store = storeObject
     this.beatClock = new BeatClock();
     this.beatClock.on('bar', this.onBar.bind(this));
+    this.beatClock.setBpm(bpm);
     this.beatClock.start();
 
     this.handleManualSchedule = this.handleManualSchedule.bind(this);

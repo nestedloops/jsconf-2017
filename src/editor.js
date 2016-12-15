@@ -36,6 +36,9 @@ class Editor extends Component {
       <div className="app">
         <div className="app__container">
           <div className="app__navigation">
+            <Link to={`/project/${project_id}/settings`} activeClassName="m-active" className="app__navigationItem">
+              Settings
+            </Link>
             <Link to={`/project/${project_id}/pads`} activeClassName="m-active" className="app__navigationItem">
               Pads
             </Link>
