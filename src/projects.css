@@ -1,3 +1,7 @@
+:root {
+  --width: 50vw
+}
+
 .projects {
   display: flex;
   flex-direction: column;
@@ -10,7 +14,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  width: 50vw;
+  width: var(--width);
   margin-bottom: 10px;
 }
 
@@ -21,7 +25,7 @@
   text-align: center;
   text-decoration: none;
   transition: background-color 0.2s ease-in-out;
-  color: #333;
+  color: var(--red);
 }
 
 .projects__link:hover {
@@ -31,7 +35,7 @@
 .projects__actions {
   display: flex;
   justify-content: flex-end;
-  width: 50vw;
+  width: var(--width);
 }
 
 .projects__openProjectsFolder {
