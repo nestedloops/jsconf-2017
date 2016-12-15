@@ -60,6 +60,7 @@
     "electron-log": "1.2.2",
     "event-emitter": "0.3.4",
     "lodash": "4.17.2",
+    "normalize.css": "5.0.0",
     "react": "15.4.0",
     "react-dom": "15.4.0",
     "react-redux": "4.4.6",
