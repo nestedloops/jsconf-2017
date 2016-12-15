@@ -28,6 +28,15 @@ export default {
     this.beatClock.start();
 
     this.handleManualSchedule = this.handleManualSchedule.bind(this);
+
+    this.previouseBpm = bpm;
+    this.store.subscribe(() => {
+      const newBpm = storeObject.getState().settings.bpm;
+      if (newBpm !== this.previouseBpm) {
+        this.beatClock.setBpm(newBpm);
+        this.previouseBpm = newBpm;
+      }
+    });
   },
 
   onBar() {
