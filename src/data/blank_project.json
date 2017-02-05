@@ -1,0 +1,114 @@
+{
+  "settings": {
+    "gain": 1,
+    "bpm": 100
+  },
+  "tracks": {
+    "master": {
+      "name": "master",
+      "id": "master",
+      "gain": 1,
+      "filters": [
+      ]
+    }
+  },
+  "filters": {
+  },
+  "pads": {
+    "pad1": {
+      "id": "pad1",
+      "clips": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "selectedClipId": null
+    }
+  },
+  "clips": {
+  },
+  "files": {
+  },
+  "scheduler": {
+    "scheduled": {},
+    "playing": {},
+    "toStop": {}
+  }
+}

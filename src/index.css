@@ -16,8 +16,27 @@ button {
   border-radius: 3px;
   transition: all 0.1s ease-in-out;
   cursor: pointer;
+  outline: 0;
 }
 
 button:hover {
   background-color: #e0e0e0;
+}
+
+button:disabled,
+button:disabled:hover {
+  cursor: not-allowed;
+  background-color: #fafafa;
+  color: #bbb;
+}
+
+input {
+  outline: 0;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+  line-height: 26px;
+}
+
+input:focus {
+  border-bottom-color: #ccc;
 }

@@ -1,9 +1,11 @@
 import React from 'react';
 import fs from 'fs';
+import path from 'path';
 import { Link } from 'react-router';
 import log from 'electron-log';
 import { shell } from 'electron';
 import { userProjectDirectory } from './lib/files';
+import blankProject from './data/blank_project.json';
 
 import './projects.css'
 
@@ -12,7 +14,8 @@ export default class Projects extends React.Component {
     super(props);
 
     this.state = {
-      projects: null
+      projects: null,
+      showNewForm: false
     };
   }
 
@@ -21,7 +24,7 @@ export default class Projects extends React.Component {
   }
 
   render() {
-    const { projects } = this.state;
+    const { projects, showNewForm } = this.state;
     const notReady = !projects;
     const noProjects = !notReady && projects.length === 0;
     const hasProjects = !!projects && projects.length > 0;
@@ -39,7 +42,7 @@ export default class Projects extends React.Component {
         { hasProjects && (
           <ul className="projects__list">
             { projects.map((projectId, index) =>
-              <li key={index}>
+              <li className="projects__listItem" key={index}>
                 <Link className="projects__link" to={`/project/${projectId}`}>{projectId}</Link>
               </li>
             )}
@@ -47,14 +50,56 @@ export default class Projects extends React.Component {
         )}
 
         <div className="projects__actions">
-          <button className="projects__createNewProject">New project</button>
+          { showNewForm && (
+            <form className="projects__newForm" onSubmit={this.createNewProject}>
+              <input
+                autoFocus
+                className="projects__newFormInput"
+                ref={(input) => this.input = input}
+                type="text"
+                placeholder="Enter project name"
+              />
+            </form>
+          )}
+          <button
+            className="projects__createNewProject"
+            onClick={this.showNewProjectForm}
+            disabled={showNewForm}
+          >
+            New project
+          </button>
           <button
             className="projects__openProjectsFolder"
             onClick={this.openProjectsFolder}
-          >Open projects folder</button>
+          >
+            Open projects folder
+          </button>
         </div>
       </div>
     );
+  }
+
+  showNewProjectForm = () => {
+    this.setState({
+      showNewForm: true
+    });
+  }
+
+  createNewProject = (event) => {
+    event.preventDefault();
+    const projectName = this.input.value;
+    const projectPath = path.join(userProjectDirectory, projectName);
+    const projectExists = fs.existsSync(projectPath);
+
+    if (projectName && !projectExists) {
+      const projectFilePath = path.join(projectPath, 'project.json');
+      fs.mkdirSync(projectPath);
+      fs.writeFileSync(projectFilePath, JSON.stringify(blankProject, null, 2));
+      this.syncDirectories();
+      this.setState({
+        showNewForm: false
+      });
+    }
   }
 
   syncDirectories() {

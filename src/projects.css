@@ -18,6 +18,10 @@
   margin-bottom: 10px;
 }
 
+.projects__listItem {
+  margin-bottom: 5px;
+}
+
 .projects__link {
   padding: 15px;
   background: #eee;
@@ -36,6 +40,11 @@
   display: flex;
   justify-content: flex-end;
   width: var(--width);
+}
+
+.projects__newForm {
+  align-self: center;
+  flex: 1;
 }
 
 .projects__openProjectsFolder {
