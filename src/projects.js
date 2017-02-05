@@ -19,7 +19,7 @@ export default class Projects extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.syncDirectories();
   }
 
