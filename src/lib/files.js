@@ -62,3 +62,27 @@ function readFile (filePath) {
     });
   });
 }
+
+export function importProjectFromZip (zipPath) {
+  const projectName = zipPath.split(path.sep).pop().replace('.zip', '');
+  let projectPath = getProjectPath(projectName);
+  let counter = 1;
+
+  // make sure not to overwrite a previous project with the same name
+  while (fs.existsSync(projectPath)) {
+    projectPath = `${getProjectPath(projectName)}-${counter++}`;
+  }
+
+  fs.mkdirSync(projectPath);
+
+  const zip = new JSZip();
+  const fileContent = fs.readFileSync(zipPath);
+  return zip.loadAsync(fileContent)
+            .then(() =>
+              zip.forEach((filePath, file) => {
+                file
+                  .nodeStream()
+                  .pipe(fs.createWriteStream(path.join(projectPath, filePath)))
+              })
+            );
+}

@@ -1,5 +1,5 @@
 :root {
-  --width: 50vw
+  --width: 70vw
 }
 
 .projects {
@@ -47,6 +47,6 @@
   flex: 1;
 }
 
-.projects__openProjectsFolder {
+.projects__button {
   margin-left: 10px;
 }

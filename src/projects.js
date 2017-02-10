@@ -4,8 +4,9 @@ import path from 'path';
 import { Link } from 'react-router';
 import log from 'electron-log';
 import { shell } from 'electron';
-import { userProjectDirectory } from './lib/files';
+import { userProjectDirectory, importProjectFromZip } from './lib/files';
 import blankProject from './data/blank_project.json';
+const { dialog } = require('electron').remote;
 
 import './projects.css'
 
@@ -61,15 +62,21 @@ export default class Projects extends React.Component {
               />
             </form>
           )}
+
           <button
-            className="projects__createNewProject"
             onClick={this.showNewProjectForm}
             disabled={showNewForm}
           >
             New project
           </button>
           <button
-            className="projects__openProjectsFolder"
+            className="projects__button"
+            onClick={this.importProject}
+          >
+            Import project
+          </button>
+          <button
+            className="projects__button"
             onClick={this.openProjectsFolder}
           >
             Open projects folder
@@ -99,6 +106,21 @@ export default class Projects extends React.Component {
       this.setState({
         showNewForm: false
       });
+    }
+  }
+
+  importProject = (event) => {
+    event.preventDefault();
+    const files = dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [
+        { name: 'Zip files', extensions: ['zip'] }
+      ]
+    });
+    if (files) {
+      const file = files.pop();
+      importProjectFromZip(file)
+        .then(() => this.syncDirectories());
     }
   }
 
