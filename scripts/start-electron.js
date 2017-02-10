@@ -1,8 +1,5 @@
 const { app, BrowserWindow } = require('electron');
 const AppDirectory = require('appdirectory');
-const path = require('path');
-const url = require('url');
-const fs = require('fs');
 const portfinder = require('portfinder');
 const express = require('express');
 const log = require('electron-log');
@@ -50,7 +47,6 @@ function createWindow () {
 
         // and load the index.html of the app.
         win.loadURL('http://localhost:' + port);
-        win.webContents.openDevTools()
       });
     });
   } else {
