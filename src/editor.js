@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { remote } from 'electron';
 import { Link } from 'react-router';
 import { connect } from 'react-redux'
 import DragAndDropReveicer from './files/drag-and-drop-receiver';
@@ -13,8 +12,6 @@ import scheduler from './lib/scheduler';
 import audioGraph from './lib/audio-graph';
 import store from './lib/store';
 import { readConfig, persistStorePeriodically } from './lib/files';
-
-const { Menu, MenuItem } = remote;
 
 class Editor extends Component {
   componentDidMount() {
@@ -31,9 +28,6 @@ class Editor extends Component {
 
     // persist project config
     persistStorePeriodically(project_id, store);
-
-    // set up the app's menu
-    setupMenu();
   }
 
   render() {
@@ -63,22 +57,6 @@ class Editor extends Component {
         <DragAndDropReveicer onDrop={onDrop} />
       </div>
     );
-  }
-}
-
-function setupMenu() {
-  const appMenu = Menu.getApplicationMenu();
-
-  const projectMenu = appMenu.items.filter((menu) => menu.label === 'Project').pop();
-  if (!projectMenu) {
-    const menu = new MenuItem({
-      label: 'Project',
-      submenu: [
-        { label: 'Export project', click() { console.log('export...'); } }
-      ]
-    });
-    appMenu.insert(1, menu);
-    Menu.setApplicationMenu(appMenu);
   }
 }
 
