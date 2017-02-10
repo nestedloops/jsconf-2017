@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux'
 import { changeSetting } from '../data/settings';
+import { saveProjectAsZip } from '../lib/files';
 
 import '../styles/forms.css';
 import './settings.css';
@@ -20,12 +21,21 @@ class Settings extends React.Component {
             <input type="range" min={20} max={200} step={1} value={settings.bpm} onChange={this.onBpmChanged} />
             <span className="editorForm__value">{ settings.bpm }</span>
           </span>
+          <button onClick={this.exportProject}>
+            Export Project
+          </button>
         </label>
       </div>
     );
   }
 
   onBpmChanged = (event) => this.props.changeSetting('bpm', parseInt(event.target.value, 10));
+
+  exportProject = (event) => {
+    event.preventDefault();
+    const { params: { project_id } } = this.props;
+    saveProjectAsZip(project_id);
+  };
 }
 
 

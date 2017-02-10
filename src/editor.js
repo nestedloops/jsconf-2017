@@ -18,7 +18,7 @@ const { Menu, MenuItem } = remote;
 
 class Editor extends Component {
   componentDidMount() {
-    const { params: {project_id } } = this.props;
+    const { params: { project_id } } = this.props;
     const config = readConfig(project_id);
 
     // initialize the editor
@@ -42,9 +42,6 @@ class Editor extends Component {
       <div className="app">
         <div className="app__container">
           <div className="app__navigation">
-            <Link to={`/project/${project_id}/settings`} activeClassName="m-active" className="app__navigationItem">
-              Settings
-            </Link>
             <Link to={`/project/${project_id}/pads`} activeClassName="m-active" className="app__navigationItem">
               Pads
             </Link>
@@ -53,6 +50,9 @@ class Editor extends Component {
             </Link>
             <Link to={`/project/${project_id}/files`} activeClassName="m-active" className="app__navigationItem">
               Files
+            </Link>
+            <Link to={`/project/${project_id}/settings`} activeClassName="m-active" className="app__navigationItem">
+              Settings
             </Link>
           </div>
           <div className="app__content">

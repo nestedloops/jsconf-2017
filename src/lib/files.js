@@ -2,6 +2,8 @@ import { remote } from 'electron';
 import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 export const userDataDirectory = remote.getGlobal('userDataDirectory');
 
@@ -31,4 +33,32 @@ export function saveAsProjectConfig (projectId, projectConfig) {
   const configPath = getConfigPath(projectId);
   const configString = JSON.stringify(projectConfig, null, 2);
   fs.writeFileSync(configPath, configString);
+}
+
+export function saveProjectAsZip (projectId) {
+  const projectPath = getProjectPath(projectId);
+  const files = fs.readdirSync(projectPath);
+  const zip = new JSZip();
+
+  const readFileOperations = files.map((file) =>
+    readFile(path.join(projectPath, file))
+      .then((data) => zip.file(file, data))
+  );
+
+  Promise
+    .all(readFileOperations)
+    .then(() => zip.generateAsync({ type: 'blob'}))
+    .then((blob) => saveAs(blob, `${projectId}.zip`));
+}
+
+function readFile (filePath) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, function(err, data){
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
 }
