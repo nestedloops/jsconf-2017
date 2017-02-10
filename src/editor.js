@@ -46,7 +46,7 @@ class Editor extends Component {
               Files
             </Link>
             <Link to={`/project/${project_id}/settings`} activeClassName="m-active" className="app__navigationItem">
-              Settings
+              Project
             </Link>
           </div>
           <div className="app__content">
