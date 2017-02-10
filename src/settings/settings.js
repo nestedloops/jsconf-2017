@@ -21,10 +21,15 @@ class Settings extends React.Component {
             <input type="range" min={20} max={200} step={1} value={settings.bpm} onChange={this.onBpmChanged} />
             <span className="editorForm__value">{ settings.bpm }</span>
           </span>
-          <button onClick={this.exportProject}>
-            Export Project
-          </button>
         </label>
+
+        <button onClick={this.exportProject} className="settings__button">
+          Export Project
+        </button>
+
+        <button onClick={this.closeProject} className="settings__button">
+          Close Project
+        </button>
       </div>
     );
   }
@@ -36,6 +41,10 @@ class Settings extends React.Component {
     const { params: { project_id } } = this.props;
     saveProjectAsZip(project_id);
   };
+
+  closeProject = () => {
+    location.href = '/'
+  }
 }
 
 
