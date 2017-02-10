@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { connect } from 'react-redux'
 import { changeSetting } from '../data/settings';
 import { saveProjectAsZip } from '../lib/files';
-
+import { remote } from 'electron';
+const { dialog } = require('electron').remote;
 import '../styles/forms.css';
 import './settings.css';
 
@@ -43,7 +44,15 @@ class Settings extends React.Component {
   };
 
   closeProject = () => {
-    location.href = '/'
+    const result = dialog.showMessageBox({
+      message: 'Are you shure you want to close the project?',
+      title: 'Closing project',
+      buttons: ['No', 'Yes']
+    });
+
+    if (result === 1) {
+      location.href = '/'
+    }
   }
 }
 
