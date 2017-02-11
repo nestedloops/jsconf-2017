@@ -78,11 +78,18 @@ export function importProjectFromZip (zipPath) {
   const zip = new JSZip();
   const fileContent = fs.readFileSync(zipPath);
   return zip.loadAsync(fileContent)
-            .then(() =>
+            .then(() => {
+              const promises = [];
               zip.forEach((filePath, file) => {
-                file
-                  .nodeStream()
-                  .pipe(fs.createWriteStream(path.join(projectPath, filePath)))
-              })
-            );
+                promises.push(
+                  new Promise((resolve) => {
+                    file
+                      .nodeStream()
+                      .pipe(fs.createWriteStream(path.join(projectPath, filePath)))
+                      .on('finish', resolve);
+                  })
+                );
+              });
+              return Promise.all(promises);
+            });
 }
