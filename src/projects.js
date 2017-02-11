@@ -4,6 +4,7 @@ import path from 'path';
 import { Link } from 'react-router';
 import log from 'electron-log';
 import { shell } from 'electron';
+import junk from 'junk';
 import { userProjectDirectory, importProjectFromZip } from './lib/files';
 import blankProject from './data/blank_project.json';
 const { dialog } = require('electron').remote;
@@ -130,7 +131,7 @@ export default class Projects extends React.Component {
         this.createProjectsDirectory();
         this.setState({ projects: [] });
       } else {
-        this.setState({ projects: dirs })
+        this.setState({ projects: dirs.filter(junk.not) })
       }
     });
   }
