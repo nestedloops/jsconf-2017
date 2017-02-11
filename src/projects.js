@@ -17,6 +17,7 @@ export default class Projects extends React.Component {
 
     this.state = {
       projects: null,
+      importing: false,
       showNewForm: false
     };
   }
@@ -26,10 +27,11 @@ export default class Projects extends React.Component {
   }
 
   render() {
-    const { projects, showNewForm } = this.state;
+    const { projects, showNewForm, importing } = this.state;
     const notReady = !projects;
     const noProjects = !notReady && projects.length === 0;
     const hasProjects = !!projects && projects.length > 0;
+    const importButtonLabel = importing ? 'Importing...' : 'Import project';
 
     return (
       <div className="projects">
@@ -73,8 +75,9 @@ export default class Projects extends React.Component {
           <button
             className="projects__button"
             onClick={this.importProject}
+            disabled={importing}
           >
-            Import project
+            { importButtonLabel }
           </button>
           <button
             className="projects__button"
@@ -120,7 +123,9 @@ export default class Projects extends React.Component {
     });
     if (files) {
       const file = files.pop();
+      this.setState({ importing: true });
       importProjectFromZip(file)
+        .then(() => this.setState({ importing: false }))
         .then(() => this.syncDirectories());
     }
   }
