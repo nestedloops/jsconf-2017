@@ -1,7 +1,13 @@
 import { CREATE_CLIP, DELETE_CLIP } from './clips';
 
+/**
+ * -------------------- ACTION TYPES ----------------------------
+ */
 const SELECT_CLIP = 'jsconf2017/pads/SELECT_CLIP';
 
+/**
+ * -------------------- REDUCER ----------------------------
+ */
 export default function pads(state = {}, action) {
   const { padId } = action;
   switch (action.type) {
@@ -64,6 +70,14 @@ function padReducer(state, action) {
   }
 }
 
+/**
+ * -------------------- ACTION CREATORS ----------------------------
+ */
+export const selectClip = (selectedClipId, padId) => ({ type: SELECT_CLIP, selectedClipId, padId });
+
+/**
+ * -------------------- HELPERS ----------------------------
+ */
 function findIn2dArray(array2d, value) {
   for (var y = 0; y < 8; y++) {
     for (var x = 0; x < array2d.length; x++) {
@@ -86,5 +100,3 @@ function changeValueAtPoint({x, y, value, array2d}){
                  .concat([newRow])
                  .concat(array2d.slice(y + 1));
 }
-
-export const selectClip = (selectedClipId, padId) => ({ type: SELECT_CLIP, selectedClipId, padId });

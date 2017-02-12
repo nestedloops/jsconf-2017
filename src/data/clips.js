@@ -1,3 +1,6 @@
+/**
+ * -------------------- ACTION TYPES ----------------------------
+ */
 const CHANGE_CLIP_FIELD = 'jsconf2017/clips/CHANGE_CLIP_FIELD';
 export const CREATE_CLIP = 'jsconf2017/clips/CREATE_CLIP';
 export const DELETE_CLIP = 'jsconf2017/clips/DELETE_CLIP';
@@ -18,6 +21,9 @@ const BASE_AUDIO_SAMPLE = {
   track: 'master'
 };
 
+/**
+ * -------------------- REDUCER ----------------------------
+ */
 export default function clips(state = {}, action) {
   const id = action.id;
 
@@ -52,6 +58,9 @@ export default function clips(state = {}, action) {
   }
 }
 
+/**
+ * -------------------- ACTION CREATORS ----------------------------
+ */
 export const changeClipField = (id, field, value) => ({ type: CHANGE_CLIP_FIELD, id, field, value });
 export const createClip = (x, y, id, padId) => ({ type: CREATE_CLIP, x, y, id, padId });
 export const deleteClip = (id, padId) => ({ type: DELETE_CLIP, id, padId });

@@ -1,7 +1,13 @@
+/**
+ * -------------------- ACTION TYPES ----------------------------
+ */
 const ADD_CONTROLLER = 'jsconf2017/controllers/ADD_CONTROLLER';
 const MAP_CONTROLLER_TO_PAD = 'jsconf2017/controllers/MAP_CONTROLLER_TO_PAD';
 const REMOVE_CONTROLLER = 'jsconf2017/controllers/REMOVE_CONTROLLER';
 
+/**
+ * -------------------- REDUCER ----------------------------
+ */
 export default function controllers(state = {}, action) {
   const { id, pad } = action;
   switch (action.type) {
@@ -31,6 +37,9 @@ export default function controllers(state = {}, action) {
   }
 }
 
+/**
+ * -------------------- ACTION CREATORS ----------------------------
+ */
 export const addController = (id, controller, pad) => ({ type: ADD_CONTROLLER, id, controller, pad });
 export const mapControllerToPad = (id, pad) => ({ type: MAP_CONTROLLER_TO_PAD, id, pad });
 export const removeController = (id) => ({ type: REMOVE_CONTROLLER, id });

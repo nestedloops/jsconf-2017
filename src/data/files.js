@@ -1,5 +1,11 @@
+/**
+ * -------------------- ACTION TYPES ----------------------------
+ */
 export const ADD_FILE = 'jsconf2017/files/ADD_FILE';
 
+/**
+ * -------------------- REDUCER ----------------------------
+ */
 export default function(state = {}, action) {
   const { id, file } = action;
   switch (action.type) {
@@ -13,4 +19,7 @@ export default function(state = {}, action) {
   }
 }
 
+/**
+ * -------------------- ACTION CREATORS ----------------------------
+ */
 export const addFile = (id, file) => ({ type: ADD_FILE, id, file })

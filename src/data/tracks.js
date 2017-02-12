@@ -1,11 +1,17 @@
 import uuid from 'uuid';
 
+/**
+ * -------------------- ACTION TYPES ----------------------------
+ */
 const CREATE_TRACK = 'jsconf2017/tracks/CREATE_TRACK';
 const CHANGE_TRACK_NAME = 'jsconf2017/tracks/CHANGE_TRACK_NAME';
 const CHANGE_TRACK_GAIN = 'jsconf2017/tracks/CHANGE_TRACK_GAIN';
 const ADD_FILTER = 'jsconf2017/tracks/ADD_FILTER';
 const REMOVE_TRACK = 'jsconf2017/tracks/REMOVE_TRACK';
 
+/**
+ * -------------------- REDUCER ----------------------------
+ */
 export default function tracks(state = {}, action) {
   const { id } = action;
   const track = state[id];
@@ -56,6 +62,9 @@ export default function tracks(state = {}, action) {
   }
 }
 
+/**
+ * -------------------- ACTION CREATORS ----------------------------
+ */
 export const createTrack = () => ({ type: CREATE_TRACK });
 export const changeTrackName = (id, name) => ({ type: CHANGE_TRACK_NAME, id, name });
 export const changeTrackGain = (id, gain) => ({ type: CHANGE_TRACK_GAIN, id, gain });

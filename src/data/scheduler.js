@@ -1,9 +1,15 @@
+/**
+ * -------------------- ACTION TYPES ----------------------------
+ */
 const ADD_SCHEDULED = 'jsconf2017/scheduler/ADD_SCHEDULED';
 const ADD_PLAYING = 'jsconf2017/scheduler/ADD_PLAYING';
 const ADD_TOSTOP = 'jsconf2017/scheduler/ADD_TOSTOP';
 const AUDIO_ENDED = 'jsconf2017/scheduler/AUDIO_ENDED';
 const FLUSH_SCHEDULED = 'jsconf2017/scheduler/FLUSH_SCHEDULED';
 
+/**
+ * -------------------- REDUCER ----------------------------
+ */
 export default function scheduler(state, action) {
   if (!state) {
     state = { scheduled: {}, toStop: {}, playing: {} };
@@ -57,6 +63,9 @@ export default function scheduler(state, action) {
   }
 }
 
+/**
+ * -------------------- ACTION CREATORS ----------------------------
+ */
 export const addPlaying = (id, audioNode) => ({ type: ADD_PLAYING, id, audioNode});
 export const addScheduled = (id) => ({ type: ADD_SCHEDULED, id });
 export const audioEnded = (id) => ({ type: AUDIO_ENDED, id });
