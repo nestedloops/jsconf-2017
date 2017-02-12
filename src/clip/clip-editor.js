@@ -9,6 +9,7 @@ import {
   deleteClip
 } from '../data/clips';
 import PlayAudioClip from './play-audio-clip';
+import { getAudioFiles, getVideoFiles } from '../data/files';
 
 import '../styles/forms.css';
 import './clip-editor.css';
@@ -61,12 +62,12 @@ class ClipEditor extends Component {
       case CLIP_TYPE_AUDIO_SAMPLE:
         return this.renderAudioForm();
       default:
-        return null;
+        return this.renderVideoForm();
     }
   }
 
   renderAudioForm() {
-    const { clip, files, fileLoader } = this.props;
+    const { clip, audioFiles, fileLoader } = this.props;
     const { behavior, file, gain, loop } = clip;
     const preloadedFile = fileLoader[file];
 
@@ -103,11 +104,11 @@ class ClipEditor extends Component {
             value={file}
             onChange={this.changeFile}
           >
-            { Object.keys(files).map((fileId) =>
+            { Object.keys(audioFiles).map((fileId) =>
               <option
                 key={fileId}
                 value={fileId}
-              >{files[fileId].name}
+              >{audioFiles[fileId].name}
               </option>
             )}
           </select>
@@ -116,6 +117,45 @@ class ClipEditor extends Component {
               config={clip}
               buffer={preloadedFile} />
           )}
+        </div>
+      </form>
+    );
+  }
+
+  renderVideoForm() {
+    const { clip, videoFiles } = this.props;
+    const { file, gain, exclusive } = clip;
+
+    return (
+      <form className="editorForm">
+        <label className="editorForm__label">
+          <input type="checkbox" onChange={this.changeExclusive} checked={exclusive} /> exclusive
+        </label>
+        <label className="editorForm__label">
+          <span className="editorForm__labelText">Gain:</span>
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.01}
+            onChange={this.changeGain}
+            value={gain}
+          />
+        </label>
+        <div className="editorForm__label">
+          <span className="editorForm__labelText">Video File:</span>
+          <select
+            value={file}
+            onChange={this.changeFile}
+          >
+            { Object.keys(videoFiles).map((fileId) =>
+              <option
+                key={fileId}
+                value={fileId}
+              >{videoFiles[fileId].name}
+              </option>
+            )}
+          </select>
         </div>
       </form>
     );
@@ -157,9 +197,10 @@ class ClipEditor extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  files: state.files,
   fileLoader: state.fileLoader,
-  tracks: state.tracks
+  tracks: state.tracks,
+  audioFiles: getAudioFiles(state),
+  videoFiles: getVideoFiles(state)
 });
 
 const mapDispatchToProps = (dispatch, { clip, padId }) => ({
