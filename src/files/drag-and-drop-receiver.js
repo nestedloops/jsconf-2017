@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { isAudio } from '../lib/regular-expressions';
+import { isAudio, isVideo } from '../lib/regular-expressions';
 
 export default class DragAndDropReveicer extends Component {
   componentDidMount() {
@@ -42,12 +42,10 @@ export default class DragAndDropReveicer extends Component {
     const { dataTransfer } = event;
     if (dataTransfer) {
       const { files } = dataTransfer;
-      var containsSupportedFile = false;
 
       for (var i = 0; i < files.length; i++) {
         const file = files[i];
-        containsSupportedFile = isAudio.test(file.type);
-        if (containsSupportedFile) {
+        if (isAudio.test(file.type) || isVideo.test(file.type)) {
           this.props.onDrop(file.path);
         }
       }
