@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import audioContext from './audio/context';
 import { fileLoaded } from '../data/file-loader';
 import { getProjectPath } from './files';
+import { isAudio, isVideo } from './regular-expressions'
 import path from 'path';
 import fs from 'fs';
 import log from 'electron-log';
-
-const audioFile = /(mp3|wav|ogg)/;
-const videoFile = /(mp4)/;
 
 class Loader extends Component {
   shouldComponentUpdate(props) {
@@ -54,9 +52,9 @@ class Loader extends Component {
   }
 
   loadFile(file, id) {
-    if (audioFile.test(file.location)) {
+    if (isAudio.test(file.location)) {
       this.loadAudioFile(file, id);
-    } else if (videoFile.test(file.location)) {
+    } else if (isVideo.test(file.location)) {
       this.loadVideoFile(file, id);
     }
   }
