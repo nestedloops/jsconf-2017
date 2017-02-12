@@ -93,3 +93,14 @@ export function importProjectFromZip (zipPath) {
               return Promise.all(promises);
             });
 }
+
+export function copyFileToProject (filePath, newFileId, projectId) {
+  return readFile(filePath)
+           .then((fileData) => new Promise((resolve, reject) => {
+             const fileName = filePath.split(path.sep).pop();
+             const newFileName = `${newFileId}-${fileName}`;
+             const newFilePath = path.join(getProjectPath(projectId), newFileName);
+             fs.writeFileSync(newFilePath, fileData);
+             resolve({name: fileName, location: newFileName});
+           }))
+}

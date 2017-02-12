@@ -7,6 +7,7 @@ import uuid from 'uuid';
 import './editor.css';
 
 import { addFile } from './data/files';
+import { copyFileToProject } from './lib/files';
 import midi from './lib/midi';
 import scheduler from './lib/scheduler';
 import audioGraph from './lib/audio-graph';
@@ -60,10 +61,12 @@ class Editor extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onDrop: () => {
+const mapDispatchToProps = (dispatch, props) => ({
+  onDrop: (filePath) => {
     const id = uuid.v4();
-    dispatch(addFile(id, { name: 'dropped file', location: 'mysound.mp3' }));
+    const { params: { project_id } } = props;
+    copyFileToProject(filePath, id, project_id)
+      .then((file) => dispatch(addFile(id, file)));
   },
 
   initEditor: (config) => {
