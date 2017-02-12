@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux'
+import LiveMode from './live-mode';
 import DragAndDropReveicer from './files/drag-and-drop-receiver';
 import Loader from './lib/loader';
 import uuid from 'uuid';
@@ -15,6 +16,12 @@ import store from './lib/store';
 import { readConfig, persistStorePeriodically } from './lib/files';
 
 class Editor extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { showLiveMode: false };
+  }
+
   componentDidMount() {
     const { params: { project_id } } = this.props;
     const config = readConfig(project_id);
@@ -29,12 +36,26 @@ class Editor extends Component {
 
     // persist project config
     persistStorePeriodically(project_id, store);
+
+    document.addEventListener('keydown', (event) => {
+      // switch to LIVE mode when pressing TAB
+      if (event.keyCode === 9) {
+        event.preventDefault();
+        if (this.state.showLiveMode === true) {
+          this.setState({ showLiveMode: false })
+        } else {
+          this.setState({ showLiveMode: true })
+        }
+      }
+    })
   }
 
   render() {
     const { children, onDrop, params: { project_id } } = this.props;
+    const { showLiveMode } = this.state;
     return (
       <div className="app">
+        <LiveMode isVisible={showLiveMode} />
         <div className="app__container">
           <div className="app__navigation">
             <Link to={`/project/${project_id}/pads`} activeClassName="m-active" className="app__navigationItem">
