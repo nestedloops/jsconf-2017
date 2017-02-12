@@ -8,6 +8,7 @@ import fs from 'fs';
 import log from 'electron-log';
 
 const audioFile = /(mp3|wav|ogg)/;
+const videoFile = /(mp4)/;
 
 class Loader extends Component {
   shouldComponentUpdate(props) {
@@ -53,10 +54,10 @@ class Loader extends Component {
   }
 
   loadFile(file, id) {
-    const isAudio = audioFile.test(file.location);
-
-    if (isAudio) {
+    if (audioFile.test(file.location)) {
       this.loadAudioFile(file, id);
+    } else if (videoFile.test(file.location)) {
+      this.loadVideoFile(file, id);
     }
   }
 
@@ -77,6 +78,40 @@ class Loader extends Component {
         log.error('could not load audio file: ' + filePath);
         log.error(error.toString());
       });
+  }
+
+  loadVideoFile(file, id) {
+    const filePath = path.join(getProjectPath(this.props.projectId), file.location);
+
+    return new Promise((resolve, reject) => {
+      const v = document.createElement('video');
+      v.preload = 'auto';
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', filePath, true);
+      xhr.responseType = 'arraybuffer';
+      xhr.onload = (event) => {
+        const blob = new Blob([event.target.response], {type: 'video/mp4'});
+        v.src = URL.createObjectURL(blob);
+        this.props.dispatch(fileLoaded(id, blob));
+        resolve();
+      };
+
+      xhr.onprogress = function(event){
+        if(event.lengthComputable) {
+          const percentage = (event.loaded / event.total) * 100;
+          if (percentage >= 100) {
+            log.info(file.location, percentage, '%');
+          }
+        }
+      };
+
+      xhr.onerror = function(err) {
+        log.error('error logging ' + filePath, err);
+      }
+
+      xhr.send();
+    })
   }
 
 }
