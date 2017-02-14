@@ -50,12 +50,14 @@ class Editor extends Component {
     })
   }
 
+  addVideoContainer = (container) => { this.videoContainer = container };
+
   render() {
     const { children, onDrop, params: { project_id } } = this.props;
     const { showLiveMode } = this.state;
     return (
       <div className="app">
-        <LiveMode isVisible={showLiveMode} />
+        <LiveMode containerReady={this.addVideoContainer} isVisible={showLiveMode} />
         <div className="app__container">
           <div className="app__navigation">
             <Link to={`/project/${project_id}/pads`} activeClassName="m-active" className="app__navigationItem">
