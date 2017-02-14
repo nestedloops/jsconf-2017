@@ -5,7 +5,7 @@ import audioGraph from './audio-graph';
 import {
   addPlaying,
   addScheduled,
-  audioEnded,
+  mediaEnded,
   flushScheduled,
   scheduleStop
 } from '../data/scheduler';
@@ -121,6 +121,7 @@ export default {
     const audioNode = playing[clipId];
     saveAudioStop(audioNode);
     this.store.dispatch(audioEnded(clipId));
+    this.store.dispatch(mediaEnded(clipId));
   }
 };
 

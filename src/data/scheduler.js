@@ -4,7 +4,7 @@
 const ADD_SCHEDULED = 'jsconf2017/scheduler/ADD_SCHEDULED';
 const ADD_PLAYING = 'jsconf2017/scheduler/ADD_PLAYING';
 const ADD_TOSTOP = 'jsconf2017/scheduler/ADD_TOSTOP';
-const AUDIO_ENDED = 'jsconf2017/scheduler/AUDIO_ENDED';
+const MEDIA_ENDED = 'jsconf2017/scheduler/MEDIA_ENDED';
 const FLUSH_SCHEDULED = 'jsconf2017/scheduler/FLUSH_SCHEDULED';
 
 /**
@@ -49,7 +49,7 @@ export default function scheduler(state, action) {
           [id]: true
         }
       };
-    case AUDIO_ENDED:
+    case MEDIA_ENDED:
       const playingCopy = { ...state.playing };
 
       delete playingCopy[id];
@@ -68,6 +68,6 @@ export default function scheduler(state, action) {
  */
 export const addPlaying = (id, audioNode) => ({ type: ADD_PLAYING, id, audioNode});
 export const addScheduled = (id) => ({ type: ADD_SCHEDULED, id });
-export const audioEnded = (id) => ({ type: AUDIO_ENDED, id });
+export const mediaEnded = (id) => ({ type: MEDIA_ENDED, id });
 export const flushScheduled = () => ({ type: FLUSH_SCHEDULED });
 export const scheduleStop = (id) => ({ type: ADD_TOSTOP, id });
