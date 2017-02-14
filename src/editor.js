@@ -31,7 +31,7 @@ class Editor extends Component {
 
     // initialize everything under the hood
     audioGraph.init(store);
-    scheduler.init(store);
+    scheduler.init(store, this.videoContainer);
     midi.init(store, scheduler.handleManualSchedule);
 
     // persist project config

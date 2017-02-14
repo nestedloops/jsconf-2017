@@ -19,9 +19,10 @@ export default {
   store: null,
   beatClock: null,
 
-  init(storeObject) {
+  init(storeObject, videoContainer) {
     const { settings: { bpm }} = storeObject.getState();
-    this.store = storeObject
+    this.store = storeObject;
+    this.videoContainer = videoContainer;
     this.beatClock = new BeatClock();
     this.beatClock.on('bar', this.onBar.bind(this));
     this.beatClock.setBpm(bpm);
@@ -64,27 +65,36 @@ export default {
     const clip = clips[clipId];
     const { behavior, id, loop } = clip;
 
-    if (behavior === AUDIO_BEHAVIOR_SINGLE) {
-      if (!playing[id]) {
-        this.playAudioNode(clip);
-      } else {
-        if (loop) {
-          this.stopAudioNode(id);
-        } else {
-          this.stopAudioNode(id);
+    if (clip.type === 'audiosample') {
+      if (behavior === AUDIO_BEHAVIOR_SINGLE) {
+        if (!playing[id]) {
           this.playAudioNode(clip);
+        } else {
+          if (loop) {
+            this.stopAudioNode(id);
+          } else {
+            this.stopAudioNode(id);
+            this.playAudioNode(clip);
+          }
+        }
+      } else if (behavior === AUDIO_BEHAVIOR_SCHEDULABLE) {
+        if (playing[id]) {
+          this.scheduleStopAudioNode(id);
+        } else {
+          if (!scheduled[id]) {
+            this.scheduleAudioNode(id);
+          }
         }
       }
-    } else if (behavior === AUDIO_BEHAVIOR_SCHEDULABLE) {
-      if (playing[id]) {
-        this.scheduleStopAudioNode(id);
+    } else if (clip.type === 'video') {
+      if (!playing[id]) {
+        this.playVideo(clip);
       } else {
-        if (!scheduled[id]) {
-          this.scheduleAudioNode(id);
-        }
+        this.stopVideo(clip.id);
+        this.playVideo(clip);
       }
-
     }
+
   },
 
   scheduleAudioNode(id) {
@@ -120,9 +130,37 @@ export default {
     const { scheduler: { playing } } = this.store.getState();
     const audioNode = playing[clipId];
     saveAudioStop(audioNode);
-    this.store.dispatch(audioEnded(clipId));
     this.store.dispatch(mediaEnded(clipId));
+  },
+
+  playVideo({ file, gain, id, track }) {
+    const { fileLoader } = this.store.getState();
+    const videoElement = fileLoader[file];
+    // const tracks = audioGraph.getTracks();
+    // TODO: router audio through web audio graph -> const trackNode = tracks[track] || tracks['master'];
+
+    // file has not loaded
+    if (!videoElement) { return false; }
+    this.videoContainer.appendChild(videoElement);
+    videoElement.pause();
+    videoElement.play();
+    const endCallback = () => this.stopVideo(id);
+    videoElement.addEventListener('ended', endCallback);
+    this.store.dispatch(addPlaying(id, { videoElement, endCallback }));
+  },
+
+  stopVideo(clipId) {
+    const { scheduler: { playing } } = this.store.getState();
+    const reference = playing[clipId];
+    if (!reference) { return; } // it might already have been removed before
+    const { videoElement, endCallback } = reference;
+    this.videoContainer.removeEventListener('ended', endCallback);
+    this.videoContainer.removeChild(videoElement);
+    videoElement.pause();
+    videoElement.currentTime = 0;
+    this.store.dispatch(mediaEnded(clipId))
   }
+
 };
 
 function saveAudioStop(audioNode) {
