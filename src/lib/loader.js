@@ -82,34 +82,14 @@ class Loader extends Component {
     const filePath = path.join(getProjectPath(this.props.projectId), file.location);
 
     return new Promise((resolve, reject) => {
-      const v = document.createElement('video');
-      v.preload = 'auto';
-
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', filePath, true);
-      xhr.responseType = 'arraybuffer';
-      xhr.onload = (event) => {
-        const blob = new Blob([event.target.response], {type: 'video/mp4'});
-        v.src = URL.createObjectURL(blob);
-        this.props.dispatch(fileLoaded(id, blob));
-        resolve();
-      };
-
-      xhr.onprogress = function(event){
-        if(event.lengthComputable) {
-          const percentage = (event.loaded / event.total) * 100;
-          if (percentage >= 100) {
-            log.info(file.location, percentage, '%');
-          }
-        }
-      };
-
-      xhr.onerror = function(err) {
-        log.error('error logging ' + filePath, err);
-      }
-
-      xhr.send();
-    })
+      const data = fs.readFileSync(filePath);
+      const blob = new Blob([data], {type: 'video/mp4'});
+      const videoElement = document.createElement('video');
+      videoElement.preload = 'auto';
+      videoElement.src = URL.createObjectURL(blob);
+      this.props.dispatch(fileLoaded(id, videoElement));
+      resolve();
+    });
   }
 
 }
