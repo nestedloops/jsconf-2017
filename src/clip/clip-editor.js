@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import {
   CLIP_TYPE_NONE,
   CLIP_TYPE_AUDIO_SAMPLE,
+  CLIP_TYPE_VIDEO,
   CLIP_TYPES,
   AUDIO_BEHAVIOR_TYPES,
   changeClipField,
   deleteClip
 } from '../data/clips';
-import PlayAudioClip from './play-audio-clip';
 import { getAudioFiles, getVideoFiles } from '../data/files';
 
 import '../styles/forms.css';
@@ -17,7 +17,6 @@ import './clip-editor.css';
 class ClipEditor extends Component {
   shouldComponentUpdate(newProps){
     return newProps.clip !== this.props.clip
-        || newProps.fileLoader !== this.props.fileLoader
         || newProps.tracks !== this.props.tracks;
   }
 
@@ -39,7 +38,7 @@ class ClipEditor extends Component {
           </select>
         </label>
         { this.renderForm() }
-        <label className="editorForm__label">
+        <label className="editorForm__label editorForm__selectTrack">
           <span className="editorForm__labelText">Track:</span>
           <select
             className="clipEditor__clipSelect"
@@ -50,9 +49,9 @@ class ClipEditor extends Component {
               <option key={trackId} value={trackId}>{tracks[trackId].name}</option>
             ))}
           </select>
-          <hr />
-          <div><button onClick={this.deleteClip}>delete clip</button></div>
         </label>
+
+        <button onClick={this.deleteClip}>remove</button>
       </div>
     );
   }
@@ -61,15 +60,16 @@ class ClipEditor extends Component {
     switch (this.props.clip.type) {
       case CLIP_TYPE_AUDIO_SAMPLE:
         return this.renderAudioForm();
-      default:
+      case CLIP_TYPE_VIDEO:
         return this.renderVideoForm();
+      default:
+        return null;
     }
   }
 
   renderAudioForm() {
-    const { clip, audioFiles, fileLoader } = this.props;
+    const { clip, audioFiles } = this.props;
     const { behavior, file, gain, loop } = clip;
-    const preloadedFile = fileLoader[file];
 
     return (
       <form className="editorForm">
@@ -112,11 +112,6 @@ class ClipEditor extends Component {
               </option>
             )}
           </select>
-          { !!preloadedFile && (
-            <PlayAudioClip
-              config={clip}
-              buffer={preloadedFile} />
-          )}
         </div>
       </form>
     );
@@ -197,7 +192,6 @@ class ClipEditor extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  fileLoader: state.fileLoader,
   tracks: state.tracks,
   audioFiles: getAudioFiles(state),
   videoFiles: getVideoFiles(state)

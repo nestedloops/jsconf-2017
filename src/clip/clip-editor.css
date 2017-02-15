@@ -1,0 +1,9 @@
+.clipEditor {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.editorForm__selectTrack {
+  flex-grow: 1;
+}

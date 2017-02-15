@@ -1,7 +1,9 @@
 .pads {
   display: flex;
+  flex-direction: column;
+  padding-top: 10px;
 }
 
 .pads__padContainer {
-  margin-right: 30px;
+  margin-bottom: 30px;
 }
