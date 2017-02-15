@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import audioContext from './audio/context';
-import { fileLoaded } from '../data/file-loader';
-import { getProjectPath } from './files';
-import { isAudio, isVideo } from './regular-expressions'
 import path from 'path';
 import fs from 'fs';
 import log from 'electron-log';
+import audioContext from './audio/context';
+import { fileLoaded } from '../data/file-loader';
+import { getProjectPath } from './files';
+import { isAudio, isVideo } from './regular-expressions';
+
+const loaderContainerStyle = {
+  position: 'fixed',
+  left: 0,
+  right: 0,
+  bottom: 0
+};
 
 class Loader extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
   shouldComponentUpdate(props) {
     return Object.keys(props.files).length !== Object.keys(this.props.files).length
         || Object.keys(props.fileLoader).length !== Object.keys(this.props.fileLoader).length
@@ -36,19 +49,33 @@ class Loader extends Component {
     }
   }
 
-  render() {
-    const { files, fileLoader } = this.props;
+  componentWillReceiveProps(nextProps) {
+    const { files, fileLoader } = nextProps;
     const totalFiles = Object.keys(files).length;
     const loadedFiles = Object.keys(fileLoader).length;
-    var text = '';
+    const progress = loadedFiles / totalFiles;
+    const done = progress === 1;
+    this.setState({
+      progress, done
+    });
+  }
 
-    if (loadedFiles === totalFiles) {
-      text = 'All files loaded.';
-    } else {
-      text = `${loadedFiles} out of ${totalFiles} files loaded.`;
+  render() {
+    const { progress } = this.state;
+
+    const style = {
+      backgroundColor: '#bada55',
+      height: '5px',
+      opacity: progress === 1 ? 0 : 1,
+      transition: 'width 0.5s ease-in-out, opacity 1s ease-out',
+      width: `${progress * 100}%`
     }
 
-    return <div className="loader">{text}</div>;
+    return (
+      <div style={loaderContainerStyle}>
+        <div style={style} />
+      </div>
+    );
   }
 
   loadFile(file, id) {
