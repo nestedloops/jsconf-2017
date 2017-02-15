@@ -1,4 +1,5 @@
 import { remote } from 'electron';
+import log from 'electron-log';
 import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
@@ -6,6 +7,13 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
 export const userDataDirectory = remote.getGlobal('userDataDirectory');
+
+try {
+  fs.mkdirSync(userDataDirectory);
+  log.info('Created user data directory');
+} catch(e) {
+  log.info('User directory already exists');
+}
 
 export const userProjectDirectory = path.join(userDataDirectory, 'projects');
 
