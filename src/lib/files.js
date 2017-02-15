@@ -6,16 +6,19 @@ import path from 'path';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
-export const userDataDirectory = remote.getGlobal('userDataDirectory');
+let _userDataDirectory = remote.getGlobal('userDataDirectory');
+let _userProjectDirectory = path.join(_userDataDirectory, 'projects');
 
 try {
-  fs.mkdirSync(userDataDirectory);
+  fs.mkdirSync(_userDataDirectory);
+  fs.mkdirSync(_userProjectDirectory);
   log.info('Created user data directory');
 } catch(e) {
   log.info('User directory already exists');
 }
 
-export const userProjectDirectory = path.join(userDataDirectory, 'projects');
+export const userDataDirectory = _userDataDirectory;
+export const userProjectDirectory = _userProjectDirectory;
 
 export function getProjectPath (projectId) {
   return path.join(userProjectDirectory, projectId);

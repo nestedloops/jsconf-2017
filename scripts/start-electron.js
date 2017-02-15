@@ -1,8 +1,8 @@
 const { app, BrowserWindow } = require('electron');
-const AppDirectory = require('appdirectory');
 const portfinder = require('portfinder');
 const express = require('express');
 const log = require('electron-log');
+const path = require('path');
 
 let isProduction = false;
 try {
@@ -13,8 +13,7 @@ try {
   log.info('running in dev mode');
 }
 
-const dirs = new AppDirectory({ appName: 'jsconf-2017' });
-global.userDataDirectory = dirs.userData();
+global.userDataDirectory = path.join(userData(), 'jsconf-2017');
 log.info('user data dir: ' + global.userDataDirectory);
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -83,3 +82,37 @@ app.on('activate', () => {
     createWindow()
   }
 });
+
+/**
+ * Had to import this helper from https://github.com/MrJohz/appdirectory and change it because of some issues on windows
+ * Thei licence applies
+ Copyright (c) 2014 Johz jonathan.frere@gmail.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+function userData (roaming, platform) {
+  var dataPath;
+  platform = platform || process.platform
+  if (platform === "darwin") {
+    dataPath = path.join(process.env.HOME, 'Library', 'Application Support')
+  } else if (platform === "win32") {
+    var sysVariable
+    if (roaming) {
+      sysVariable = "APPDATA"
+    } else {
+      sysVariable = "LOCALAPPDATA" // Note, on WinXP, LOCALAPPDATA doesn't exist, catch this later
+    }
+    dataPath = path.join(process.env[sysVariable] || process.env.APPDATA /*catch for XP*/)
+  } else {
+    if (process.env.XDG_DATA_HOME) {
+      dataPath = path.join(process.env.XDG_DATA_HOME)
+    } else {
+      dataPath = path.join(process.env.HOME, ".local", "share")
+    }
+  }
+  return dataPath
+}
