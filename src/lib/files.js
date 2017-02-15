@@ -115,3 +115,8 @@ export function copyFileToProject (filePath, newFileId, projectId) {
              resolve({name: fileName, location: newFileName});
            }))
 }
+
+export function deleteFile (projectId, fileLocation) {
+  const filePath = path.join(getProjectPath(projectId), fileLocation);
+  fs.unlink(filePath);
+}

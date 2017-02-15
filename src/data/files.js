@@ -5,6 +5,7 @@ import { isAudio, isVideo } from '../lib/regular-expressions';
  * -------------------- ACTION TYPES ----------------------------
  */
 export const ADD_FILE = 'jsconf2017/files/ADD_FILE';
+export const REMOVE_FILE = 'jsconf2017/files/REMOVE_FILE';
 
 /**
  * -------------------- REDUCER ----------------------------
@@ -17,6 +18,10 @@ export default function(state = {}, action) {
         ...state,
         [id]: file
       }
+    case REMOVE_FILE:
+      const files = { ...state };
+      delete files[id];
+      return files;
     default:
       return state;
   }
@@ -25,7 +30,8 @@ export default function(state = {}, action) {
 /**
  * -------------------- ACTION CREATORS ----------------------------
  */
-export const addFile = (id, file) => ({ type: ADD_FILE, id, file })
+export const addFile = (id, file) => ({ type: ADD_FILE, id, file });
+export const removeFile = (id) => ({ type: REMOVE_FILE, id });
 
 /**
  * -------------------- SELECTORS ----------------------------

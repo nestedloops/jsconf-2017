@@ -1,0 +1,7 @@
+.file {
+  padding: 10px 20px;
+}
+
+.file:hover {
+  background-color: #eee;
+}
