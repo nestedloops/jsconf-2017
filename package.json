@@ -55,7 +55,6 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
-    "appdirectory": "0.1.0",
     "dilla": "1.8.3",
     "electron-log": "1.2.2",
     "event-emitter": "0.3.4",
