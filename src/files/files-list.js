@@ -2,11 +2,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 import { compose, shouldUpdate } from 'recompose';
 import { removeFile } from '../data/files';
-import { deleteClip } from '../data/clips';
 import { deleteFile } from '../lib/files';
 import store from '../lib/store';
 import File from './file';
 const { dialog } = require('electron').remote;
+
+import './files-list.css';
 
 const FilesList = ({ files, deleteFile }) =>
   <div className="filesList">
@@ -36,7 +37,8 @@ const mapDispatchToProps = (dispatch, props) => ({
                                 )
                                 .filter(Boolean)
     const affectedAmount = affectedClips.length;
-    const extraMessage = `This file is used in ${affectedAmount} clips, cannot remove it`;
+    const clipOrClips = affectedAmount === 1 ? 'clip' : 'clips';
+    const extraMessage = `This file is used in ${affectedAmount} ${clipOrClips}, cannot remove it`;
     const message = 'Are you shure you want to remove the file?';
 
     if (affectedAmount) {

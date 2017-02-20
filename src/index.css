@@ -14,13 +14,16 @@ button {
   font-weight: 400;
   border: none;
   border-radius: 3px;
-  transition: all 0.1s ease-in-out;
   cursor: pointer;
   outline: 0;
 }
 
 button:hover {
   background-color: #e0e0e0;
+}
+
+button.m-no-highlight {
+  background-color: inherit;
 }
 
 button:disabled,

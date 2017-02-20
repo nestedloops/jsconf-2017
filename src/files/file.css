@@ -1,7 +1,22 @@
 .file {
   padding: 10px 20px;
+  display: flex;
+  align-items: baseline;
 }
 
 .file:hover {
   background-color: #eee;
+}
+
+.file__name {
+  flex-grow: 1;
+}
+
+.file__deleteButton {
+  visibility: hidden;
+  margin-left: 20px;
+}
+
+.file:hover .file__deleteButton {
+  visibility: visible;
 }
