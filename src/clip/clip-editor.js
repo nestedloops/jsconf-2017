@@ -104,6 +104,7 @@ class ClipEditor extends Component {
             value={file}
             onChange={this.changeFile}
           >
+            <option key="none" value="none">----</option>
             { Object.keys(audioFiles).map((fileId) =>
               <option
                 key={fileId}
