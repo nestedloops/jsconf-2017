@@ -4,6 +4,6 @@
   padding-top: 10px;
 }
 
-.pads__padContainer {
+.pads__padContainer:not(:last-child) {
   margin-bottom: 30px;
 }
