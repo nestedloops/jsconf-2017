@@ -1,8 +1,21 @@
 .padEditor__container {
   display: flex;
   flex-direction: row;
+  position: relative;
 }
 
 .padEditor__clipEditor {
   margin-left: 10px;
+}
+
+.padEdtor__controls {
+  visibility: hidden;
+  position: absolute;
+  left: -115px;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+.padEditor__container:hover .padEdtor__controls {
+  visibility: visible;
 }

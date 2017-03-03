@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+const { dialog } = require('electron').remote;
 import Pad from './pad';
 import ClipEditor from '../clip/clip-editor';
-import { selectClip } from '../data/pads';
+import { selectClip, removePad } from '../data/pads';
 
 import './pad-editor.css';
 
@@ -13,11 +14,14 @@ class PadEditor extends Component {
   }
 
   render() {
-    const { pad, padId, clips } = this.props;
+    const { pad, padId, clips, removePad } = this.props;
     const selectedClip = clips[pad.selectedClipId];
     const hasClipSelected = !!selectedClip;
     return (
       <div className="padEditor__container">
+        <div className="padEdtor__controls">
+          <button onClick={removePad}>Remove pad</button>
+        </div>
         <Pad
           pad={pad}
           clips={clips}
@@ -49,7 +53,17 @@ const mapStateToProps = (state, { padId }) => {
 
 const mapDispatchToProps = (dispatch, { padId }) => ({
   selectClip(selectedClipId) {
-    dispatch(selectClip(selectedClipId, padId))
+    dispatch(selectClip(selectedClipId, padId));
+  },
+  removePad() {
+    const result = dialog.showMessageBox({
+      message: 'Are you sure you want to remove this pad?',
+      title: 'Removing Pad',
+      buttons: ['No', 'Yes']
+    });
+    if (result === 1) {
+      dispatch(removePad(padId));
+    }
   }
 });
 

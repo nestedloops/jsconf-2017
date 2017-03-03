@@ -1,9 +1,12 @@
+import uuid from 'uuid';
 import { CREATE_CLIP, DELETE_CLIP } from './clips';
 
 /**
  * -------------------- ACTION TYPES ----------------------------
  */
 const SELECT_CLIP = 'jsconf2017/pads/SELECT_CLIP';
+const CREATE_PAD = 'jsconf2017/pads/CREATE_PAD';
+const REMOVE_PAD = 'jsconf2017/pads/REMOVE_PAD';
 
 /**
  * -------------------- REDUCER ----------------------------
@@ -19,6 +22,16 @@ export default function pads(state = {}, action) {
         ...state,
         [padId]: padReducer(pad, action)
       };
+    case CREATE_PAD:
+      const id = uuid.v4();
+      return {
+        ...state,
+        [id]: generateEmptyPad(id)
+      };
+    case REMOVE_PAD:
+      const copiedPads = { ...state };
+      delete copiedPads[padId];
+      return copiedPads;
     default:
       return state;
   }
@@ -75,6 +88,10 @@ function padReducer(state, action) {
  */
 export const selectClip = (selectedClipId, padId) => ({ type: SELECT_CLIP, selectedClipId, padId });
 
+export const createPad = () => ({ type: CREATE_PAD });
+
+export const removePad = (padId) => ({ type: REMOVE_PAD, padId });
+
 /**
  * -------------------- HELPERS ----------------------------
  */
@@ -99,4 +116,93 @@ function changeValueAtPoint({x, y, value, array2d}){
   return array2d.slice(0, y)
                  .concat([newRow])
                  .concat(array2d.slice(y + 1));
+}
+
+function generateEmptyPad(id) {
+  return {
+    id,
+    clips: [
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    ],
+    selectedClipId: null
+  };
 }
