@@ -11,7 +11,7 @@
 .padEdtor__controls {
   visibility: hidden;
   position: absolute;
-  left: -115px;
+  left: -111px;
   bottom: 0;
   display: flex;
   flex-direction: column;
