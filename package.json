@@ -36,6 +36,7 @@
     "http-proxy-middleware": "0.17.2",
     "jest": "16.0.2",
     "json-loader": "0.5.4",
+    "npm-run-all": "^4.0.2",
     "object-assign": "4.1.0",
     "path-exists": "2.1.0",
     "portfinder": "1.0.10",
@@ -74,10 +75,11 @@
     "web-midi": "2.0.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "run-p start:*",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "start-electron": "electron scripts/start-electron.js",
+    "start:server": "node scripts/start.js",
+    "start:electron": "electron scripts/start-electron.js",
     "build-electron": "rm -rf ./build && yarn run build && node scripts/build-electron.js"
   },
   "jest": {
