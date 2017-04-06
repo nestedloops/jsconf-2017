@@ -167,7 +167,7 @@ export default {
   stopAudioNode(clipId) {
     const { scheduler: { playing } } = this.store.getState();
     const audioNode = playing[clipId];
-    saveAudioStop(audioNode);
+    safeAudioStop(audioNode);
     this.store.dispatch(mediaEnded(clipId));
   },
 
@@ -197,7 +197,7 @@ export default {
   }
 };
 
-function saveAudioStop(audioNode) {
+function safeAudioStop(audioNode) {
   try {
     audioNode.stop();
     audioNode.disconnect();
