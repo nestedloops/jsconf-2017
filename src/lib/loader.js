@@ -114,6 +114,10 @@ class Loader extends Component {
       const videoElement = document.createElement('video');
       videoElement.preload = 'auto';
       videoElement.src = URL.createObjectURL(blob);
+      videoElement.load();
+
+      // FIXME: should wait for the video::canplaythrough-event (although
+      // it probably won't matter using localhost-networking)
       this.props.dispatch(fileLoaded(id, videoElement));
       resolve();
     });

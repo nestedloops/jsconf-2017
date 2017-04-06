@@ -3,9 +3,9 @@ import './live-mode.css';
 
 class LiveMode extends Component {
   render() {
-    const { isVisible, containerReady } = this.props;
+    const {isVisible} = this.props;
     return (
-      <div ref={containerReady} className={`liveMode ${isVisible ? 'm-visible' : ''}`} />
+      <div className={`liveMode ${isVisible ? 'm-visible' : ''}`} />
     );
   }
 }
