@@ -182,7 +182,8 @@ export default {
 
     videoElement.pause();
     videoElement.play();
-    videoElement.addEventListener('ended', () => this.stopVideo(id));
+    videoElement.onended = () => this.stopVideo(id);
+
     this.store.dispatch(addPlaying(id, {videoElement}));
   },
 
@@ -192,6 +193,7 @@ export default {
     const videoElement = fileLoader[fileId];
 
     videoElement.pause();
+    videoElement.onended = null;
     videoElement.currentTime = 0;
     this.store.dispatch(mediaEnded(clipId))
   }
