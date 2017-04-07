@@ -71,6 +71,7 @@
     "redux": "3.6.0",
     "redux-logger": "2.7.4",
     "reselect": "2.5.4",
+    "three": "^0.84.0",
     "uuid": "2.0.3",
     "web-midi": "2.0.1"
   },
