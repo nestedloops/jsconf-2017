@@ -41,6 +41,7 @@ class Midi {
     const { store } = this;
     // remove controllers that were there previously
     Object.keys(this.previousControllers).forEach((id) => {
+      console.log('controller id', id);
       this.previousControllers[id].controller.close();
       store.dispatch(removeController(id));
     });
@@ -51,23 +52,33 @@ class Midi {
         const controller = midi(id, {});
         controller.on('data', ([type, key, data]) => {
           const state = this.store.getState();
-          const down = data > 0;
-          const y = Math.floor(key / 16);
-          const x = key % 16;
-          if (down) {
-            if (x < 8 && y < 8) {
-              const padId = state.controllers[id].pad;
-              const pad = state.pads[padId];
+          if (id === 'Launch Control') {
+            // knobs
+            if (type === 184 && key > 20 && key < 49) {
+              const y = Math.floor(key / 20) - 1;
+              const x = (key % 20) - 1;
+              const ratio = data / 127;
+              console.log('onData', x, y, Math.round(ratio * 100));
+            }
+          } else {
+            const down = data > 0;
+            const y = Math.floor(key / 16);
+            const x = key % 16;
+            if (down) {
+              if (x < 8 && y < 8) {
+                const padId = state.controllers[id].pad;
+                const pad = state.pads[padId];
 
-              // this controller is not controlling a clip
-              if (!padId || !pad) { return; }
+                // this controller is not controlling a clip
+                if (!padId || !pad) { return; }
 
-              const clipId = pad.clips[y][x];
-              if (clipId) {
-                this.clipHandler(clipId);
+                const clipId = pad.clips[y][x];
+                if (clipId) {
+                  this.clipHandler(clipId);
+                }
+              } else if (type === 144 && (key < 105 || key > 111)) {
+                this.mapControllerToPadIndex(id, y);
               }
-            } else if (type === 144 && (key < 105 || key > 111)) {
-              this.mapControllerToPadIndex(id, y);
             }
           }
         });
