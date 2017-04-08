@@ -31,7 +31,7 @@ class Editor extends Component {
 
     // initialize everything under the hood
     audioGraph.init(store);
-    scheduler.init(store, this.videoContainer);
+    scheduler.init(store);
     midi.init(store, scheduler.handleManualSchedule);
 
     // persist project config
@@ -50,14 +50,12 @@ class Editor extends Component {
     })
   }
 
-  addVideoContainer = (container) => { this.videoContainer = container };
-
   render() {
     const { children, onDrop, params: { project_id } } = this.props;
     const { showLiveMode } = this.state;
     return (
       <div className="app">
-        <LiveMode containerReady={this.addVideoContainer} isVisible={showLiveMode} />
+        <LiveMode isVisible={showLiveMode} />
         <div className="app__container">
           <div className="app__navigation">
             <Link to={`/project/${project_id}/pads`} activeClassName="m-active" className="app__navigationItem">

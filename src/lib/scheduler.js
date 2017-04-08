@@ -19,10 +19,9 @@ export default {
   store: null,
   beatClock: null,
 
-  init(storeObject, videoContainer) {
+  init(storeObject) {
     const { settings: { bpm }} = storeObject.getState();
     this.store = storeObject;
-    this.videoContainer = videoContainer;
     this.beatClock = new BeatClock();
     this.beatClock.on('bar', this.onBar.bind(this));
     this.beatClock.setBpm(bpm);
@@ -168,7 +167,7 @@ export default {
   stopAudioNode(clipId) {
     const { scheduler: { playing } } = this.store.getState();
     const audioNode = playing[clipId];
-    saveAudioStop(audioNode);
+    safeAudioStop(audioNode);
     this.store.dispatch(mediaEnded(clipId));
   },
 
@@ -180,29 +179,27 @@ export default {
 
     // file has not loaded
     if (!videoElement) { return false; }
-    this.videoContainer.appendChild(videoElement);
+
     videoElement.pause();
     videoElement.play();
-    const endCallback = () => this.stopVideo(id);
-    videoElement.addEventListener('ended', endCallback);
-    this.store.dispatch(addPlaying(id, { videoElement, endCallback }));
+    videoElement.onended = () => this.stopVideo(id);
+
+    this.store.dispatch(addPlaying(id, {videoElement}));
   },
 
   stopVideo(clipId) {
-    const { scheduler: { playing } } = this.store.getState();
-    const reference = playing[clipId];
-    if (!reference) { return; } // it might already have been removed before
-    const { videoElement, endCallback } = reference;
-    this.videoContainer.removeEventListener('ended', endCallback);
-    this.videoContainer.removeChild(videoElement);
+    const {clips, fileLoader} = this.store.getState();
+    const fileId = clips[clipId].file;
+    const videoElement = fileLoader[fileId];
+
     videoElement.pause();
+    videoElement.onended = null;
     videoElement.currentTime = 0;
     this.store.dispatch(mediaEnded(clipId))
   }
-
 };
 
-function saveAudioStop(audioNode) {
+function safeAudioStop(audioNode) {
   try {
     audioNode.stop();
     audioNode.disconnect();
