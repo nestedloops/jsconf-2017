@@ -9,15 +9,15 @@ export const CLIP_TYPE_NONE = 'select a type';
 export const CLIP_TYPE_AUDIO_SAMPLE = 'audiosample';
 export const CLIP_TYPE_VIDEO = 'video';
 export const CLIP_TYPES = [CLIP_TYPE_NONE, CLIP_TYPE_AUDIO_SAMPLE, CLIP_TYPE_VIDEO];
-export const AUDIO_BEHAVIOR_SINGLE = 'single';
 export const AUDIO_BEHAVIOR_SCHEDULABLE = 'schedulable';
-export const AUDIO_BEHAVIOR_TYPES = [AUDIO_BEHAVIOR_SINGLE, AUDIO_BEHAVIOR_SCHEDULABLE];
+export const AUDIO_BEHAVIOR_SINGLE = 'single';
+export const AUDIO_BEHAVIOR_TYPES = [AUDIO_BEHAVIOR_SCHEDULABLE, AUDIO_BEHAVIOR_SINGLE];
 
 const BASE_AUDIO_SAMPLE = {
   gain: 1,
-  behavior: 'single',
+  behavior: AUDIO_BEHAVIOR_SCHEDULABLE,
   file: '',
-  loop: false,
+  loop: true,
   track: 'master'
 };
 
