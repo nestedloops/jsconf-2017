@@ -28,6 +28,7 @@ export default {
     this.beatClock.start();
 
     this.handleManualSchedule = this.handleManualSchedule.bind(this);
+    this.scheduleRow = this.scheduleRow.bind(this);
 
     this.previouseBpm = bpm;
     this.store.subscribe(() => {
@@ -60,27 +61,29 @@ export default {
   },
 
   handleManualSchedule(clipId, pad, x, y) {
-    const { clips, scheduler: { scheduled, playing } } = this.store.getState();
-
-    // schedule a stop of all clips in the column
-    if (!clipId) {
-      return this.stopVerticalClipsFromPosition(
-        clipId,
-        {
-          pad, x
-        },
-        playing,
+    if (clipId) {
+      this.scheduleClip(clipId);
+    } else {
+      // schedule a stop of all clips in the column
+      this.stopVerticalClipsFromPosition(
+        undefined,
+        { pad, x },
         'schedule'
-      )
+      );
     }
+  },
 
+  scheduleClip(clipId) {
+    const { clips, scheduler: { scheduled, playing } } = this.store.getState();
     const clip = clips[clipId];
     const { behavior, id, loop } = clip;
+    const isPlaying = playing[id];
+    const isScheduled = scheduled[id];
 
     if (clip.type === 'audiosample') {
       // immediately play / stop the audio node
       if (behavior === AUDIO_BEHAVIOR_SINGLE) {
-        if (!playing[id]) {
+        if (!isPlaying) {
           this.playAudioNode(clip);
         } else {
           if (loop) {
@@ -92,23 +95,38 @@ export default {
         }
       } else if (behavior === AUDIO_BEHAVIOR_SCHEDULABLE) {
         // trigger a play or a stop
-        if (playing[id]) {
+        if (isPlaying) {
           this.scheduleStopAudioNode(id);
         } else {
-          if (!scheduled[id]) {
+          if (!isScheduled) {
             this.scheduleAudioNode(id);
           }
         }
       }
     } else if (clip.type === 'video') {
-      if (!playing[id]) {
+      if (!isPlaying) {
         this.playVideo(clip);
       } else {
         this.stopVideo(clip.id);
         this.playVideo(clip);
       }
     }
+  },
 
+  scheduleRow(pad, rowY) {
+    const rowClipIds = pad.clips[rowY];
+    if (rowClipIds) {
+      rowClipIds.forEach((clipId, x) => {
+        this.stopVerticalClipsFromPosition(
+          clipId,
+          { pad, x },
+          'schedule'
+        );
+        if (clipId) {
+          this.scheduleClip(clipId);
+        }
+      });
+    }
   },
 
   scheduleAudioNode(id) {
@@ -120,7 +138,7 @@ export default {
   },
 
   playAudioNode({ file, loop, gain, id, track, behavior } = {}) {
-    const { fileLoader, scheduler: { playing } } = this.store.getState();
+    const { fileLoader } = this.store.getState();
     const buffer = fileLoader[file];
     const tracks = audioGraph.getTracks();
     const trackNode = tracks[track] || tracks['master'];
@@ -130,7 +148,7 @@ export default {
 
     // stop all clips that are on the same vertical axis as this track
     const position = this.getPadPosition(id);
-    this.stopVerticalClipsFromPosition(id, position, playing);
+    this.stopVerticalClipsFromPosition(id, position);
 
     const audioNode = context.createBufferSource();
     const gainNode = context.createGain();
@@ -209,7 +227,8 @@ export default {
       .filter(Boolean);
   },
 
-  stopVerticalClipsFromPosition(clipId, position, playing, stopType) {
+  stopVerticalClipsFromPosition(clipId, position, stopType) {
+    const { scheduler: { playing } } = this.store.getState();
     const verticalClips = this.getVerticalClipsFromPosition(position, clipId);
     // stop all playing clips from the same vertical position
     Object

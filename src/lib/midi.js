@@ -15,9 +15,10 @@ const COLOR_CODES = {
 };
 
 class Midi {
-  init(storeObject, clipHandler = () => {}) {
+  init(storeObject, clipHandler = () => {}, scheduleRow = () => {}) {
     this.store = storeObject;
     this.clipHandler = clipHandler;
+    this.scheduleRow = scheduleRow;
     this.previousClips = null;
     this.previouseScheduler = null;
     this.previousControllers = {};
@@ -55,17 +56,19 @@ class Midi {
           const y = Math.floor(key / 16);
           const x = key % 16;
           if (down) {
+            const padId = state.controllers[id].pad;
+            const pad = state.pads[padId];
+
+            // this controller is not controlling a clip
+            if (!padId || !pad) { return; }
+
             if (x < 8 && y < 8) {
-              const padId = state.controllers[id].pad;
-              const pad = state.pads[padId];
-
-              // this controller is not controlling a clip
-              if (!padId || !pad) { return; }
-
               const clipId = pad.clips[y][x];
               this.clipHandler(clipId, pad, x, y);
             } else if (type === 176 && (key >= 104 || key <= 111)) {
               this.mapControllerToPadIndex(id, key - 104);
+            } else if (type === 144 && (key < 105 || key > 111)) {
+              this.scheduleRow(pad, y);
             }
           }
         });
@@ -101,6 +104,8 @@ class Midi {
             if (padClip) {
               if (scheduler.scheduled[padClip]) {
                 controller.write([144, key, COLOR_CODES.YELLOW]);
+              } else if(scheduler.toStop[padClip]) {
+                controller.write([144, key, COLOR_CODES.RED]);
               } else if (scheduler.playing[padClip]) {
                 controller.write([144, key, COLOR_CODES.AMBER]);
               } else {

@@ -32,7 +32,7 @@ class Editor extends Component {
     // initialize everything under the hood
     audioGraph.init(store);
     scheduler.init(store);
-    midi.init(store, scheduler.handleManualSchedule);
+    midi.init(store, scheduler.handleManualSchedule, scheduler.scheduleRow);
 
     // persist project config
     persistStorePeriodically(project_id, store);
