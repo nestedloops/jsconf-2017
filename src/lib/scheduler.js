@@ -59,24 +59,39 @@ export default {
     this.store.dispatch(flushScheduled());
   },
 
-  handleManualSchedule(clipId) {
+  handleManualSchedule(clipId, pad, x, y) {
     const { clips, scheduler: { scheduled, playing } } = this.store.getState();
+
+    // schedule a stop of all clips in the column
+    if (!clipId) {
+      return this.stopVerticalClipsFromPosition(
+        clipId,
+        {
+          pad, x
+        },
+        playing,
+        'schedule'
+      )
+    }
+
     const clip = clips[clipId];
     const { behavior, id, loop } = clip;
 
     if (clip.type === 'audiosample') {
+      // immediately play / stop the audio node
       if (behavior === AUDIO_BEHAVIOR_SINGLE) {
         if (!playing[id]) {
-          this.playAudioNode(clip, { manual: true });
+          this.playAudioNode(clip);
         } else {
           if (loop) {
             this.stopAudioNode(id);
           } else {
             this.stopAudioNode(id);
-            this.playAudioNode(clip, { manual: true });
+            this.playAudioNode(clip);
           }
         }
       } else if (behavior === AUDIO_BEHAVIOR_SCHEDULABLE) {
+        // trigger a play or a stop
         if (playing[id]) {
           this.scheduleStopAudioNode(id);
         } else {
@@ -104,7 +119,7 @@ export default {
     this.store.dispatch(scheduleStop(id));
   },
 
-  playAudioNode({ file, loop, gain, id, track, behavior }, { manual } = {}) {
+  playAudioNode({ file, loop, gain, id, track, behavior } = {}) {
     const { fileLoader, scheduler: { playing } } = this.store.getState();
     const buffer = fileLoader[file];
     const tracks = audioGraph.getTracks();
@@ -114,43 +129,8 @@ export default {
     if (!buffer) { return false; }
 
     // stop all clips that are on the same vertical axis as this track
-    if (behavior === AUDIO_BEHAVIOR_SINGLE && manual) {
-      const { pads } = this.store.getState();
-      let position = null;
-      Object.keys(pads).some((padId) =>
-        pads[padId].clips.some((row) => {
-          const x = row.indexOf(id);
-          if (x !== -1) {
-            position = {
-              pad: pads[padId],
-              x
-            };
-            return true;
-          }
-          return false;
-        })
-      );
-      if (position) {
-        // iterate over the clips in the corresponding pad
-        // and return the matched ids
-        const verticalClips = position.pad.clips
-          .map((row) =>
-            row
-              .map((currId, x) => x === position.x && id !== currId ? currId : undefined)
-              .filter(Boolean)
-          )
-          .map((rowMatches) => rowMatches.length ? rowMatches[0] : undefined)
-          .filter(Boolean);
-        // stop all playing clips from the same vertical position
-        Object
-          .keys(playing)
-          .forEach((playingId) => {
-            if (verticalClips.indexOf(playingId) !== -1) {
-              this.stopAudioNode(playingId);
-            }
-          });
-      }
-    }
+    const position = this.getPadPosition(id);
+    this.stopVerticalClipsFromPosition(id, position, playing);
 
     const audioNode = context.createBufferSource();
     const gainNode = context.createGain();
@@ -196,7 +176,55 @@ export default {
     videoElement.onended = null;
     videoElement.currentTime = 0;
     this.store.dispatch(mediaEnded(clipId))
+  },
+
+  getPadPosition(id) {
+    const { pads } = this.store.getState();
+    let position = null;
+    Object.keys(pads).some((padId) =>
+      pads[padId].clips.some((row) => {
+        const x = row.indexOf(id);
+        if (x !== -1) {
+          position = {
+            pad: pads[padId],
+            x
+          };
+          return true;
+        }
+        return false;
+      })
+    );
+    return position;
+  },
+
+  getVerticalClipsFromPosition(position, clipId) {
+    if (!position) { return []; }
+    return position.pad.clips
+      .map((row) =>
+        row
+          .map((currId, x) => x === position.x && clipId !== currId ? currId : undefined)
+          .filter(Boolean)
+      )
+      .map((rowMatches) => rowMatches.length ? rowMatches[0] : undefined)
+      .filter(Boolean);
+  },
+
+  stopVerticalClipsFromPosition(clipId, position, playing, stopType) {
+    const verticalClips = this.getVerticalClipsFromPosition(position, clipId);
+    // stop all playing clips from the same vertical position
+    Object
+      .keys(playing)
+      .forEach((playingId) => {
+        if (verticalClips.indexOf(playingId) !== -1) {
+          if (stopType === 'schedule') {
+            this.scheduleStopAudioNode(playingId);
+          } else {
+            this.stopAudioNode(playingId);
+          }
+        }
+      });
   }
+
 };
 
 function safeAudioStop(audioNode) {

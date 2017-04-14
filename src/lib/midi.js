@@ -63,9 +63,7 @@ class Midi {
               if (!padId || !pad) { return; }
 
               const clipId = pad.clips[y][x];
-              if (clipId) {
-                this.clipHandler(clipId);
-              }
+              this.clipHandler(clipId, pad, x, y);
             } else if (type === 144 && (key < 105 || key > 111)) {
               this.mapControllerToPadIndex(id, y);
             }
