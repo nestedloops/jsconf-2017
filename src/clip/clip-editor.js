@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   CLIP_TYPE_NONE,
   CLIP_TYPE_AUDIO_SAMPLE,
+  CLIP_TYPE_AUDIO_AND_VIDEO,
   CLIP_TYPE_VIDEO,
   CLIP_TYPES,
   AUDIO_BEHAVIOR_TYPES,
@@ -57,19 +58,10 @@ class ClipEditor extends Component {
   }
 
   renderForm() {
-    switch (this.props.clip.type) {
-      case CLIP_TYPE_AUDIO_SAMPLE:
-        return this.renderAudioForm();
-      case CLIP_TYPE_VIDEO:
-        return this.renderVideoForm();
-      default:
-        return null;
-    }
-  }
-
-  renderAudioForm() {
-    const { clip, audioFiles } = this.props;
-    const { behavior, file, gain, loop } = clip;
+    const { clip, audioFiles, videoFiles } = this.props;
+    const { behavior, file, videoFile, gain, loop, type } = clip;
+    const hasAudio = type === CLIP_TYPE_AUDIO_AND_VIDEO || type === CLIP_TYPE_AUDIO_SAMPLE;
+    const hasVideo = type === CLIP_TYPE_AUDIO_AND_VIDEO || type === CLIP_TYPE_VIDEO;
 
     return (
       <form className="editorForm">
@@ -98,61 +90,43 @@ class ClipEditor extends Component {
             value={gain}
           />
         </label>
-        <div className="editorForm__label">
-          <span className="editorForm__labelText">Audio Sample:</span>
-          <select
-            value={file}
-            onChange={this.changeFile}
-          >
-            <option key="none" value="none">----</option>
-            { Object.keys(audioFiles).map((fileId) =>
-              <option
-                key={fileId}
-                value={fileId}
-              >{audioFiles[fileId].name}
-              </option>
-            )}
-          </select>
-        </div>
-      </form>
-    );
-  }
+        { hasAudio && (
+          <div className="editorForm__label">
+            <span className="editorForm__labelText">Audio Sample:</span>
+            <select
+              value={file}
+              onChange={this.changeFile}
+            >
+              <option key="none" value="none">----</option>
+              { Object.keys(audioFiles).map((fileId) =>
+                <option
+                  key={fileId}
+                  value={fileId}
+                >{audioFiles[fileId].name}
+                </option>
+              )}
+            </select>
+          </div>
+        )}
 
-  renderVideoForm() {
-    const { clip, videoFiles } = this.props;
-    const { file, gain, exclusive } = clip;
-
-    return (
-      <form className="editorForm">
-        <label className="editorForm__label">
-          <input type="checkbox" onChange={this.changeExclusive} checked={exclusive} /> exclusive
-        </label>
-        <label className="editorForm__label">
-          <span className="editorForm__labelText">Gain:</span>
-          <input
-            type="range"
-            min={0}
-            max={1}
-            step={0.01}
-            onChange={this.changeGain}
-            value={gain}
-          />
-        </label>
-        <div className="editorForm__label">
-          <span className="editorForm__labelText">Video File:</span>
-          <select
-            value={file}
-            onChange={this.changeFile}
-          >
-            { Object.keys(videoFiles).map((fileId) =>
-              <option
-                key={fileId}
-                value={fileId}
-              >{videoFiles[fileId].name}
-              </option>
-            )}
-          </select>
-        </div>
+        { hasVideo && (
+          <div className="editorForm__label">
+            <span className="editorForm__labelText">Video File:</span>
+            <select
+              value={videoFile}
+              onChange={this.changeVideoFile}
+            >
+              <option key="emptyVideo" value="">----</option>
+              { Object.keys(videoFiles).map((fileId) =>
+                <option
+                  key={fileId}
+                  value={fileId}
+                >{videoFiles[fileId].name}
+                </option>
+              )}
+            </select>
+          </div>
+        )}
       </form>
     );
   }
@@ -179,6 +153,10 @@ class ClipEditor extends Component {
 
   changeFile = (event) => {
     this.props.changeClipField('file', event.target.value);
+  }
+
+  changeVideoFile = (event) => {
+    this.props.changeClipField('videoFile', event.target.value);
   }
 
   changeTrack = (event) => {

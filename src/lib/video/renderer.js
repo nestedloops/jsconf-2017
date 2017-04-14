@@ -73,7 +73,7 @@ export default class VideoRenderer {
         const dstSliceWidth = w / n;
 
         // FIXME: only use a portion of the source-video to prevent distortion
-        ctx.drawImage(video.videoElement, index * dstSliceWidth, 0, dstSliceWidth, h);
+        ctx.drawImage(video, index * dstSliceWidth, 0, dstSliceWidth, h);
       });
     }
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { CLIP_TYPE_AUDIO_AND_VIDEO, CLIP_TYPE_VIDEO } from './data/clips';
 
 import VideoRenderer from './lib/video/renderer';
 
@@ -13,7 +14,7 @@ class VideoPlayer extends Component {
 
   render() {
     return (
-        <div ref={ el => this.container = el } className="videoPlayer" />
+      <div ref={ el => this.container = el } className="videoPlayer" />
     );
   }
 
@@ -31,23 +32,15 @@ class VideoPlayer extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { clips, scheduler, fileLoader } = state;
-  const playingClipIds = Object.keys(scheduler.playing);
+const mapStateToProps = (state) => {
+  const { scheduler } = state;
+  const playingFileIds = Object.keys(scheduler.playing);
 
-  const videos = [];
-  Object.keys(clips).forEach(id => {
-    const clip = clips[id];
+  const videos = playingFileIds
+    .map((fileId) => scheduler.playing[fileId].payload.videoElement)
+    .filter(Boolean);
 
-    if (clip.type === 'video' && playingClipIds.includes(clip.id)) {
-      videos.push({
-        ...clip,
-        videoElement: fileLoader[clip.file]
-      });
-    }
-  });
-
-  return { ...ownProps, videos };
+  return { videos };
 };
 
 export default connect(mapStateToProps, null)(VideoPlayer);

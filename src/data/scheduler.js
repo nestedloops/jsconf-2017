@@ -33,12 +33,12 @@ export default function scheduler(state, action) {
         toStop: {}
       };
     case ADD_PLAYING:
-      const { audioNode } = action;
+      const { payload, clipId } = action;
       return {
         ...state,
         playing: {
           ...state.playing,
-          [id]: audioNode
+          [id]: { payload, clipId }
         }
       };
     case ADD_TOSTOP:
@@ -64,10 +64,16 @@ export default function scheduler(state, action) {
 }
 
 /**
+ * -------------------- HELPERS ----------------------------
+ */
+export const playingId = (clipId, fileId) => `file:${fileId}-clip${clipId}`;
+export const isPlaying = (playingState, clip) => playingState[playingId(clip.id, clip.file)] || playingState[playingId(clip.id, clip.videoFile)]
+
+/**
  * -------------------- ACTION CREATORS ----------------------------
  */
-export const addPlaying = (id, audioNode) => ({ type: ADD_PLAYING, id, audioNode});
+export const addPlaying = (fileId, payload, clipId) => ({ type: ADD_PLAYING, id: playingId(clipId, fileId), payload, clipId});
 export const addScheduled = (id) => ({ type: ADD_SCHEDULED, id });
-export const mediaEnded = (id) => ({ type: MEDIA_ENDED, id });
+export const mediaEnded = (fileId, clipId) => ({ type: MEDIA_ENDED, id: playingId(clipId, fileId) });
 export const flushScheduled = () => ({ type: FLUSH_SCHEDULED });
 export const scheduleStop = (id) => ({ type: ADD_TOSTOP, id });

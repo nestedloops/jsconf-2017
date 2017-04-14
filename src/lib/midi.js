@@ -6,6 +6,10 @@ import {
   removeController
 } from '../data/controllers';
 
+import {
+  isPlaying
+} from '../data/scheduler';
+
 const COLOR_CODES = {
   OFF: 12,
   RED: 15,
@@ -87,7 +91,7 @@ class Midi {
   }
 
   updateControllers = () => {
-    const { pads, controllers, scheduler } = this.store.getState();
+    const { clips, pads, controllers, scheduler } = this.store.getState();
 
     Object.keys(controllers).forEach((controllerId, index) => {
       const controllerConfig = controllers[controllerId];
@@ -100,13 +104,16 @@ class Midi {
           const key = y * 16 + x;
           if (pad) {
             const padClip = pad.clips[y][x];
+            const clip = clips[padClip];
 
-            if (padClip) {
+            if (clip) {
+              const file = isPlaying(scheduler.playing, clip);
+
               if (scheduler.scheduled[padClip]) {
                 controller.write([144, key, COLOR_CODES.YELLOW]);
               } else if(scheduler.toStop[padClip]) {
                 controller.write([144, key, COLOR_CODES.RED]);
-              } else if (scheduler.playing[padClip]) {
+              } else if (file && file.clipId === padClip) {
                 controller.write([144, key, COLOR_CODES.AMBER]);
               } else {
                 controller.write([144, key, COLOR_CODES.GREEN]);
