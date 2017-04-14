@@ -64,8 +64,8 @@ class Midi {
 
               const clipId = pad.clips[y][x];
               this.clipHandler(clipId, pad, x, y);
-            } else if (type === 144 && (key < 105 || key > 111)) {
-              this.mapControllerToPadIndex(id, y);
+            } else if (type === 176 && (key >= 104 || key <= 111)) {
+              this.mapControllerToPadIndex(id, key - 104);
             }
           }
         });
@@ -120,8 +120,8 @@ class Midi {
       const activePadId = pad && padKeys.indexOf(controllerConfig.pad);
       for (var i = 0; i < 8; i++) {
         controller.write([
-          144,
-          8 + i * 16,
+          176,
+          104 + i,
           activePadId === i ? COLOR_CODES.GREEN : i < padKeys.length ? COLOR_CODES.YELLOW : COLOR_CODES.OFF
         ]);
       }
