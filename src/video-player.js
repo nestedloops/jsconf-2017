@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { CLIP_TYPE_AUDIO_AND_VIDEO, CLIP_TYPE_VIDEO } from './data/clips';
 
 import VideoRenderer from './lib/video/renderer';
 
