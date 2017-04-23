@@ -7,8 +7,7 @@
 
 ## Development
 
-1. Start the dev server with `yarn start`
-1. Start the electron dev window with `yarn run start-electron`
+`yarn start`
 
 ## Build a new version of the app
 
