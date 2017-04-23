@@ -43,6 +43,11 @@ export default {
         this.previouseBpm = newBpm;
       }
     });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === ' ') {
+        this.handleManualStop();
+      }
+    });
   },
 
   onBar() {
@@ -100,6 +105,12 @@ export default {
       // schedule a stop of all clips in the column
       this.stopVerticalClipsFromPosition(undefined, { pad, x }, 'schedule');
     }
+  },
+
+  handleManualStop() {
+    const { clips, scheduler: { scheduled, playing } } = this.store.getState();
+    Object.keys(scheduled).forEach((clipId) => this.store.dispatch(scheduleStop(clipId)));
+    Object.keys(playing).forEach((playingId) => this.stopClip(clips[playing[playingId].clipId]));
   },
 
   handleClip(clipId) {
