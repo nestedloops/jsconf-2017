@@ -1,3 +1,6 @@
+// prevent any non-us locale: https://github.com/electron/electron/issues/8825
+process.env.LC_ALL = 'en_US';
+
 const { app, BrowserWindow } = require('electron');
 const portfinder = require('portfinder');
 const express = require('express');
