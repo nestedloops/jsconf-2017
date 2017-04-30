@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+
 import VideoPlayer from './video-player.js';
+import VideoControlsGui from './video-controls-gui.js';
 
 import './live-mode.css';
 
@@ -17,6 +19,7 @@ class LiveMode extends Component {
             luminanceMax={0.9}
             r0={0.9}
         />
+        {isVisible && <VideoControlsGui />}
       </div>
     );
   }
