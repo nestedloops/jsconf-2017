@@ -8,9 +8,10 @@ import pads from './pads';
 import scheduler from './scheduler';
 import settings from './settings';
 import tracks from './tracks';
+import videoRenderer from './video-renderer';
 
 const appReducer = combineReducers({
-  clips, controllers, fileLoader, files, pads, scheduler, settings, tracks
+  clips, controllers, fileLoader, files, pads, scheduler, settings, tracks, videoRenderer
 });
 
 const reducer = (state, action) => {
@@ -19,6 +20,6 @@ const reducer = (state, action) => {
   }
 
   return appReducer(state, action);
-}
+};
 
 export default reducer;

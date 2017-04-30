@@ -33,14 +33,16 @@ class VideoPlayer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { scheduler } = state;
+  const { scheduler, videoRenderer } = state;
   const playingFileIds = Object.keys(scheduler.playing);
 
   const videos = playingFileIds
     .map((fileId) => scheduler.playing[fileId].payload.videoElement)
     .filter(Boolean);
 
-  return { videos, renderParams: ownProps };
+  const renderParams = videoRenderer.renderParams;
+
+  return { videos, renderParams: { ...ownProps, ...renderParams } };
 };
 
 export default connect(mapStateToProps, null)(VideoPlayer);
