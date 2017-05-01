@@ -1,9 +1,9 @@
 .gui-container {
-    position: fixed;
-    top: 0;
-    right: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
 }
 
-.dg .slider {
-    width: 60% !important;
+.gui-container .dg .slider {
+  width: 60%;
 }
