@@ -60,13 +60,14 @@ export default class VideoRenderer {
     if (this.animationLoopRunning) { return; }
 
     this.animationLoopRunning = true;
-    requestAnimationFrame(this.animationLoopTick)
+    this.nextFrameId = requestAnimationFrame(this.animationLoopTick)
   }
 
   /**
    * @private
    */
   stop() {
+    cancelAnimationFrame(this.nextFrameId);
     this.animationLoopRunning = false;
   }
 
@@ -96,7 +97,7 @@ export default class VideoRenderer {
     this.render();
 
     if (this.animationLoopRunning) {
-      requestAnimationFrame(this.animationLoopTick);
+      this.nextFrameId = requestAnimationFrame(this.animationLoopTick);
     }
   }
 
