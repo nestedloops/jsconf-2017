@@ -16,11 +16,6 @@ import store from './lib/store';
 import { readConfig, persistStorePeriodically } from './lib/files';
 
 class Editor extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { showLiveMode: false };
-  }
 
   componentDidMount() {
     const { params: { project_id } } = this.props;
@@ -36,26 +31,13 @@ class Editor extends Component {
 
     // persist project config
     persistStorePeriodically(project_id, store);
-
-    document.addEventListener('keydown', (event) => {
-      // switch to LIVE mode when pressing TAB
-      if (event.keyCode === 9) {
-        event.preventDefault();
-        if (this.state.showLiveMode === true) {
-          this.setState({ showLiveMode: false })
-        } else {
-          this.setState({ showLiveMode: true })
-        }
-      }
-    })
   }
 
   render() {
     const { children, onDrop, params: { project_id } } = this.props;
-    const { showLiveMode } = this.state;
     return (
       <div className="app">
-        <LiveMode isVisible={showLiveMode} />
+        <LiveMode />
         <div className="app__container">
           <div className="app__navigation">
             <Link to={`/project/${project_id}/pads`} activeClassName="m-active" className="app__navigationItem">

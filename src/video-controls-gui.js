@@ -22,7 +22,7 @@ class VideoControlsGui extends Component {
   componentDidMount() {
     this.gui = new GUI({autoPlace: false});
     this.guiState = Object.assign({}, this.props.renderParams);
-    
+
     this.guiControllers = {
       backgroundColor: this.gui.addColor(this.guiState, 'backgroundColor'),
       foregroundColor: this.gui.addColor(this.guiState, 'foregroundColor'),
@@ -54,7 +54,7 @@ class VideoControlsGui extends Component {
 
   render() {
     return (
-        <div className="gui-container" ref={el => this.container = el} />
+      <div className="gui-container" ref={el => this.container = el} />
     );
   }
 }
