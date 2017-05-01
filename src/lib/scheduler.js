@@ -53,6 +53,11 @@ export default {
   onBar() {
     const { clips, fileLoader, scheduler: { scheduled, toStop } } = this.store.getState();
 
+    Object.keys(toStop).forEach((clipId) => {
+      const clip = clips[clipId];
+      this.stopClip(clip);
+    });
+
     Object.keys(scheduled).forEach((clipId) => {
       const clip = clips[clipId];
       const buffer = fileLoader[clip.file];
@@ -73,11 +78,6 @@ export default {
           return;
       }
 
-    });
-
-    Object.keys(toStop).forEach((clipId) => {
-      const clip = clips[clipId];
-      this.stopClip(clip);
     });
 
     this.store.dispatch(flushScheduled());
