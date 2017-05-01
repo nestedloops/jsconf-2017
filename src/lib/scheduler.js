@@ -5,9 +5,9 @@ import audioGraph from './audio-graph';
 import {
   addPlaying,
   addScheduled,
+  scheduleStop,
   mediaEnded,
   flushScheduled,
-  scheduleStop,
   playingId,
   isPlaying
 } from '../data/scheduler';
@@ -164,6 +164,20 @@ export default {
 
   scheduleRow(pad, rowY) {
     const rowClipIds = pad.clips[rowY];
+    const { scheduler: { playing } } = this.store.getState();
+
+    // remove all scheduled clips
+    this.store.dispatch(flushScheduled());
+
+    // schedule a stop of all playing clips
+    Object
+      .keys(playing)
+      .forEach((playingFileId) => {
+        const { clipId } = playing[playingFileId];
+          this.scheduleStopClip(clipId);
+        }
+      );
+
     if (rowClipIds) {
       rowClipIds.forEach((clipId, x) => {
         this.stopVerticalClipsFromPosition(clipId, { pad, x }, 'schedule');
