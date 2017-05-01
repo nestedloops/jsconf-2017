@@ -22,6 +22,7 @@ class VideoPlayer extends Component {
   }
 
   componentWillUpdate(nextProps) {
+    this.videoRenderer.setRenderParams(nextProps.renderParams);
     this.videoRenderer.setVideos(nextProps.videos);
   }
 
@@ -31,15 +32,17 @@ class VideoPlayer extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { scheduler } = state;
+const mapStateToProps = (state, ownProps) => {
+  const { scheduler, videoRenderer } = state;
   const playingFileIds = Object.keys(scheduler.playing);
 
   const videos = playingFileIds
     .map((fileId) => scheduler.playing[fileId].payload.videoElement)
     .filter(Boolean);
 
-  return { videos };
+  const renderParams = videoRenderer.renderParams;
+
+  return { videos, renderParams: { ...ownProps, ...renderParams } };
 };
 
 export default connect(mapStateToProps, null)(VideoPlayer);

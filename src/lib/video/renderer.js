@@ -1,4 +1,5 @@
 import {
+  Color,
   PerspectiveCamera,
   PlaneBufferGeometry,
   Points,
@@ -17,6 +18,9 @@ export default class VideoRenderer {
     this.animationLoopRunning = false;
     this.videos = [];
 
+    this.resolution = '160x90';
+    this.geometryCache = {};
+
     this.initTexture();
     this.initRenderer();
 
@@ -31,6 +35,18 @@ export default class VideoRenderer {
     } else {
       this.start();
     }
+  }
+
+  setRenderParams(renderParams) {
+    this.renderer.setClearColor(renderParams.backgroundColor, 1);
+    this.setResolution(renderParams.resolution);
+    this.updateUniforms({
+      pointColor: renderParams.foregroundColor,
+      size: renderParams.pointSize,
+      lumMin: renderParams.luminanceMin,
+      lumMax: renderParams.luminanceMax,
+      r0: renderParams.r0
+    });
   }
 
   getDomElement() {
@@ -92,6 +108,24 @@ export default class VideoRenderer {
   /**
    * @private
    */
+  updateUniforms(values) {
+    const { uniforms } = this.points.material;
+
+    Object.keys(values).forEach(name => {
+      const uniform = uniforms[name];
+      if (!uniform) { return; }
+
+      if (uniform.value instanceof Color) {
+        uniform.value.set(values[name]);
+      } else {
+        uniform.value = values[name];
+      }
+    });
+  }
+
+  /**
+   * @private
+   */
   initTexture() {
     const canvas = document.createElement('canvas');
 
@@ -100,6 +134,32 @@ export default class VideoRenderer {
 
     // FIXME: configure texture
     this.texture = new Texture(canvas);
+  }
+
+  /**
+   * @private
+   */
+  setResolution(resolution) {
+    if (resolution === this.resolution) { return; }
+
+    this.points.geometry = this.getGeometry(resolution);
+    this.resolution = resolution;
+  }
+
+  /**
+   * @private
+   */
+  getGeometry(resolution) {
+    if (this.geometryCache[resolution]) {
+      return this.geometryCache[resolution];
+    }
+
+    const [xRes, yRes] = resolution.split('x');
+    const geometry = new PlaneBufferGeometry(16, 9, xRes, yRes);
+
+    this.geometryCache[resolution] = geometry;
+
+    return geometry;
   }
 
   /**
@@ -122,9 +182,10 @@ export default class VideoRenderer {
 
     // FIXME: resolution and size might be configurable
     const points = new Points(
-        new PlaneBufferGeometry(16, 9, 160, 90),
+        this.getGeometry(this.resolution),
         material);
 
+    this.points = points;
     scene.add(points);
 
     // bind events
