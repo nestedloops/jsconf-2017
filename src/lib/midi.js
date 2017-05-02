@@ -10,6 +10,10 @@ import {
   isPlaying
 } from '../data/scheduler';
 
+import {
+  setRenderparam
+} from '../data/video-renderer';
+
 const COLOR_CODES = {
   OFF: 12,
   RED: 15,
@@ -55,24 +59,45 @@ class Midi {
       if (!currentControllers[id]) {
         const controller = midi(id, {});
         controller.on('data', ([type, key, data]) => {
-          const state = this.store.getState();
-          const down = data > 0;
-          const y = Math.floor(key / 16);
-          const x = key % 16;
-          if (down) {
-            const padId = state.controllers[id].pad;
-            const pad = state.pads[padId];
+          if (id === 'Launch Control') {
+            // knobs
+            if (type === 184 && key > 20 && key < 49) {
+              // const y = Math.floor(key / 20) - 1;
+              const x = (key % 20) - 1;
+              const value = data / 127;
+              switch (x) {
+                case 0:
+                  return store.dispatch(setRenderparam('pointSize', value * 0.5));
+                case 1:
+                  return store.dispatch(setRenderparam('luminanceMin', value));
+                case 2:
+                  return store.dispatch(setRenderparam('luminanceMax', value));
+                case 3:
+                  return store.dispatch(setRenderparam('r0', value));
+                default:
+                  return;
+              }
+            }
+          } else {
+            const state = this.store.getState();
+            const down = data > 0;
+            const y = Math.floor(key / 16);
+            const x = key % 16;
+            if (down) {
+              const padId = state.controllers[id].pad;
+              const pad = state.pads[padId];
 
-            // this controller is not controlling a clip
-            if (!padId || !pad) { return; }
+              // this controller is not controlling a clip
+              if (!padId || !pad) { return; }
 
-            if (x < 8 && y < 8) {
-              const clipId = pad.clips[y][x];
-              this.clipHandler(clipId, pad, x, y);
-            } else if (type === 176 && (key >= 104 || key <= 111)) {
-              this.mapControllerToPadIndex(id, key - 104);
-            } else if (type === 144 && (key < 105 || key > 111)) {
-              this.scheduleRow(pad, y);
+              if (x < 8 && y < 8) {
+                const clipId = pad.clips[y][x];
+                this.clipHandler(clipId, pad, x, y);
+              } else if (type === 176 && (key >= 104 || key <= 111)) {
+                this.mapControllerToPadIndex(id, key - 104);
+              } else if (type === 144 && (key < 105 || key > 111)) {
+                this.scheduleRow(pad, y);
+              }
             }
           }
         });
