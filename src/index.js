@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { Provider } from 'react-redux'
 import Projects from './projects';
 import Editor from './editor';
@@ -17,7 +17,7 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={Projects} />
       <Route path="/project/:project_id" component={Editor}>
-        <Route path="/project/:project_id/pads" component={Pads} />
+        <IndexRoute component={Pads} />
         <Route path="/project/:project_id/settings" component={Settings} />
         <Route path="/project/:project_id/tracks" component={Tracks} />
         <Route path="/project/:project_id/files" component={FilesList} />

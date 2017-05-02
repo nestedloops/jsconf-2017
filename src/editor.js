@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, IndexLink } from 'react-router';
 import { connect } from 'react-redux'
 import LiveMode from './live-mode';
 import DragAndDropReveicer from './files/drag-and-drop-receiver';
@@ -40,9 +40,9 @@ class Editor extends Component {
         <LiveMode />
         <div className="app__container">
           <div className="app__navigation">
-            <Link to={`/project/${project_id}/pads`} activeClassName="m-active" className="app__navigationItem">
+            <IndexLink to={`/project/${project_id}`} activeClassName="m-active" className="app__navigationItem">
               Pads
-            </Link>
+            </IndexLink>
             <Link to={`/project/${project_id}/tracks`} activeClassName="m-active" className="app__navigationItem">
               Tracks
             </Link>
