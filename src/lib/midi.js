@@ -112,7 +112,10 @@ class Midi {
   mapControllerToPadIndex(controller, padIndex) {
     const { pads } = this.store.getState();
     const padId = Object.keys(pads)[padIndex];
-    this.store.dispatch(mapControllerToPad(controller, padId));
+    // `padIndex` could be any index even if no pad assigned to it
+    if (padId) {
+      this.store.dispatch(mapControllerToPad(controller, padId));
+    }
   }
 
   updateControllers = () => {
