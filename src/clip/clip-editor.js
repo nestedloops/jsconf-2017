@@ -59,7 +59,7 @@ class ClipEditor extends Component {
 
   renderForm() {
     const { clip, audioFiles, videoFiles } = this.props;
-    const { behavior, file, videoFile, gain, loop, type } = clip;
+    const { behavior, file, videoFile, gain, loop, noFilter, type } = clip;
     const hasAudio = type === CLIP_TYPE_AUDIO_AND_VIDEO || type === CLIP_TYPE_AUDIO_SAMPLE;
     const hasVideo = type === CLIP_TYPE_AUDIO_AND_VIDEO || type === CLIP_TYPE_VIDEO;
 
@@ -127,6 +127,12 @@ class ClipEditor extends Component {
             </select>
           </div>
         )}
+
+        { hasVideo && (
+          <label className="editorForm__label">
+            <input type="checkbox" onChange={this.changeNoFilter} checked={noFilter} /> No Filter
+          </label>
+        )}
       </form>
     );
   }
@@ -145,6 +151,10 @@ class ClipEditor extends Component {
 
   changeLoop = (event) => {
     this.props.changeClipField('loop', event.target.checked);
+  }
+
+  changeNoFilter = (event) => {
+    this.props.changeClipField('noFilter', event.target.checked);
   }
 
   changeGain = (event) => {

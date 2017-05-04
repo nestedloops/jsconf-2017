@@ -12,7 +12,6 @@ import {
 
 import dotMatrixShader from './dot-matrix-shader.js';
 
-
 export default class VideoRenderer {
   constructor() {
     this.animationLoopRunning = false;

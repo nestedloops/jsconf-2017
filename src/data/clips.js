@@ -22,6 +22,10 @@ const BASE_AUDIO_SAMPLE = {
   track: 'master'
 };
 
+const BASE_VIDEO_SAMPLE = {
+  noFilter: false
+};
+
 const BASE_AUDIO_VIDEO_SAMPLE = {
   ...BASE_AUDIO_SAMPLE,
   videoFile: ''
@@ -44,6 +48,12 @@ export default function clips(state = {}, action) {
           case CLIP_TYPE_AUDIO_SAMPLE:
             clip = {
               ...BASE_AUDIO_SAMPLE,
+              ...clip
+            };
+            break;
+          case CLIP_TYPE_VIDEO:
+            clip = {
+              ...BASE_VIDEO_SAMPLE,
               ...clip
             };
             break;

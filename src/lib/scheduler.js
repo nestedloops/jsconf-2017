@@ -157,7 +157,6 @@ export default {
         this.playVideo(clip);
       } else {
         this.stopVideo(clip);
-        this.playVideo(clip);
       }
     }
   },
