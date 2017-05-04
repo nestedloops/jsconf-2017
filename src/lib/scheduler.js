@@ -60,8 +60,7 @@ export default {
 
     Object.keys(scheduled).forEach((clipId) => {
       const clip = clips[clipId];
-      const buffer = fileLoader[clip.file];
-
+      const buffer = fileLoader[clip.file || clip.videoFile];
       // file has not loaded
       if (!buffer) { return false; }
 
@@ -77,7 +76,6 @@ export default {
         default:
           return;
       }
-
     });
 
     this.store.dispatch(flushScheduled());
@@ -143,7 +141,8 @@ export default {
           }
         }
       }
-    } else if (clip.type === CLIP_TYPE_AUDIO_AND_VIDEO) {
+    } else if (clip.type === CLIP_TYPE_AUDIO_AND_VIDEO
+            || clip.type === CLIP_TYPE_VIDEO) {
       // trigger a play or a stop
       if (clipIsPlaying) {
         this.scheduleStopClip(id);
@@ -151,12 +150,6 @@ export default {
         if (!isScheduled) {
           this.scheduleClip(id);
         }
-      }
-    } else if (clip.type === CLIP_TYPE_VIDEO) {
-      if (!clipIsPlaying) {
-        this.playVideo(clip);
-      } else {
-        this.stopVideo(clip);
       }
     }
   },
