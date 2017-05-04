@@ -62,6 +62,7 @@ class ClipEditor extends Component {
     const { behavior, file, videoFile, gain, loop, noFilter, type } = clip;
     const hasAudio = type === CLIP_TYPE_AUDIO_AND_VIDEO || type === CLIP_TYPE_AUDIO_SAMPLE;
     const hasVideo = type === CLIP_TYPE_AUDIO_AND_VIDEO || type === CLIP_TYPE_VIDEO;
+    const isVideo = type === CLIP_TYPE_VIDEO;
 
     return (
       <form className="editorForm">
@@ -128,7 +129,7 @@ class ClipEditor extends Component {
           </div>
         )}
 
-        { hasVideo && (
+        { isVideo && (
           <label className="editorForm__label">
             <input type="checkbox" onChange={this.changeNoFilter} checked={noFilter} /> No Filter
           </label>
