@@ -13,7 +13,7 @@
 
 1. Run `yarn run build-electron` (it might ask you to install all sorts of deps for Windows)
 
-## Used Talk Videos
+## The Talks We Used
 
 Anjana Vakil: Learning Functional Programming with JavaScript - JSUnconf 2016  
 https://www.youtube.com/watch?v=e-5obm1G_FY&t=886s
