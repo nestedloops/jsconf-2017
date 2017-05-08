@@ -16,7 +16,6 @@
 ## The Talks We Used
 
 Ashley Williams - A brief history and mishistory of modularity - Nordic.js 2016
-
 https://www.youtube.com/watch?v=LfOVyNQK5io
 
 Anjana Vakil: Learning Functional Programming with JavaScript - JSUnconf 2016  
